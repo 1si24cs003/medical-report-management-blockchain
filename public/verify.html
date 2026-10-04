@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Anti-Forgery Report Verification | HealthChain</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .verify-wrapper {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        .verify-hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .verify-hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #ffffff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .result-card {
+            display: none;
+            margin-top: 2rem;
+            animation: fadeIn 0.4s ease;
+        }
+        .status-badge-big {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            padding: 10px 24px;
+            border-radius: var(--radius-full);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+        .status-badge-match {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            color: #34d399;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.35);
+        }
+        .status-badge-mismatch {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            color: #f87171;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.35);
+        }
+        .hash-compare-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="header-container">
+            <a href="/" class="brand-wrapper">
+                <div class="brand-icon">🛡️</div>
+                <div class="brand-text">
+                    <h1>HealthChain Verification</h1>
+                    <p>Blockchain-Anchored Anti-Forgery Protocol</p>
+                </div>
+            </a>
+            <div class="header-actions">
+                <a href="/" class="btn btn-secondary">← Back to Portal</a>
+                <a href="/presentation.html" class="btn btn-presentation">📊 Presentation Deck</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="verify-wrapper">
+        <div class="verify-hero">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔍</div>
+            <h1>Cryptographic Report Integrity Verification</h1>
+            <p style="color: var(--text-secondary); max-width: 650px; margin: 0 auto;">
+                Verifying diagnostic report authentic authenticity against the immutable permissioned healthcare blockchain ledger (Feature 7.1).
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title">Verification Target</h3>
+                    <p class="card-subtitle">Enter Report ID or load from scanned QR code parameter</p>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <input type="text" id="reportIdInput" class="form-control" style="flex: 1; font-family: var(--font-mono); font-size: 1rem;" placeholder="e.g. REP-7A91F2C4">
+                <button id="runVerifyBtn" class="btn btn-primary" style="padding: 12px 24px; font-size: 0.95rem;">
+                    🔒 Verify Integrity on Blockchain
+                </button>
+            </div>
+
+            <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Quick Demo Reports:</span>
+                <button class="filter-tag-chip" onclick="setQuickReport('REP-7A91F2C4')">John Doe - Glucose Report</button>
+                <button class="filter-tag-chip" onclick="setQuickReport('REP-8D44B190')">John Doe - Spine X-Ray</button>
+                <button class="filter-tag-chip" onclick="setQuickReport('REP-9E11C83F')">John Doe - CBC Screening</button>
+                <button class="filter-tag-chip" onclick="setQuickReport('REP-3C55A701')">Meera Patel - Lipid Profile</button>
+            </div>
+        </div>
+
+        <!-- Verification Results Card -->
+        <div id="resultCard" class="card result-card">
+            <div style="text-align: center;">
+                <div id="statusBadge" class="status-badge-big status-badge-match">
+                    <span id="statusIcon">✓</span>
+                    <span id="statusText">MATCH: REPORT AUTHENTIC</span>
+                </div>
+                <p id="statusDesc" style="font-size: 1rem; color: #cbd5e1; max-width: 700px; margin: 0 auto;"></p>
+            </div>
+
+            <!-- Hash Comparison Section -->
+            <div class="hash-compare-grid">
+                <div>
+                    <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 4px;">
+                        1. Computed Live SHA-256 Fingerprint (Decrypted Off-Chain File)
+                    </div>
+                    <div id="liveHashDisplay" style="color: #38bdf8; word-break: break-all;"></div>
+                </div>
+
+                <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem;">
+                    <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 4px;">
+                        2. Anchored Cryptographic Hash on Blockchain Ledger
+                    </div>
+                    <div id="anchoredHashDisplay" style="color: #34d399; word-break: break-all;"></div>
+                </div>
+
+                <div id="matchSummary" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem; font-weight: 700;"></div>
+            </div>
+
+            <!-- Blockchain Forensic Record -->
+            <div style="background: rgba(14, 23, 42, 0.6); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+                <h4 style="font-size: 0.95rem; color: var(--accent-cyan); margin-bottom: 0.75rem;">Blockchain Ledger Provenance</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; font-size: 0.85rem;">
+                    <div><strong>Report ID:</strong> <span id="resReportId"></span></div>
+                    <div><strong>Patient Pseudonym:</strong> <span id="resPatient"></span></div>
+                    <div><strong>Block Height:</strong> <span id="resBlockIndex"></span></div>
+                    <div><strong>Consortium Node:</strong> <span id="resNode"></span></div>
+                    <div style="grid-column: span 2;"><strong>Block Hash:</strong> <span id="resBlockHash" style="font-family: var(--font-mono); color: #94a3b8; font-size: 0.8rem;"></span></div>
+                    <div style="grid-column: span 2;"><strong>Anchored Timestamp:</strong> <span id="resTimestamp"></span></div>
+                </div>
+            </div>
+
+            <!-- Live Panel Demonstration Actions -->
+            <div style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h5 style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px;">Evaluation Panel Live Demonstration:</h5>
+                    <p style="font-size: 0.78rem; color: var(--text-muted);">Simulate malicious alteration in off-chain file to test blockchain detection.</p>
+                </div>
+                <div style="display: flex; gap: 0.75rem;">
+                    <button id="tamperFileBtn" class="btn btn-tamper">⚠️ Simulate File Tampering</button>
+                    <button id="repairFileBtn" class="btn btn-secondary">🔄 Reset / Restore Valid File</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/verify.js"></script>
+</body>
+</html>

@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 2 Presentation | Medical Report Management System on Blockchain</title>
+    <link rel="stylesheet" href="/css/presentation.css">
+</head>
+<body class="presentation-body">
+
+    <!-- Top Navigation Bar -->
+    <header class="pres-navbar">
+        <div class="pres-brand">
+            <span>🛡️</span>
+            <span>HealthChain | Academic Mini Project Evaluation</span>
+            <span class="pres-dept-tag">Dept. of CSE • AY: 2026-27</span>
+        </div>
+
+        <div class="pres-controls">
+            <span id="slideCounter" style="font-size: 0.85rem; color: var(--pres-cyan); font-weight: 700; margin-right: 8px;">Slide 1 of 13</span>
+            <button class="pres-btn" id="prevSlideBtn">← Prev</button>
+            <button class="pres-btn" id="nextSlideBtn">Next →</button>
+            <button class="pres-btn" id="toggleFullscreenBtn">⛶ Fullscreen</button>
+            <a href="/" class="pres-btn live-demo-btn">🚀 Open Live App Demo</a>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="slide-stage">
+
+        <!-- ==========================================
+             SLIDE 1: TITLE SLIDE
+             ========================================== -->
+        <section class="slide-container active" data-slide="1">
+            <div class="title-slide-content">
+                <span class="title-badge-academic">5th Semester Mini Project — Phase 2 Evaluation (Oct 28)</span>
+                <h1>Medical Report Management & Distribution System on Blockchain</h1>
+                <p class="subtitle">A Cryptographically Anchored, Privacy-Preserving Framework for Tamper-Evident Healthcare Data Distribution</p>
+
+                <div class="meta-grid-box">
+                    <div class="meta-item">
+                        <h4>Department</h4>
+                        <p>Computer Science & Engineering</p>
+                    </div>
+                    <div class="meta-item">
+                        <h4>Evaluation Phase</h4>
+                        <p>Phase 2 (Design & 50%+ Implementation)</p>
+                    </div>
+                    <div class="meta-item">
+                        <h4>Key Focus Areas</h4>
+                        <p>SHA-256 Verification • Off-Chain AES • OCR Indexing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Press <strong>→</strong> or <strong>Space</strong> for next slide</span>
+                <span>Evaluation Date: 28th October 2026</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 2: INTRODUCTION & HEALTHCARE CHALLENGES
+             ========================================== -->
+        <section class="slide-container" data-slide="2">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>1. Introduction & Context</h2>
+                    <p class="slide-subtitle">Vulnerabilities in Centralized Healthcare Systems & Proposed Ecosystem</p>
+                </div>
+                <span class="slide-category-badge">Background</span>
+            </div>
+            <div class="slide-body">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(239, 68, 68, 0.25);">
+                        <h3 style="color: #fca5a5; margin-bottom: 0.75rem; font-size: 1.15rem;">Centralized Database Pitfalls</h3>
+                        <ul style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.7; padding-left: 1.25rem;">
+                            <li><strong>Single Point of Failure:</strong> Healthcare databases are prime targets for ransomware attacks, unauthorized eavesdropping, and data wiping.</li>
+                            <li><strong>Tamper Susceptibility:</strong> Diagnostic reports can be altered or forged without reliable audit trails.</li>
+                            <li><strong>Unnecessary Repeated Tests:</strong> Scattered records prevent doctors from finding previous test results in emergencies.</li>
+                            <li><strong>Redundant Storage:</strong> Duplicate uploads clog server storage without cryptographic deduplication.</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(0, 229, 255, 0.25);">
+                        <h3 style="color: var(--pres-cyan); margin-bottom: 0.75rem; font-size: 1.15rem;">Proposed Blockchain Solution</h3>
+                        <ul style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.7; padding-left: 1.25rem;">
+                            <li><strong>Hybrid Storage Architecture:</strong> Sensitive medical files remain off-chain in AES-256 encrypted form; only SHA-256 fingerprints are anchored on the blockchain.</li>
+                            <li><strong>Role-Based Consortium:</strong> Multi-stakeholder permissions for Doctors, Patients, Lab Staff, and Consortium Administrators.</li>
+                            <li><strong>Three-Module Integration:</strong> Hospital, Diagnostic Pathology Lab, and Clinic / Pharmacy nodes.</li>
+                            <li><strong>Guaranteed Integrity:</strong> Instant anti-forgery detection using QR-coded cryptographic hash matching.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Medical Report Management System on Blockchain</span>
+                <span>Page 1 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 3: LITERATURE SURVEY - PART 1
+             ========================================== -->
+        <section class="slide-container" data-slide="3">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>2. Literature Survey (Part 1: 2024–2025)</h2>
+                    <p class="slide-subtitle">Recent Research Papers on Blockchain-Based EHR Systems & Identified Gaps</p>
+                </div>
+                <span class="slide-category-badge">Survey 1/2</span>
+            </div>
+            <div class="slide-body">
+                <div class="lit-table-wrapper">
+                    <table class="lit-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 28%;">Title & Citation</th>
+                                <th style="width: 8%;">Year</th>
+                                <th style="width: 32%;">Key Takeaways</th>
+                                <th style="width: 32%;">Identified Drawback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Semi-Decentralized PKI</strong><br><small>Turan, E. et al. (IEEE Access)</small></td>
+                                <td>2024</td>
+                                <td>Minimizes reliance on central Certificate Authorities (CAs) using stake-based rewards.</td>
+                                <td class="drawback-tag">Retains centralized components which act as potential single points of failure.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Secure EHR Sharing via PRE</strong><br><small>Liu, G. et al. (J. Cloud Comput.)</small></td>
+                                <td>2024</td>
+                                <td>Consortium blockchain with proxy re-encryption (PRE) to reduce communication overhead.</td>
+                                <td class="drawback-tag">Requires complex consortium governance and trust that limits scalability.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Medical IoT Record Security</strong><br><small>Ajakwe, S. O. et al. (Big Data Cogn.)</small></td>
+                                <td>2024</td>
+                                <td>Systematic review of milestones and challenges in securing healthcare IoT via DLT.</td>
+                                <td class="drawback-tag">Review only; lacks a deployable technical architecture for medical report workflows.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Self-Sovereign Identity in EHR</strong><br><small>Martínez, A. L. et al. (arXiv)</small></td>
+                                <td>2025</td>
+                                <td>Grants patients sovereign control via Decentralized Identifiers (DIDs) & emergency protocols.</td>
+                                <td class="drawback-tag">Places heavy private key management burden on patients; key loss causes permanent data lockout.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cross-Chain EHR Interoperability</strong><br><small>Ramesh, D. et al. (Procedia CS)</small></td>
+                                <td>2025</td>
+                                <td>Polkadot-based relay-as-a-service framework for multi-chain healthcare record sharing.</td>
+                                <td class="drawback-tag">Cross-chain bridges introduce extreme architectural complexity and cross-network vulnerabilities.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Privacy Preservation of EHR</strong><br><small>Nowrozy, R. et al. (ACM Comput. Surv.)</small></td>
+                                <td>2024</td>
+                                <td>Surveys modern cryptographic schemes (homomorphic encryption, zero-knowledge proofs).</td>
+                                <td class="drawback-tag">Heavy computational overhead makes advanced schemes impractical for routine hospital response times.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>References [1] - [6]</span>
+                <span>Pages 2–3 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 4: LITERATURE SURVEY - PART 2
+             ========================================== -->
+        <section class="slide-container" data-slide="4">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>2. Literature Survey (Part 2: 2024–2025)</h2>
+                    <p class="slide-subtitle">Recent Research Papers on Blockchain-Based EHR Systems & Identified Gaps</p>
+                </div>
+                <span class="slide-category-badge">Survey 2/2</span>
+            </div>
+            <div class="slide-body">
+                <div class="lit-table-wrapper">
+                    <table class="lit-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 28%;">Title & Citation</th>
+                                <th style="width: 8%;">Year</th>
+                                <th style="width: 32%;">Key Takeaways</th>
+                                <th style="width: 32%;">Identified Drawback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>IoT Hyperledger EHR Sharing</strong><br><small>Velmurugan, S. et al. (IJIS)</small></td>
+                                <td>2024</td>
+                                <td>Combines Hyperledger Fabric with IoT for low-latency, highly secure EHR distribution.</td>
+                                <td class="drawback-tag">Requires extensive orderers, peers, and enterprise CA setup; too heavy for clinics.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Attacks Detection in IoT</strong><br><small>Saleem, A. D. et al. (JAETS)</small></td>
+                                <td>2024</td>
+                                <td>Applies machine learning models to detect ransomware attacks targeting healthcare IoT.</td>
+                                <td class="drawback-tag">ML model execution on constrained edge devices causes severe latency and battery drain.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Survey of DLTs in Healthcare</strong><br><small>Khan, I. et al. (JIAS)</small></td>
+                                <td>2024</td>
+                                <td>Broad landscape analysis of distributed ledger frameworks across modern health domains.</td>
+                                <td class="drawback-tag">Lacks domain-specific implementation details for large diagnostic files and scans.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lightweight Ciphers in EHR</strong><br><small>Abead, S. A. et al. (JAETS)</small></td>
+                                <td>2024</td>
+                                <td>Evaluates lightweight block and stream ciphers for resource-constrained medical hardware.</td>
+                                <td class="drawback-tag">Trades maximum cryptographic entropy for speed, leaving records vulnerable to advanced attacks.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Enhanced EHR Management</strong><br><small>Shaik, Z. H. & Poonia, K. (IJERT)</small></td>
+                                <td>2025</td>
+                                <td>Decentralized immutable ledger for transparent medical history exchange.</td>
+                                <td class="drawback-tag">Public ledger transparency violates HIPAA / GDPR if patient metadata is exposed on-chain.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Searchable Encryption in EHR</strong><br><small>Anwar Ali, A. M. et al. (IEEE ICCSC)</small></td>
+                                <td>2025</td>
+                                <td>Proposes cryptographic searchable encryption for private keyword queries over EHR.</td>
+                                <td class="drawback-tag">Searchable ciphertext indexes introduce high latency and slow search queries on large datasets.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>References [9] - [14]</span>
+                <span>Pages 4–5 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 5: LIMITATIONS OF EXISTING WORKS
+             ========================================== -->
+        <section class="slide-container" data-slide="5">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>3. Limitations of Existing Works</h2>
+                    <p class="slide-subtitle">Analysis of the 13 Fundamental Bottlenecks in Prior Literature</p>
+                </div>
+                <span class="slide-category-badge">Research Gap</span>
+            </div>
+            <div class="slide-body">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                        <h4 style="color: var(--pres-cyan); font-size: 0.9rem; margin-bottom: 0.35rem;">3.1 High Cryptographic Complexity</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted);">Complex proxy re-encryption and attribute-based encryption hinder practical hospital deployment.</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                        <h4 style="color: var(--pres-cyan); font-size: 0.9rem; margin-bottom: 0.35rem;">3.2 Excessive Storage Needs</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted);">Attempting to store large diagnostic files (MRIs, CT scans) directly on-chain inflates ledger size.</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                        <h4 style="color: var(--pres-cyan); font-size: 0.9rem; margin-bottom: 0.35rem;">3.3 Public Ledger Privacy Risks</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted);">Immutability prevents data deletion. Sensitive medical data must never be committed to public blocks.</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                        <h4 style="color: var(--pres-cyan); font-size: 0.9rem; margin-bottom: 0.35rem;">3.4 Difficulty in Access Revocation</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted);">Permanent cryptographic keys cannot be revoked once shared without complex re-keying schemes.</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                        <h4 style="color: var(--pres-cyan); font-size: 0.9rem; margin-bottom: 0.35rem;">3.7 Complex Node Infrastructure</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted);">Heavyweight systems (Hyperledger/Ethereum) are difficult for small clinics to configure and maintain.</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                        <h4 style="color: var(--pres-cyan); font-size: 0.9rem; margin-bottom: 0.35rem;">3.13 Lack of Integrated Model</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted);">Prior papers isolate single niches (e.g. only PKI or only IoT). None deliver a unified, workable workflow.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Section 3.1 - 3.13: Detailed Analysis</span>
+                <span>Pages 5–7 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 6: PROBLEM STATEMENT & 3 OBJECTIVES
+             ========================================== -->
+        <section class="slide-container" data-slide="6">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>4. Problem Statement & 3 Objectives</h2>
+                    <p class="slide-subtitle">Clear Rationale & Design Philosophy of the Proposed System</p>
+                </div>
+                <span class="slide-category-badge">Objectives</span>
+            </div>
+            <div class="slide-body">
+                <div style="margin-bottom: 1.5rem; background: rgba(0,0,0,0.3); padding: 1rem 1.5rem; border-radius: 12px; border-left: 4px solid var(--pres-cyan);">
+                    <p style="font-size: 0.9rem; color: #e2e8f0; line-height: 1.6;">
+                        <strong>Problem Statement:</strong> Existing healthcare architectures rely on vulnerable centralized databases prone to unauthorized tampering and fragmented record access, while proposed blockchain architectures are overly complex, computationally heavy, and fail to separate off-chain storage from cryptographic verification.
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+                    <div style="background: rgba(14, 23, 42, 0.7); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 14px; padding: 1.25rem;">
+                        <span style="font-size: 1.2rem; font-weight: 800; color: var(--pres-cyan);">Objective 1</span>
+                        <h4 style="margin: 0.5rem 0; font-size: 0.95rem;">Reduce Repeated Diagnostic Tests</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted); line-height: 1.5;">
+                            <em>Why chosen:</em> When prior reports are scattered across clinics, patients are forced into unnecessary repetitive scans. Rapid chronological retrieval solves this immediately.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(14, 23, 42, 0.7); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 14px; padding: 1.25rem;">
+                        <span style="font-size: 1.2rem; font-weight: 800; color: var(--pres-green);">Objective 2</span>
+                        <h4 style="margin: 0.5rem 0; font-size: 0.95rem;">Detect Duplicate Reports via SHA-256</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted); line-height: 1.5;">
+                            <em>Why chosen:</em> SHA-256 cryptographic hashes act as unique file fingerprints. Comparing hashes prior to ledger recording prevents duplicate records and saves hospital storage.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(14, 23, 42, 0.7); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 14px; padding: 1.25rem;">
+                        <span style="font-size: 1.2rem; font-weight: 800; color: #a5b4fc;">Objective 3</span>
+                        <h4 style="margin: 0.5rem 0; font-size: 0.95rem;">Chronological Medical History Timeline</h4>
+                        <p style="font-size: 0.8rem; color: var(--pres-text-muted); line-height: 1.5;">
+                            <em>Why chosen:</em> Fragmented records hinder clinical prognosis. A chronological visual timeline lets doctors review patient diagnostic history in seconds.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Section 4 & 5: Foundations</span>
+                <span>Page 8 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 7: PROPOSED SYSTEM ARCHITECTURE
+             ========================================== -->
+        <section class="slide-container" data-slide="7">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>5. Proposed System Architecture</h2>
+                    <p class="slide-subtitle">Layered System Design: Application, Storage & Blockchain Tiers (Fig 6.1 & 6.2)</p>
+                </div>
+                <span class="slide-category-badge">System Design</span>
+            </div>
+            <div class="slide-body">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                    <!-- Layer 1 -->
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(0, 229, 255, 0.25); border-radius: 14px; padding: 1.25rem;">
+                        <h4 style="color: var(--pres-cyan); font-size: 0.9rem; margin-bottom: 0.75rem;">1. Application Layer</h4>
+                        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                            • HTML5, CSS3, JavaScript SPA<br>
+                            • Node.js & Express.js REST API<br>
+                            • JWT Authentication & RBAC<br>
+                            • 4 Roles: Doctor, Patient, Lab, Admin
+                        </p>
+                    </div>
+
+                    <!-- Layer 2 -->
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 14px; padding: 1.25rem;">
+                        <h4 style="color: var(--pres-blue); font-size: 0.9rem; margin-bottom: 0.75rem;">2. Core Modules</h4>
+                        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                            • Report Management Engine<br>
+                            • SHA-256 Duplicate Detector<br>
+                            • OCR Keyword Extractor<br>
+                            • Chronological Timeline Builder
+                        </p>
+                    </div>
+
+                    <!-- Layer 3 -->
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 14px; padding: 1.25rem;">
+                        <h4 style="color: var(--pres-indigo); font-size: 0.9rem; margin-bottom: 0.75rem;">3. Data Storage Layer</h4>
+                        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                            • AES-256 Off-chain Encrypted Store<br>
+                            • Metadata DB (MongoDB / JSON)<br>
+                            • Encrypted file references only<br>
+                            • Strict privacy preservation
+                        </p>
+                    </div>
+
+                    <!-- Layer 4 -->
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px; padding: 1.25rem;">
+                        <h4 style="color: var(--pres-green); font-size: 0.9rem; margin-bottom: 0.75rem;">4. Blockchain Layer</h4>
+                        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+                            • Permissioned Consortium Nodes<br>
+                            • Stores: Pseudonym, Hash, Ref<br>
+                            • SHA-256 Cryptographic Chaining<br>
+                            • Real-Time Tamper-Proof Audit
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tech-banner" style="margin-top: 1.5rem;">
+                    Key Principle: Zero Unencrypted Medical Data On-Chain • Separation of Storage and Verification
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Architecture Figures 6.1 & 6.2 Grounding</span>
+                <span>Pages 9–10 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 8: KEY FEATURE 1 - QR ANTI-FORGERY
+             ========================================== -->
+        <section class="slide-container" data-slide="8">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>6. Key Feature 1: QR Code-Based Anti-Forgery</h2>
+                    <p class="slide-subtitle">Instantly verify whether a diagnostic report matches its blockchain-anchored fingerprint</p>
+                </div>
+                <span class="slide-category-badge">Feature 1 of 3</span>
+            </div>
+            <div class="slide-body">
+                <!-- 4 Step Cards matching User Image 1 -->
+                <div class="flow-step-row">
+                    <div class="flow-step-card">
+                        <span class="step-num-circle">1</span>
+                        <h4>Upload Report</h4>
+                        <p>Patient or Lab Staff uploads diagnostic report to Node.js backend.</p>
+                    </div>
+                    <div class="flow-step-card">
+                        <span class="step-num-circle">2</span>
+                        <h4>Generate Hash</h4>
+                        <p>Backend computes unique cryptographic SHA-256 hash (fingerprint) of the file.</p>
+                    </div>
+                    <div class="flow-step-card step-green">
+                        <span class="step-num-circle" style="color: #10b981; background: rgba(16, 185, 129, 0.2);">3</span>
+                        <h4>Store on Blockchain</h4>
+                        <p>The report hash and storage reference are immutably anchored on the ledger.</p>
+                    </div>
+                    <div class="flow-step-card step-orange">
+                        <span class="step-num-circle" style="color: #f59e0b; background: rgba(245, 158, 11, 0.2);">4</span>
+                        <h4>Generate QR</h4>
+                        <p>A unique QR code is generated pointing to the report's verification endpoint.</p>
+                    </div>
+                </div>
+
+                <!-- Doctor Scans & Verification Result matching User Image 1 -->
+                <div class="flow-result-row">
+                    <div class="flow-result-box match">
+                        <h4 style="color: #34d399; margin-bottom: 0.4rem;">Doctor scans the QR</h4>
+                        <p style="font-size: 0.85rem; color: #cbd5e1;">The backend retrieves the off-chain report reference, recomputes the SHA-256 fingerprint, and compares it against the anchored blockchain block record.</p>
+                    </div>
+                    <div class="flow-result-box" style="border-color: #38bdf8;">
+                        <h4 style="color: #38bdf8; margin-bottom: 0.4rem;">Verification Result</h4>
+                        <p style="font-size: 0.85rem; color: #cbd5e1;">
+                            <strong style="color: #34d399;">MATCH:</strong> The checked file is consistent with the anchored fingerprint.<br>
+                            <strong style="color: #f87171;">MISMATCH:</strong> The file has been modified or corrupted; alert raised!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tech-banner">
+                    Technologies: Node.js + QR Code Library + Permissioned Blockchain + SHA-256 Cryptographic Hash
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Medical Report Security System • Feature 1 of 3</span>
+                <span>Page 11 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 9: KEY FEATURE 2 - TIME-EXPIRING LINKS
+             ========================================== -->
+        <section class="slide-container" data-slide="9">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>7. Key Feature 2: Time-Expiring Secure Access Links</h2>
+                    <p class="slide-subtitle">Patients can share a report with a doctor for a limited period without creating permanent access</p>
+                </div>
+                <span class="slide-category-badge">Feature 2 of 3</span>
+            </div>
+            <div class="slide-body">
+                <!-- 4 Step Cards matching User Image 3 -->
+                <div class="flow-step-row">
+                    <div class="flow-step-card">
+                        <span class="step-num-circle">1</span>
+                        <h4>Patient Requests</h4>
+                        <p>Patient selects a report and asks the backend to create a temporary sharing link.</p>
+                    </div>
+                    <div class="flow-step-card">
+                        <span class="step-num-circle">2</span>
+                        <h4>Backend Creates JWT</h4>
+                        <p>Node.js generates a signed JSON Web Token containing access context and expiry time.</p>
+                    </div>
+                    <div class="flow-step-card step-orange">
+                        <span class="step-num-circle" style="color: #f59e0b; background: rgba(245, 158, 11, 0.2);">3</span>
+                        <h4>Doctor Opens Link</h4>
+                        <p>Backend verifies JWT signature and checks whether token timestamp is still valid.</p>
+                    </div>
+                    <div class="flow-step-card" style="border-color: #ef4444;">
+                        <span class="step-num-circle" style="color: #ef4444; background: rgba(239, 68, 68, 0.2);">4</span>
+                        <h4>Automatic Expiry</h4>
+                        <p>After configured time (e.g. 1 hour or 2 min demo), expired JWT is permanently rejected.</p>
+                    </div>
+                </div>
+
+                <!-- Token Contents Box matching User Image 3 -->
+                <div style="background: rgba(0,0,0,0.4); border: 1.5px solid rgba(245, 158, 11, 0.4); border-radius: 14px; padding: 1.25rem; text-align: center; margin-top: 1rem;">
+                    <span style="font-family: var(--font-mono); font-size: 1.2rem; color: #f59e0b; font-weight: 700;">
+                        JWT &nbsp;→&nbsp; Report ID + Access Context + Expiry Time
+                    </span>
+                </div>
+
+                <div class="flow-result-row">
+                    <div class="flow-result-box match">
+                        <h4 style="color: #34d399; margin-bottom: 0.35rem;">Before Expiry</h4>
+                        <p style="font-size: 0.85rem; color: #cbd5e1;">Valid token → access granted, report decrypted on-the-fly for consultation.</p>
+                    </div>
+                    <div class="flow-result-box mismatch">
+                        <h4 style="color: #f87171; margin-bottom: 0.35rem;">After Expiry</h4>
+                        <p style="font-size: 0.85rem; color: #cbd5e1;">Expired token → HTTP 403 Forbidden, access denied, token signature invalidated.</p>
+                    </div>
+                </div>
+
+                <div class="tech-banner">
+                    Technologies: Node.js + JSON Web Tokens (JWT) + Cryptographic Signature Verification
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Medical Report Security System • Feature 2 of 3</span>
+                <span>Page 11 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 10: KEY FEATURE 3 - SMART OCR KEYWORDS
+             ========================================== -->
+        <section class="slide-container" data-slide="10">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>8. Key Feature 3: Smart Keyword Extraction (OCR)</h2>
+                    <p class="slide-subtitle">Make medical history searchable while keeping the actual diagnostic report protected</p>
+                </div>
+                <span class="slide-category-badge">Feature 3 of 3</span>
+            </div>
+            <div class="slide-body">
+                <!-- 4 Step Cards matching User Image 2 -->
+                <div class="flow-step-row">
+                    <div class="flow-step-card">
+                        <span class="step-num-circle">1</span>
+                        <h4>Report Uploaded</h4>
+                        <p>Patient or Lab Staff uploads a PDF / image of the diagnostic report.</p>
+                    </div>
+                    <div class="flow-step-card">
+                        <span class="step-num-circle">2</span>
+                        <h4>OCR with Tesseract.js</h4>
+                        <p>OCR engine reads visible text and converts it into machine-readable text.</p>
+                    </div>
+                    <div class="flow-step-card step-green">
+                        <span class="step-num-circle" style="color: #10b981; background: rgba(16, 185, 129, 0.2);">3</span>
+                        <h4>Extract Keywords</h4>
+                        <p>System identifies clinical terms: "Blood Sugar", "Fracture", "HbA1c", "Hemoglobin".</p>
+                    </div>
+                    <div class="flow-step-card step-orange">
+                        <span class="step-num-circle" style="color: #f59e0b; background: rgba(245, 158, 11, 0.2);">4</span>
+                        <h4>Store Tags</h4>
+                        <p>Keywords and Report ID are indexed in MongoDB for high-speed search queries.</p>
+                    </div>
+                </div>
+
+                <div class="flow-result-row">
+                    <div class="flow-result-box" style="border-color: #10b981; background: rgba(16, 185, 129, 0.06);">
+                        <h4 style="color: #34d399; margin-bottom: 0.35rem;">Example Search Flow</h4>
+                        <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">
+                            Doctor searches: <strong>"Fracture"</strong> or <strong>"Blood Sugar"</strong><br>
+                            → Database queries fast tag index without decrypting storage<br>
+                            → Access control is verified before opening decrypted report.
+                        </p>
+                    </div>
+                    <div class="flow-result-box" style="border-color: #38bdf8; background: rgba(56, 189, 248, 0.06);">
+                        <h4 style="color: #38bdf8; margin-bottom: 0.35rem;">Core Security Benefit</h4>
+                        <p style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">
+                            The searchable index contains only selected clinical metadata tags, while the original diagnostic report remains AES-256 encrypted and protected off-chain.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tech-banner">
+                    Technologies: Tesseract.js (OCR) + Node.js + MongoDB / JSON Index + Protected Report Storage
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Medical Report Security System • Feature 3 of 3</span>
+                <span>Page 12 of Project Report</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 11: IMPLEMENTATION STATUS MATRIX (PHASE 2)
+             ========================================== -->
+        <section class="slide-container" data-slide="11">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>9. Phase 2 Implementation Progress Matrix</h2>
+                    <p class="slide-subtitle">Minimum 50% Threshold Requirement Surpassed (~75% Implemented)</p>
+                </div>
+                <span class="slide-category-badge">Milestone Audit</span>
+            </div>
+            <div class="slide-body">
+                <div class="lit-table-wrapper">
+                    <table class="lit-table">
+                        <thead>
+                            <tr>
+                                <th>Module / Feature Component</th>
+                                <th>Phase Scope</th>
+                                <th>Implementation Detail</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>SHA-256 Cryptographic Hashing</strong></td>
+                                <td>Phase 2</td>
+                                <td>Instant file hashing in memory on report upload</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Duplicate Report Detection (Obj 2)</strong></td>
+                                <td>Phase 2</td>
+                                <td>Comparison against blockchain ledger; prevents redundant storage</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Off-Chain AES-256-CBC Encryption</strong></td>
+                                <td>Phase 2</td>
+                                <td>Safe off-chain storage separating data from blockchain anchor</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Permissioned Blockchain Ledger</strong></td>
+                                <td>Phase 2</td>
+                                <td>Genesis block, block mining, cryptographic linkage, tamper audit</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>QR Code Anti-Forgery Verification (7.1)</strong></td>
+                                <td>Phase 2</td>
+                                <td>Live verification endpoint returning MATCH / MISMATCH</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Time-Expiring Secure Access Links (7.2)</strong></td>
+                                <td>Phase 2</td>
+                                <td>Signed JWTs with auto-expiration countdown & rejection</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Chronological Medical Timeline (Obj 1 & 3)</strong></td>
+                                <td>Phase 2</td>
+                                <td>Visual timeline preventing repeated diagnostic tests</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Smart OCR Keyword Extractor (7.3)</strong></td>
+                                <td>Phase 2</td>
+                                <td>Tesseract.js integration with clinical tag indexing</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Smart Contract Solidity / Web3 Deployment</strong></td>
+                                <td>Phase 3</td>
+                                <td>Deployment to Sepolia Ethereum / Hyperledger Fabric testnet</td>
+                                <td><span class="status-pill status-phase3">Phase 3 Target</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Automated Pharmacy Billing Reconciliation</strong></td>
+                                <td>Phase 3</td>
+                                <td>Full end-to-end pharmacy billing smart contracts</td>
+                                <td><span class="status-pill status-phase3">Phase 3 Target</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Phase 2 Deliverable: Exceeds 50% Requirement</span>
+                <span>Ready for Panel Demonstration</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 12: LIVE DEMONSTRATION WORKFLOW
+             ========================================== -->
+        <section class="slide-container" data-slide="12">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>10. Live Demonstration Plan for Panel</h2>
+                    <p class="slide-subtitle">Interactive Demonstration Script for Evaluators on October 28th</p>
+                </div>
+                <span class="slide-category-badge">Demo Script</span>
+            </div>
+            <div class="slide-body">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(0, 229, 255, 0.25);">
+                        <h4 style="color: var(--pres-cyan); margin-bottom: 0.75rem;">Step 1: Upload & Duplicate Detection</h4>
+                        <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+                            1. Switch to <strong>Lab Staff (Alex Smith)</strong> role.<br>
+                            2. Drag and drop a diagnostic report (e.g. Blood Sugar or X-Ray).<br>
+                            3. Show instant <strong>OCR extraction</strong> of keywords ("Blood Sugar", "Glucose").<br>
+                            4. Show off-chain <strong>AES-256 encryption</strong> & new block mined on Blockchain.<br>
+                            5. <em>Highlight:</em> Try uploading the same file again → System raises <strong>DUPLICATE DETECTED (HTTP 409)</strong>, directly demonstrating Objective 2!
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.25);">
+                        <h4 style="color: var(--pres-green); margin-bottom: 0.75rem;">Step 2: QR Anti-Forgery Verification</h4>
+                        <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+                            1. Click <strong>"Verify QR"</strong> on any report.<br>
+                            2. System shows <strong>MATCH (100% Authentic)</strong>.<br>
+                            3. Click the <strong>"Simulate File Tampering"</strong> button to flip bits in the off-chain file.<br>
+                            4. Re-run verification → Instantly turns to <strong>MISMATCH (TAMPERED)</strong> with red security alert!<br>
+                            5. Proves to panel how blockchain anchors detect data tampering without exposing patient data.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(245, 158, 11, 0.25);">
+                        <h4 style="color: var(--pres-amber); margin-bottom: 0.75rem;">Step 3: Time-Expiring Secure Link</h4>
+                        <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+                            1. Switch to <strong>Patient (John Doe)</strong> role.<br>
+                            2. Click <strong>"Share with Doctor"</strong> and pick 2-minute demo expiry.<br>
+                            3. Open the generated secure link in browser.<br>
+                            4. Demonstrates live animated countdown clock & decrypted access.<br>
+                            5. Once expired, access is blocked with <strong>403 Token Expired</strong>.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(99, 102, 241, 0.25);">
+                        <h4 style="color: #a5b4fc; margin-bottom: 0.75rem;">Step 4: Chronological History Timeline</h4>
+                        <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+                            1. Switch to <strong>Doctor (Dr. Sarah Rao)</strong> role.<br>
+                            2. Open <strong>"Chronological Timeline"</strong> for patient John Doe.<br>
+                            3. Demonstrates sequential progression of diagnostic tests over time.<br>
+                            4. Direct proof of <strong>Objective 1</strong>: prevents ordering repetitive tests.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Click "Open Live App Demo" anytime to execute live</span>
+                <span>Ready for Evaluation Panel</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SLIDE 13: CONCLUSION & PHASE 3 ROADMAP
+             ========================================== -->
+        <section class="slide-container" data-slide="13">
+            <div class="slide-header">
+                <div class="slide-title-group">
+                    <h2>11. Conclusion & Phase 3 Roadmap</h2>
+                    <p class="slide-subtitle">Summary of Accomplishments & Next Phase Milestones</p>
+                </div>
+                <span class="slide-category-badge">Roadmap</span>
+            </div>
+            <div class="slide-body">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.75rem; border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                        <h3 style="color: #34d399; margin-bottom: 1rem;">Phase 2 Achievements</h3>
+                        <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.7;">
+                            ✓ Successfully implemented over <strong>75%</strong> of the functional system.<br>
+                            ✓ Fully operational Permissioned Blockchain ledger with SHA-256 chain verification.<br>
+                            ✓ Off-chain AES-256 file encryption separating storage from cryptographic anchors.<br>
+                            ✓ Live anti-forgery QR verification with real-time MATCH / MISMATCH detection.<br>
+                            ✓ Automatic cryptographic duplicate detection preventing redundant diagnostic uploads.<br>
+                            ✓ Chronological medical timeline solving repeated diagnostic tests.<br>
+                            ✓ Comprehensive literature review of 15 recent papers (2024–2025).
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.75rem; border-radius: 16px; border: 1px solid rgba(59, 130, 246, 0.3);">
+                        <h3 style="color: #60a5fa; margin-bottom: 1rem;">Phase 3 Targets (Final Phase)</h3>
+                        <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.7;">
+                            → Smart Contract implementation on Ethereum testnet / Hyperledger Fabric.<br>
+                            → Decentralized IPFS cluster for multi-cloud off-chain file storage.<br>
+                            → Complete Pharmacy Module with automated prescription billing reconciliation.<br>
+                            → Mobile application interface for doctor QR scanning via camera.<br>
+                            → Formal security audit & performance benchmark on transaction throughput (TPS).
+                        </p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="/" class="pres-btn live-demo-btn" style="display: inline-flex; font-size: 1rem; padding: 12px 28px;">
+                        Proceed to Live System Demonstration →
+                    </a>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Dept. of CSE • Academic Mini Project Evaluation</span>
+                <span>Thank You & Questions</span>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="/js/presentation.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+{
+  "users": [
+    {
+      "id": "usr_doc_01",
+      "name": "Dr. Sarah Rao",
+      "email": "dr.sarah@hospital.org",
+      "role": "Doctor",
+      "department": "Cardiology & General Medicine",
+      "hospital": "Metro Apex Hospital",
+      "license": "MC-2018-9941"
+    },
+    {
+      "id": "usr_doc_02",
+      "name": "Dr. Rajesh Nair",
+      "email": "dr.rajesh@hospital.org",
+      "role": "Doctor",
+      "department": "Orthopedics & Trauma",
+      "hospital": "Metro Apex Hospital",
+      "license": "MC-2015-4412"
+    },
+    {
+      "id": "usr_pat_01",
+      "name": "John Doe",
+      "email": "john.doe@patient.net",
+      "role": "Patient",
+      "patientId": "PT-9901",
+      "age": 48,
+      "gender": "Male",
+      "bloodGroup": "O+",
+      "contact": "+91 98765 43210"
+    },
+    {
+      "id": "usr_pat_02",
+      "name": "Meera Patel",
+      "email": "meera.patel@patient.net",
+      "role": "Patient",
+      "patientId": "PT-9902",
+      "age": 34,
+      "gender": "Female",
+      "bloodGroup": "B+",
+      "contact": "+91 98450 11223"
+    },
+    {
+      "id": "usr_lab_01",
+      "name": "Alex Smith",
+      "email": "alex.lab@pathology.org",
+      "role": "Lab Staff",
+      "designation": "Senior Lab Technologist",
+      "laboratory": "Pathology Diagnostics Lab",
+      "license": "LAB-TECH-772"
+    },
+    {
+      "id": "usr_adm_01",
+      "name": "Consortium SuperAdmin",
+      "email": "admin@healthchain.gov",
+      "role": "Admin",
+      "institution": "Healthcare Consortium Blockchain Authority"
+    }
+  ],
+  "reports": [
+    {
+      "reportId": "REP-7A91F2C4",
+      "patientId": "usr_pat_01",
+      "patientName": "John Doe",
+      "patientPseudonym": "PT-9901",
+      "uploadedBy": "Alex Smith (Lab Staff)",
+      "uploaderId": "usr_lab_01",
+      "uploaderRole": "Lab Staff",
+      "title": "Fasting Blood Glucose & HbA1c Diagnostic Report",
+      "reportType": "Pathology / Biochemistry",
+      "testDate": "2026-08-14",
+      "notes": "Patient presented with mild fatigue and polydipsia. Routine glycemic profile evaluation.",
+      "keywords": [
+        "Blood Sugar",
+        "Glucose",
+        "Fasting Blood Sugar",
+        "HbA1c",
+        "Diabetes",
+        "Insulin"
+      ],
+      "categories": [
+        "Blood Sugar / Diabetes"
+      ],
+      "fileName": "JohnDoe_Glucose_Report_Aug2026.pdf",
+      "mimeType": "application/pdf",
+      "sampleContent": "PATIENT DIAGNOSTIC REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nDate of Test: 14-Aug-2026 | Lab Ref: LAB-88910\n\nBIOCHEMISTRY INVESTIGATION:\n1. Fasting Blood Sugar (FBS): 142 mg/dL (Normal: 70 - 99 mg/dL) [HIGH]\n2. Postprandial Blood Glucose: 198 mg/dL (Normal: < 140 mg/dL) [ELEVATED]\n3. Glycated Hemoglobin (HbA1c): 7.4% (Normal: 4.0 - 5.6%) [DIABETIC RANGE]\n\nImpression: Indicative of early Stage-2 Type 2 Diabetes Mellitus.\nRecommended: Lifestyle modification, glycemic control follow-up in 90 days.\nSigned: Alex Smith, Senior Biochemist",
+      "reportHash": "c1ec0cf3d448fabace5bef6b79e3a9ef26beadacdfe72ad05a800b7c6f1b1566",
+      "storageReference": "REP-7A91F2C4_encrypted.bin",
+      "fileSize": 575,
+      "encryptedSize": 592,
+      "createdAt": "2026-08-14T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockIndex": 1,
+      "blockHash": "008ab183e4a9faf4a138a93ee9f3f18d702ddf9f7526027ac86a815458083c7c"
+    },
+    {
+      "reportId": "REP-8D44B190",
+      "patientId": "usr_pat_01",
+      "patientName": "John Doe",
+      "patientPseudonym": "PT-9901",
+      "uploadedBy": "Dr. Rajesh Nair (Doctor)",
+      "uploaderId": "usr_doc_02",
+      "uploaderRole": "Doctor",
+      "title": "Lumbosacral Spine Digital X-Ray Examination",
+      "reportType": "Radiology / Imaging",
+      "testDate": "2026-09-02",
+      "notes": "Complaints of chronic lower back pain following occupational heavy lifting.",
+      "keywords": [
+        "Fracture",
+        "X-Ray",
+        "Spine",
+        "Lumbar",
+        "Bone",
+        "Trauma"
+      ],
+      "categories": [
+        "Radiology / Orthopedic"
+      ],
+      "fileName": "JohnDoe_Spine_XRay_Sep2026.png",
+      "mimeType": "image/png",
+      "sampleContent": "RADIOLOGY & IMAGING REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nExam: Digital X-Ray Lumbosacral Spine AP & Lateral Views\nDate: 02-Sep-2026\n\nFINDINGS:\n- Alignment of lumbar vertebral bodies is preserved.\n- No obvious acute cortical fracture or dislocation identified.\n- Mild degenerative disc space narrowing at L4-L5 and L5-S1 interspaces.\n- Early anterior osteophytic spurring noted.\n- Paraspinal soft tissue contours appear normal.\n\nIMPRESSION:\nNo acute fracture. Mild lumbar spondylosis with degenerative disc changes.\nAdvised: Physical therapy, ergonomic lumbar support.\nRadiologist: Dr. Rajesh Nair, MD (Radio-diagnosis)",
+      "reportHash": "a01b2714eb3699820392cb5018598d7bd17b0b5c1ee530db4c32ec8b9be12546",
+      "storageReference": "REP-8D44B190_encrypted.bin",
+      "fileSize": 661,
+      "encryptedSize": 688,
+      "createdAt": "2026-09-02T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockIndex": 2,
+      "blockHash": "00e33391524fb82f273c86d450fa960db26d9cacff13162edb40089725c1adfd"
+    },
+    {
+      "reportId": "REP-9E11C83F",
+      "patientId": "usr_pat_01",
+      "patientName": "John Doe",
+      "patientPseudonym": "PT-9901",
+      "uploadedBy": "Alex Smith (Lab Staff)",
+      "uploaderId": "usr_lab_01",
+      "uploaderRole": "Lab Staff",
+      "title": "Complete Blood Count (CBC) with Differential",
+      "reportType": "Hematology",
+      "testDate": "2026-09-28",
+      "notes": "Pre-procedural hematological workup and general health screening.",
+      "keywords": [
+        "Hemoglobin",
+        "Wbc",
+        "Rbc",
+        "Platelet",
+        "Hematocrit",
+        "Cbc"
+      ],
+      "categories": [
+        "Hematology / CBC"
+      ],
+      "fileName": "JohnDoe_CBC_Screening_Sep2026.pdf",
+      "mimeType": "application/pdf",
+      "sampleContent": "HEMATOLOGY WORKUP REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nDate: 28-Sep-2026 | Automated Cell Counter Analyzer\n\nCOMPLETE BLOOD COUNT:\n- Hemoglobin (Hb): 14.8 g/dL (Ref: 13.5 - 17.5 g/dL) [NORMAL]\n- Total Leucocyte Count (WBC): 6,900 /cumm (Ref: 4,000 - 11,000) [NORMAL]\n- Platelet Count: 265,000 /cumm (Ref: 150,000 - 450,000) [NORMAL]\n- Packed Cell Volume (Hematocrit): 44.2% (Ref: 40 - 52%) [NORMAL]\n- RBC Count: 4.9 million/cumm (Ref: 4.5 - 5.9) [NORMAL]\n\nInterpretation: Normocytic, normochromic peripheral smear. No hematological abnormalities detected.",
+      "reportHash": "9c35a6582bf2352ada01fe0f57712698c657776a5733cd3bd0625d3eb7aa04b2",
+      "storageReference": "REP-9E11C83F_encrypted.bin",
+      "fileSize": 597,
+      "encryptedSize": 624,
+      "createdAt": "2026-09-28T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockIndex": 3,
+      "blockHash": "0087f393865f676839d4f177bebf5383b4385e95cd988627fa1403287af96dc9"
+    },
+    {
+      "reportId": "REP-3C55A701",
+      "patientId": "usr_pat_02",
+      "patientName": "Meera Patel",
+      "patientPseudonym": "PT-9902",
+      "uploadedBy": "Alex Smith (Lab Staff)",
+      "uploaderId": "usr_lab_01",
+      "uploaderRole": "Lab Staff",
+      "title": "Comprehensive Lipid Profile & Cardiac Risk Panel",
+      "reportType": "Cardiovascular / Biochemistry",
+      "testDate": "2026-09-15",
+      "notes": "Routine executive health checkup and lipid assessment.",
+      "keywords": [
+        "Cholesterol",
+        "Triglycerides",
+        "Lipid",
+        "Hdl",
+        "Ldl",
+        "Blood Pressure"
+      ],
+      "categories": [
+        "Cardiovascular"
+      ],
+      "fileName": "MeeraPatel_Lipid_Profile_Sep2026.pdf",
+      "mimeType": "application/pdf",
+      "sampleContent": "LIPID PROFILE INVESTIGATION - PATHOLOGY DIAGNOSTICS LAB\nPatient: Meera Patel | ID: PT-9902 | Age: 34 | Sex: F\nDate: 15-Sep-2026\n\nLIPID PANEL:\n- Total Serum Cholesterol: 185 mg/dL (Desirable: < 200 mg/dL) [NORMAL]\n- Serum Triglycerides: 132 mg/dL (Normal: < 150 mg/dL) [NORMAL]\n- HDL Cholesterol: 54 mg/dL (Protective: > 50 mg/dL) [GOOD]\n- LDL Cholesterol: 105 mg/dL (Optimal: < 100 mg/dL) [BORDERLINE]\n- VLDL Cholesterol: 26.4 mg/dL (Ref: 5 - 40 mg/dL) [NORMAL]\n\nImpression: Normal lipid profile with low cardiovascular risk index.",
+      "reportHash": "0ef7393a3368a6ea4e9bb5e31202938c705ed6c3cee2b4ada00fce0abddad080",
+      "storageReference": "REP-3C55A701_encrypted.bin",
+      "fileSize": 531,
+      "encryptedSize": 560,
+      "createdAt": "2026-09-15T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockIndex": 4,
+      "blockHash": "0064e455c35b3b233f8f9ee87d51d9341d7576903d7834f5b20a9311fd045305"
+    }
+  ],
+  "sharedLinks": [
+    {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXBvcnRJZCI6IlJFUC03QTkxRjJDNCIsInBhdGllbnRJZCI6InVzcl9wYXRfMDEiLCJwYXRpZW50TmFtZSI6IkpvaG4gRG9lIiwiYWNjZXNzQ29udGV4dCI6ImRvY3Rvcl9jb25zdWx0YXRpb25fdGltZV9saW1pdGVkIiwicmVjaXBpZW50RG9jdG9yIjoiRHIuIFNhcmFoIFJhbyIsIm5vdGVzIjoiIiwiY3JlYXRlZEF0IjoxNzkxMTQ0MTU1LCJpYXQiOjE3OTExNDQxNTUsImV4cCI6MTc5MTE0NDI3NX0.f66SuyJTWHIyCmzQ5n_MWZq_nW-6iBJry6cDYB0IjNI",
+      "reportId": "REP-7A91F2C4",
+      "patientId": "usr_pat_01",
+      "patientName": "John Doe",
+      "reportTitle": "Fasting Blood Glucose & HbA1c Diagnostic Report",
+      "recipientDoctor": "Dr. Sarah Rao",
+      "durationMinutes": 2,
+      "expiresAt": "2026-10-04T20:04:35.127Z",
+      "createdAt": "2026-10-04T20:02:35.127Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log_1791144178122_mja7",
+      "action": "DUPLICATE_REPORT_PREVENTED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Duplicate upload rejected. Hash: c1ec0cf3d448faba... matched existing report ID: REP-7A91F2C4",
+      "timestamp": "2026-10-04T20:02:58.122Z"
+    },
+    {
+      "id": "log_1791144155133_vv0v",
+      "action": "SHARED_LINK_ACCESSED",
+      "actor": "Consulting Doctor (via Shared Link)",
+      "details": "Accessed shared report REP-7A91F2C4 with token. Time remaining: 120s",
+      "timestamp": "2026-10-04T20:02:35.133Z"
+    },
+    {
+      "id": "log_1791144155127_yaff",
+      "action": "TIME_EXPIRING_LINK_CREATED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Created temporary share link for REP-7A91F2C4 valid for 2 min(s) (Expires: 2026-10-04T20:04:35.127Z)",
+      "timestamp": "2026-10-04T20:02:35.127Z"
+    },
+    {
+      "id": "log_1791144146028_870t",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-04T20:02:26.028Z"
+    },
+    {
+      "id": "log_01",
+      "action": "SYSTEM_INITIALIZATION",
+      "details": "Healthcare Consortium Blockchain Ledger and Database Initialized",
+      "timestamp": "2026-10-04T19:57:33.890Z",
+      "actor": "Consortium SuperAdmin"
+    }
+  ]
+}

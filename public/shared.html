@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time-Expiring Secure Medical Consultation | HealthChain</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .shared-wrapper {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        .countdown-card {
+            background: linear-gradient(135deg, rgba(14, 23, 42, 0.9), rgba(26, 42, 75, 0.7));
+            border: 1px solid var(--accent-cyan);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.15);
+        }
+        .timer-digits {
+            font-family: var(--font-mono);
+            font-size: 2.75rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            letter-spacing: 0.05em;
+            margin: 0.5rem 0;
+        }
+        .timer-warning {
+            color: var(--accent-warning);
+            font-size: 0.85rem;
+        }
+        .expired-card {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--accent-danger);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--glow-red);
+            animation: fadeIn 0.4s ease;
+        }
+        .content-card {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="header-container">
+            <a href="/" class="brand-wrapper">
+                <div class="brand-icon">⏱️</div>
+                <div class="brand-text">
+                    <h1>HealthChain Shared Access</h1>
+                    <p>Time-Expiring Cryptographic JWT Link (Feature 7.2)</p>
+                </div>
+            </a>
+            <div class="header-actions">
+                <a href="/" class="btn btn-secondary">← Back to Portal</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="shared-wrapper">
+
+        <!-- Countdown Timer Banner -->
+        <div id="countdownBanner" class="countdown-card">
+            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">
+                Authorized Time Window (Auto-Expiring JWT)
+            </span>
+            <div id="timerDisplay" class="timer-digits">00:00:00</div>
+            <p id="expiryMeta" class="timer-warning">Time remaining before cryptographic access is automatically revoked.</p>
+        </div>
+
+        <!-- Expired State Box -->
+        <div id="expiredCard" class="expired-card">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🚫</div>
+            <h2 style="color: #f87171; font-size: 1.8rem; margin-bottom: 0.75rem;">HTTP 403: Access Expired</h2>
+            <p style="color: #cbd5e1; max-width: 600px; margin: 0 auto 1.5rem; line-height: 1.6;">
+                This time-limited secure link has exceeded its configured duration. Access to this medical record has been permanently revoked by the patient’s security policy.
+            </p>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+                Token Signature Expired • Access Context Terminated
+            </p>
+        </div>
+
+        <!-- Valid Report Content View -->
+        <div id="contentCard" class="card content-card">
+            <div class="card-header">
+                <div>
+                    <span id="repBadge" class="report-id-badge" style="font-size: 0.85rem;"></span>
+                    <h2 id="repTitle" style="font-size: 1.5rem; font-weight: 700; margin: 0.5rem 0 0.25rem;"></h2>
+                    <p id="repPatient" style="color: var(--text-secondary); font-size: 0.9rem;"></p>
+                </div>
+                <div style="text-align: right;">
+                    <span id="blockchainStatus" class="status-pill status-completed">Anchored on Blockchain</span>
+                    <p id="repDate" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px;"></p>
+                </div>
+            </div>
+
+            <!-- OCR Keywords / Clinical Tags -->
+            <div style="margin: 1rem 0;">
+                <label style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 6px;">
+                    OCR Extracted Clinical Tags (Feature 7.3)
+                </label>
+                <div id="repTags" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+            </div>
+
+            <!-- Report Content Preview -->
+            <div style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem; margin: 1.5rem 0;">
+                <h4 style="font-size: 0.85rem; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 0.75rem; letter-spacing: 0.05em;">
+                    Decrypted Diagnostic Findings:
+                </h4>
+                <pre id="repSnippet" style="font-family: var(--font-mono); font-size: 0.88rem; color: #e2e8f0; white-space: pre-wrap; line-height: 1.6;"></pre>
+            </div>
+
+            <!-- Actions -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.25rem;">
+                <div style="font-size: 0.8rem; color: var(--text-muted);">
+                    Recipient Doctor: <strong id="repRecipient" style="color: #fff;"></strong>
+                </div>
+                <a id="downloadBtn" href="#" class="btn btn-primary" download>
+                    📥 Download Decrypted Report
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="/js/shared.js"></script>
+</body>
+</html>

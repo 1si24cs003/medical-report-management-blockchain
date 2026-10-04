@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthChain | Medical Report Management & Distribution System on Blockchain</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- ==========================================
+         TOP HEADER & ROLE SWITCHER TOOLBAR
+         ========================================== -->
+    <header class="top-header">
+        <div class="header-container">
+            <a href="/" class="brand-wrapper">
+                <div class="brand-icon">🏥</div>
+                <div class="brand-text">
+                    <h1>HealthChain</h1>
+                    <p>Blockchain Medical Report Management & Distribution System</p>
+                </div>
+            </a>
+
+            <div class="header-actions">
+                <!-- Role Switcher for Panel Evaluation -->
+                <div class="role-switcher-bar">
+                    <span class="role-switcher-label">Active Role:</span>
+                    <button class="role-btn active" data-user-id="usr_doc_01" onclick="switchUser('usr_doc_01')">
+                        👨‍⚕️ Dr. Sarah (Doctor)
+                    </button>
+                    <button class="role-btn" data-user-id="usr_lab_01" onclick="switchUser('usr_lab_01')">
+                        🔬 Alex (Lab Staff)
+                    </button>
+                    <button class="role-btn" data-user-id="usr_pat_01" onclick="switchUser('usr_pat_01')">
+                        👤 John Doe (Patient)
+                    </button>
+                    <button class="role-btn" data-user-id="usr_adm_01" onclick="switchUser('usr_adm_01')">
+                        🛡️ Admin
+                    </button>
+                </div>
+
+                <a href="/presentation.html" class="btn btn-presentation">
+                    📊 Phase 2 Presentation Deck
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         NAVIGATION TABS
+         ========================================== -->
+    <nav class="nav-tabs-wrapper">
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-target="recordsTab">
+                📋 Medical Records & Search <span id="recordsCountBadge" class="badge">4</span>
+            </button>
+            <button class="nav-tab" data-target="timelineTab">
+                ⏳ Chronological Medical Timeline (Obj 1 & 3)
+            </button>
+            <button class="nav-tab" data-target="uploadTab">
+                📤 Upload & Anchor Report (Lab / Staff)
+            </button>
+            <button class="nav-tab" data-target="blockchainTab">
+                ⛓️ Permissioned Blockchain Explorer
+            </button>
+            <button class="nav-tab" data-target="auditTab">
+                📜 Audit Logs
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         MAIN CONTENT CONTAINER
+         ========================================== -->
+    <main class="main-content">
+
+        <!-- User Identity Banner -->
+        <section class="status-banner">
+            <div class="user-identity-badge">
+                <div id="userAvatar" class="user-avatar">👨‍⚕️</div>
+                <div class="user-info">
+                    <h2 id="userNameDisplay">Dr. Sarah Rao</h2>
+                    <p id="userRoleDisplay">Department of Cardiology • Metro Apex Hospital</p>
+                </div>
+            </div>
+
+            <div class="metrics-strip">
+                <div class="metric-item">
+                    <div id="metricReports" class="metric-value">0</div>
+                    <div class="metric-label">Anchored Reports</div>
+                </div>
+                <div class="metric-item">
+                    <div id="metricBlocks" class="metric-value">0</div>
+                    <div class="metric-label">Ledger Blocks</div>
+                </div>
+                <div class="metric-item">
+                    <div id="metricDuplicates" class="metric-value">0</div>
+                    <div class="metric-label">Duplicates Prevented</div>
+                </div>
+                <div class="metric-item">
+                    <div id="metricChainStatus" class="metric-value" style="color: var(--accent-success);">VALID</div>
+                    <div class="metric-label">Blockchain Integrity</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             TAB 1: MEDICAL RECORDS & SEARCH
+             ========================================== -->
+        <div id="recordsTab" class="tab-pane active">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">Diagnostic Reports Archive</h3>
+                        <p class="card-subtitle">Searchable via Smart OCR Keyword Indexing without exposing raw files (Feature 7.3)</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="loadReports()">🔄 Refresh</button>
+                </div>
+
+                <!-- Smart Search Bar -->
+                <div class="search-box-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="reportSearchInput" class="search-input" placeholder="Search by clinical keywords (e.g. 'Blood Sugar', 'Fracture', 'Hemoglobin', 'Spine')...">
+                </div>
+
+                <!-- Quick Filter Tags -->
+                <div class="quick-filter-tags">
+                    <span class="filter-tag-label">Quick OCR Filters:</span>
+                    <button class="filter-tag-chip active" onclick="filterByTag('')">All Records</button>
+                    <button class="filter-tag-chip" onclick="filterByTag('Blood Sugar')">Blood Sugar / Glucose</button>
+                    <button class="filter-tag-chip" onclick="filterByTag('Fracture')">Fracture / Orthopedic</button>
+                    <button class="filter-tag-chip" onclick="filterByTag('Hemoglobin')">Hemoglobin / CBC</button>
+                    <button class="filter-tag-chip" onclick="filterByTag('Cholesterol')">Lipid Profile</button>
+                </div>
+
+                <!-- Reports Grid -->
+                <div id="reportsGrid" class="reports-grid" style="margin-top: 1.5rem;">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             TAB 2: CHRONOLOGICAL MEDICAL TIMELINE (Obj 1 & 3)
+             ========================================== -->
+        <div id="timelineTab" class="tab-pane">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">Patient Diagnostic History Timeline</h3>
+                        <p class="card-subtitle">Chronological progression of tests to prevent repeated scans & fragmented care (Objectives 1 & 3)</p>
+                    </div>
+
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <label style="font-size: 0.82rem; color: var(--text-secondary);">Select Patient:</label>
+                        <select id="timelinePatientSelect" class="form-control" style="width: auto; padding: 6px 12px;" onchange="loadTimeline()">
+                            <option value="usr_pat_01">John Doe (PT-9901)</option>
+                            <option value="usr_pat_02">Meera Patel (PT-9902)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="alert-box alert-info" style="margin-bottom: 1.5rem;">
+                    <span>💡</span>
+                    <div>
+                        <strong>Clinical Benefit:</strong> By organizing a patient's historical reports chronologically with instant retrieval, attending physicians can review previous investigations before ordering new ones, directly fulfilling <strong>Objective 1: Reduce Repeated Diagnostic Tests</strong>.
+                    </div>
+                </div>
+
+                <!-- Timeline Entries -->
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    <div id="timelineEntries">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             TAB 3: UPLOAD & ANCHOR (With Duplicate Detection)
+             ========================================== -->
+        <div id="uploadTab" class="tab-pane">
+            <div class="upload-grid">
+                <!-- Left: Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Upload & Anchor Diagnostic Report</h3>
+                            <p class="card-subtitle">Off-chain AES encryption + SHA-256 duplicate check + blockchain anchoring</p>
+                        </div>
+                    </div>
+
+                    <form id="uploadForm">
+                        <div class="form-group">
+                            <label class="form-label">Patient</label>
+                            <select id="uploadPatient" class="form-control" required>
+                                <option value="usr_pat_01">John Doe (PT-9901, Age: 48, Male)</option>
+                                <option value="usr_pat_02">Meera Patel (PT-9902, Age: 34, Female)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Report Title</label>
+                            <input type="text" id="uploadTitle" class="form-control" placeholder="e.g. Glycemic Evaluation / Knee X-Ray" required>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label">Report Category</label>
+                                <select id="uploadType" class="form-control">
+                                    <option value="Pathology / Biochemistry">Pathology / Biochemistry</option>
+                                    <option value="Radiology / Imaging">Radiology / Imaging</option>
+                                    <option value="Hematology">Hematology</option>
+                                    <option value="Cardiovascular">Cardiovascular</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Test Date</label>
+                                <input type="date" id="uploadDate" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Clinical Notes / Diagnosis</label>
+                            <textarea id="uploadNotes" class="form-control" rows="2" placeholder="Clinical findings or diagnostic observations..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Consortium Authorizing Node</label>
+                            <select id="uploadNode" class="form-control">
+                                <option value="NODE-HOSP-01">Metro Apex Hospital Node</option>
+                                <option value="NODE-LAB-01">Pathology Diagnostics Lab Node</option>
+                                <option value="NODE-CLINIC-01">City Care Clinic Node</option>
+                            </select>
+                        </div>
+
+                        <!-- Dropzone -->
+                        <div class="form-group">
+                            <label class="form-label">Select Medical Report File (PDF / Image / TXT)</label>
+                            <div id="dropZone" class="drop-zone">
+                                <div class="drop-icon">📄</div>
+                                <h4 id="dropFileName" style="font-size: 0.95rem; margin-bottom: 4px;">Drag & Drop or Click to Select</h4>
+                                <p style="font-size: 0.78rem; color: var(--text-muted);">PDF, PNG, JPG, or TXT up to 25MB</p>
+                                <input type="file" id="fileInput" style="display: none;" accept=".pdf,.png,.jpg,.jpeg,.txt">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submitUploadBtn" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem;">
+                            🔒 Encrypt, Detect Duplicates & Anchor on Blockchain
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right: Duplicate Detection Demonstration -->
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Objective 2: Duplicate Detection Engine</h3>
+                                <p class="card-subtitle">Cryptographic SHA-256 fingerprint comparison prior to blockchain recording</p>
+                            </div>
+                        </div>
+
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                            When an authorized staff member attempts to upload a medical report, the backend computes its SHA-256 hash. If this hash already matches an existing block on the blockchain, the upload is rejected with <strong>HTTP 409 Conflict</strong>. This prevents redundant storage and guarantees a single verified reference for each diagnostic document.
+                        </p>
+
+                        <div class="alert-box alert-info">
+                            <span>🧪</span>
+                            <div>
+                                <strong>Try the Live Demo for Panel:</strong> Click the button below to simulate uploading an identical report that already exists on the ledger. Watch the duplicate prevention engine block it in real time!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-top: 1rem;">
+                        <h4 style="font-size: 0.9rem; color: var(--accent-cyan); margin-bottom: 0.5rem;">Panel Demonstration Trigger:</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+                            Simulate uploading an exact duplicate of John Doe's Fasting Glucose Report.
+                        </p>
+                        <button class="btn btn-secondary" style="width: 100%; border-color: var(--accent-warning); color: var(--accent-warning);" onclick="simulateDuplicateUpload()">
+                            ⚠️ Test Duplicate Upload Rejection (Obj 2 Demo)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             TAB 4: BLOCKCHAIN EXPLORER
+             ========================================== -->
+        <div id="blockchainTab" class="tab-pane">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">Consortium Blockchain Ledger Explorer</h3>
+                        <p class="card-subtitle">Permissioned distributed ledger with cryptographic SHA-256 block linking</p>
+                    </div>
+
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="verifyChainIntegrity()">🔍 Audit Chain Integrity</button>
+                        <button class="btn btn-tamper" onclick="triggerTamperSimulation()">⚠️ Simulate Block Tampering</button>
+                        <button class="btn btn-secondary" onclick="restoreChain()">🔄 Restore Valid Ledger</button>
+                    </div>
+                </div>
+
+                <!-- Consortium Node Strip -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.5rem;">🏥</span>
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 700;">Metro Apex Hospital</div>
+                            <div style="font-size: 0.72rem; color: #34d399;">● Online (Validator Node)</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.5rem;">🔬</span>
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 700;">Pathology Diagnostic Lab</div>
+                            <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.5rem;">🩺</span>
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 700;">City Care Clinic</div>
+                            <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.5rem;">💊</span>
+                        <div>
+                            <div style="font-size: 0.85rem; font-weight: 700;">CareFirst Pharmacy</div>
+                            <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blockchain Blocks Stream -->
+                <div id="blockchainStream" class="blockchain-stream">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             TAB 5: AUDIT LOGS
+             ========================================== -->
+        <div id="auditTab" class="tab-pane">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">Immutable System Audit Trail</h3>
+                        <p class="card-subtitle">Transparent record of report accesses, verifications, and duplicate rejections</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="loadAuditLogs()">🔄 Refresh Logs</button>
+                </div>
+
+                <div class="lit-table-wrapper">
+                    <table class="lit-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Action Event</th>
+                                <th>Actor / Identity</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auditLogsBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==========================================
+         MODALS
+         ========================================== -->
+
+    <!-- Decrypted Report Viewer Modal -->
+    <div id="viewReportModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal('viewReportModal')">✕</button>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem;">
+                <span id="modalReportBadge" class="report-id-badge"></span>
+                <span class="status-pill status-completed">✓ Blockchain Verified</span>
+            </div>
+            <h2 id="modalReportTitle" style="font-size: 1.35rem; margin-bottom: 0.25rem;"></h2>
+            <p id="modalReportSubtitle" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;"></p>
+
+            <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.25rem;">
+                <h4 style="font-size: 0.8rem; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 0.5rem;">
+                    Decrypted Content (Streamed from AES Off-Chain Storage):
+                </h4>
+                <pre id="modalReportContent" style="font-family: var(--font-mono); font-size: 0.85rem; color: #e2e8f0; white-space: pre-wrap; line-height: 1.5;"></pre>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span id="modalReportHash" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); word-break: break-all;"></span>
+                <a id="modalDownloadBtn" href="#" class="btn btn-primary" download>📥 Download File</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Anti-Forgery Modal (Feature 7.1) -->
+    <div id="qrModal" class="modal-overlay">
+        <div class="modal-container" style="text-align: center;">
+            <button class="modal-close" onclick="closeModal('qrModal')">✕</button>
+            <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;">Anti-Forgery Verification QR Code</h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Scan with any smartphone camera or click verify to compare fingerprint against blockchain (Feature 7.1)
+            </p>
+
+            <div style="background: #ffffff; padding: 1.25rem; border-radius: 16px; display: inline-block; margin-bottom: 1.25rem; box-shadow: var(--glow-cyan);">
+                <img id="qrModalImg" src="" alt="Anti-Forgery QR Code" style="width: 240px; height: 240px; display: block;">
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+                <span id="qrReportId" class="report-id-badge" style="font-size: 0.9rem;"></span>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+                <a id="qrDirectVerifyLink" href="#" target="_blank" class="btn btn-qr">
+                    🔍 Open Verification Endpoint
+                </a>
+                <button class="btn btn-secondary" onclick="copyVerificationUrl()">
+                    📋 Copy Verification URL
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time-Expiring Secure Share Modal (Feature 7.2) -->
+    <div id="shareModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal('shareModal')">✕</button>
+            <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;">Create Time-Expiring Access Link</h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                Share diagnostic report with consulting physician with automatic cryptographic token expiry (Feature 7.2)
+            </p>
+
+            <form id="shareLinkForm">
+                <input type="hidden" id="shareReportId">
+                <div class="form-group">
+                    <label class="form-label">Report</label>
+                    <input type="text" id="shareReportTitle" class="form-control" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Authorized Duration Before Expiry</label>
+                    <select id="shareDuration" class="form-control">
+                        <option value="2">2 Minutes (Quick Demo for Panel Evaluation)</option>
+                        <option value="15">15 Minutes</option>
+                        <option value="60" selected>1 Hour (Standard Consultation)</option>
+                        <option value="1440">24 Hours (Full Day Access)</option>
+                        <option value="10080">7 Days</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Recipient Doctor / Specialist</label>
+                    <input type="text" id="shareDoctor" class="form-control" placeholder="e.g. Dr. Rajesh Nair (Orthopedics)" value="Consulting Specialist">
+                </div>
+
+                <button type="submit" class="btn btn-share" style="width: 100%; padding: 12px; margin-top: 0.5rem;">
+                    ⏱️ Generate Signed Expiring JWT Link
+                </button>
+            </form>
+
+            <div id="shareResultBox" style="display: none; margin-top: 1.5rem; background: rgba(0,0,0,0.4); border: 1px solid var(--accent-cyan); border-radius: var(--radius-md); padding: 1.25rem;">
+                <h4 style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 0.5rem;">Secure Access Link Generated:</h4>
+                <input type="text" id="generatedShareUrl" class="form-control" style="font-family: var(--font-mono); font-size: 0.82rem; margin-bottom: 0.75rem;" readonly>
+                <div style="display: flex; gap: 0.75rem;">
+                    <a id="openShareUrlBtn" href="#" target="_blank" class="btn btn-primary" style="flex: 1;">
+                        🚀 Open Shared View
+                    </a>
+                    <button class="btn btn-secondary" onclick="copyShareUrl()">
+                        📋 Copy Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
