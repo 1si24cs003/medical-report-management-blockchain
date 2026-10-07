@@ -21,14 +21,15 @@
     "timestamp": "2026-10-04T19:57:33.884Z",
     "data": {
       "reportId": "REP-7A91F2C4",
-      "reportHash": "c1ec0cf3d448fabace5bef6b79e3a9ef26beadacdfe72ad05a800b7c6f1b1566",
+      "reportHash": "0000000000malicious_hacker_hash_tamper_attempt",
       "storageReference": "REP-7A91F2C4_encrypted.bin",
       "reportType": "Pathology / Biochemistry",
       "testDate": "2026-08-14",
       "patientPseudonym": "PT-9901",
       "institutionNode": "Pathology Diagnostics Lab Node",
       "nodeId": "NODE-LAB-01",
-      "recordedAt": "2026-10-04T19:57:33.884Z"
+      "recordedAt": "2026-10-04T19:57:33.884Z",
+      "tampered": true
     },
     "previousHash": "00ffa9aedff60b47c7978d864843f59e8d57003e634a4ae0567b9d17a8771cb6",
     "nonce": 166,
@@ -87,5 +88,23 @@
     "previousHash": "0087f393865f676839d4f177bebf5383b4385e95cd988627fa1403287af96dc9",
     "nonce": 577,
     "hash": "0064e455c35b3b233f8f9ee87d51d9341d7576903d7834f5b20a9311fd045305"
+  },
+  {
+    "index": 5,
+    "timestamp": "2026-10-05T07:41:18.324Z",
+    "data": {
+      "reportId": "REP-7A91F2C4",
+      "reportHash": "c1ec0cf3d448fabace5bef6b79e3a9ef26beadacdfe72ad05a800b7c6f1b1566",
+      "storageReference": "REP-7A91F2C4_encrypted.bin",
+      "reportType": "Pathology / Biochemistry",
+      "testDate": "2026-08-14",
+      "patientPseudonym": "PT-9901",
+      "institutionNode": "Pathology Diagnostics Lab Node",
+      "nodeId": "NODE-LAB-01",
+      "recordedAt": "2026-10-05T07:41:18.324Z"
+    },
+    "previousHash": "0064e455c35b3b233f8f9ee87d51d9341d7576903d7834f5b20a9311fd045305",
+    "nonce": 64,
+    "hash": "0004865bc922449723ba3f48c504a27e3a54cec111c72f39fe9359303ef2721f"
   }
 ]

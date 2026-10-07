@@ -1,36 +1,13 @@
-// HealthChain Main Application Client Engine
-let currentUser = {
-    id: 'usr_doc_01',
-    name: 'Dr. Sarah Rao',
-    role: 'Doctor',
-    department: 'Cardiology & General Medicine'
-};
+// HealthChain Medical Consortium Client Engine
+let currentUser = null;
+let authToken = localStorage.getItem('hc_auth_token') || null;
 
 let allReportsCache = [];
 let activeTagFilter = '';
 let currentVerificationUrl = '';
 let currentShareUrl = '';
 
-document.addEventListener('DOMContentLoaded', () => {
-    initTabs();
-    initUploadDropzone();
-    initSearch();
-    loadStats();
-    loadReports();
-    loadTimeline();
-    loadBlockchain();
-    loadAuditLogs();
-
-    // Default test date to today
-    const dateInput = document.getElementById('uploadDate');
-    if (dateInput) {
-        dateInput.value = new Date().toISOString().split('T')[0];
-    }
-});
-
-// ==========================================
-// 1. ROLE SWITCHING & AUTHENTICATION
-// ==========================================
+// Registered role definitions for quick demo switching
 const USERS_MAP = {
     'usr_doc_01': {
         id: 'usr_doc_01',
@@ -50,6 +27,7 @@ const USERS_MAP = {
         id: 'usr_pat_01',
         name: 'John Doe',
         role: 'Patient',
+        patientId: 'PT-9901',
         desc: 'Patient ID: PT-9901 • Blood Group: O+',
         avatar: '👤'
     },
@@ -62,41 +40,259 @@ const USERS_MAP = {
     }
 };
 
-function switchUser(userId) {
-    const user = USERS_MAP[userId];
-    if (!user) return;
-    currentUser = user;
+// ==========================================================================
+// 1. INITIALIZATION & SESSION RESTORATION
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    initTabs();
+    initUploadDropzone();
+    initSearch();
+    initFormListeners();
 
-    // Update active button state
-    document.querySelectorAll('.role-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-user-id') === userId);
-    });
-
-    // Update Banner
-    document.getElementById('userAvatar').textContent = user.avatar;
-    document.getElementById('userNameDisplay').textContent = user.name;
-    document.getElementById('userRoleDisplay').textContent = user.desc;
-
-    // Auto-adjust timeline patient if patient role is active
-    if (user.role === 'Patient') {
-        const select = document.getElementById('timelinePatientSelect');
-        if (select) select.value = userId;
+    // Check if session exists in localStorage
+    const savedUserStr = localStorage.getItem('hc_current_user');
+    if (authToken && savedUserStr) {
+        try {
+            const savedUser = JSON.parse(savedUserStr);
+            applySession(authToken, savedUser);
+        } catch (e) {
+            console.warn('Session parse error, requiring login:', e);
+            logout();
+        }
+    } else {
+        // Enforce mandatory login gate: show login screen, hide portal
+        showLoginScreen();
     }
 
-    // Refresh views with new role context
-    loadReports();
-    loadTimeline();
-}
+    // Default test date to today
+    const dateInput = document.getElementById('uploadDate');
+    if (dateInput) {
+        dateInput.value = new Date().toISOString().split('T')[0];
+    }
+});
 
 function getAuthHeaders() {
-    return {
-        'x-demo-user-id': currentUser.id
-    };
+    const headers = {};
+    if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+    }
+    if (currentUser && currentUser.id) {
+        headers['x-demo-user-id'] = currentUser.id;
+    }
+    return headers;
 }
 
-// ==========================================
-// 2. TAB NAVIGATION
-// ==========================================
+// ==========================================================================
+// 2. AUTHENTICATION & LOGIN GATE LOGIC
+// ==========================================================================
+function switchLoginMode(mode) {
+    const quickTab = document.getElementById('tabQuickLogin');
+    const credsTab = document.getElementById('tabCredsLogin');
+    const quickView = document.getElementById('quickLoginView');
+    const credsView = document.getElementById('credsLoginView');
+
+    if (mode === 'quick') {
+        quickTab.classList.add('active');
+        credsTab.classList.remove('active');
+        quickView.style.display = 'block';
+        credsView.style.display = 'none';
+    } else {
+        credsTab.classList.add('active');
+        quickTab.classList.remove('active');
+        credsView.style.display = 'block';
+        quickView.style.display = 'none';
+    }
+}
+
+async function loginAsRole(userId) {
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+            alert('Authentication failed: ' + (data.message || 'Unknown error'));
+            return;
+        }
+
+        applySession(data.token, data.user);
+    } catch (err) {
+        alert('Login communication error: ' + err.message);
+    }
+}
+
+async function loginWithCredentials(emailOrId, password) {
+    try {
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailOrId, password })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+            alert('Authentication failed: ' + (data.message || 'Invalid credentials'));
+            return;
+        }
+
+        applySession(data.token, data.user);
+    } catch (err) {
+        alert('Login communication error: ' + err.message);
+    }
+}
+
+function applySession(token, user) {
+    authToken = token;
+    currentUser = user;
+    localStorage.setItem('hc_auth_token', token);
+    localStorage.setItem('hc_current_user', JSON.stringify(user));
+
+    // Hide Login Screen and Reveal Application
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appScreen').style.display = 'block';
+
+    // Update Banner & Header Identifiers
+    updateUserDisplay(user);
+
+    // Enforce Role Permissions across Navigation & Views
+    applyRolePermissions(user.role);
+
+    // Load initial data
+    loadStats();
+    loadReports();
+    loadTimeline();
+    loadBlockchain();
+    loadAuditLogs();
+    if (user.role === 'Admin') {
+        loadAdminUsers();
+    }
+}
+
+function updateUserDisplay(user) {
+    const avatar = user.role === 'Doctor' ? '👨‍⚕️' : user.role === 'Lab Staff' ? '🔬' : user.role === 'Admin' ? '🛡️' : '👤';
+    
+    // Header Identity
+    const headerAvatar = document.getElementById('headerUserAvatar');
+    const headerName = document.getElementById('headerUserName');
+    const headerRole = document.getElementById('headerUserRoleBadge');
+    if (headerAvatar) headerAvatar.textContent = avatar;
+    if (headerName) headerName.textContent = user.name;
+    if (headerRole) headerRole.textContent = user.role.toUpperCase();
+
+    // Banner Identity
+    const bannerAvatar = document.getElementById('userAvatar');
+    const bannerName = document.getElementById('userNameDisplay');
+    const bannerRole = document.getElementById('userRoleDisplay');
+    if (bannerAvatar) bannerAvatar.textContent = avatar;
+    if (bannerName) bannerName.textContent = user.name;
+    
+    let desc = user.role;
+    if (user.department) desc += ` • ${user.department}`;
+    if (user.hospital) desc += ` • ${user.hospital}`;
+    if (user.laboratory) desc += ` • ${user.laboratory}`;
+    if (user.patientId) desc += ` • Patient ID: ${user.patientId}`;
+    if (bannerRole) bannerRole.textContent = desc;
+
+    // Highlight Role Switcher button
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-user-id') === user.id);
+    });
+}
+
+function showLoginScreen() {
+    currentUser = null;
+    authToken = null;
+    localStorage.removeItem('hc_auth_token');
+    localStorage.removeItem('hc_current_user');
+
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('appScreen').style.display = 'none';
+}
+
+function logout() {
+    showLoginScreen();
+}
+
+async function switchUserRole(userId) {
+    await loginAsRole(userId);
+}
+
+// ==========================================================================
+// 3. ROLE-BASED ACCESS CONTROL (RBAC) RESTRICTIONS
+// ==========================================================================
+function applyRolePermissions(role) {
+    const tabRecords = document.getElementById('tabNavRecords');
+    const tabTimeline = document.getElementById('tabNavTimeline');
+    const tabUpload = document.getElementById('tabNavUpload');
+    const tabAdmin = document.getElementById('tabNavAdmin');
+    const tabBlockchain = document.getElementById('tabNavBlockchain');
+    const tabAudit = document.getElementById('tabNavAudit');
+
+    const patientNotice = document.getElementById('patientScopedNotice');
+    const uploadRestrictedNotice = document.getElementById('uploadRestrictedNotice');
+    const uploadForm = document.getElementById('uploadForm');
+    const timelinePatientSelectorWrapper = document.getElementById('timelinePatientSelectorWrapper');
+
+    // Reset default display
+    tabRecords.style.display = 'inline-block';
+    tabTimeline.style.display = 'inline-block';
+    tabUpload.style.display = 'inline-block';
+    tabAdmin.style.display = 'none';
+    tabBlockchain.style.display = 'inline-block';
+    tabAudit.style.display = 'inline-block';
+
+    if (patientNotice) patientNotice.style.display = 'none';
+    if (uploadRestrictedNotice) uploadRestrictedNotice.style.display = 'none';
+    if (uploadForm) uploadForm.style.opacity = '1';
+    if (timelinePatientSelectorWrapper) timelinePatientSelectorWrapper.style.display = 'flex';
+
+    if (role === 'Patient') {
+        // Patient can only view their own records and timeline; cannot upload or admin
+        tabUpload.style.display = 'none';
+        tabAdmin.style.display = 'none';
+        tabBlockchain.style.display = 'none';
+        tabAudit.style.display = 'none';
+
+        if (patientNotice) patientNotice.style.display = 'flex';
+        if (timelinePatientSelectorWrapper) timelinePatientSelectorWrapper.style.display = 'none';
+
+        // Auto select records tab
+        tabRecords.click();
+
+    } else if (role === 'Lab Staff') {
+        // Lab staff is restricted to uploading data and viewing archives/ledger
+        tabTimeline.style.display = 'none';
+        tabAdmin.style.display = 'none';
+        tabAudit.style.display = 'none';
+
+        if (uploadRestrictedNotice) uploadRestrictedNotice.style.display = 'none';
+        tabUpload.click();
+
+    } else if (role === 'Doctor') {
+        // Doctor reviews records, updates diagnosis, views timeline, verifies ledger
+        tabAdmin.style.display = 'none';
+
+        // Doctor doesn't primarily upload (Lab does), but can view or is notified
+        if (uploadRestrictedNotice) {
+            uploadRestrictedNotice.style.display = 'flex';
+            uploadRestrictedNotice.innerHTML = `<span>ℹ️</span><div><strong>Consortium Workflow Policy:</strong> Diagnostic documents are uploaded by <strong>Lab Staff</strong>. Doctors review results, add clinical diagnoses, and manage treatment plans.</div>`;
+        }
+
+        tabRecords.click();
+
+    } else if (role === 'Admin') {
+        // Admin has full consortium privileges including User Management
+        tabAdmin.style.display = 'inline-block';
+        tabAdmin.click();
+    }
+}
+
+// ==========================================================================
+// 4. TAB NAVIGATION
+// ==========================================================================
 function initTabs() {
     document.querySelectorAll('.nav-tab').forEach(tab => {
         tab.addEventListener('click', () => {
@@ -111,13 +307,15 @@ function initTabs() {
             if (targetId === 'blockchainTab') loadBlockchain();
             if (targetId === 'auditTab') loadAuditLogs();
             if (targetId === 'timelineTab') loadTimeline();
+            if (targetId === 'adminTab') loadAdminUsers();
+            if (targetId === 'recordsTab') loadReports();
         });
     });
 }
 
-// ==========================================
-// 3. STATS & SYSTEM METRICS
-// ==========================================
+// ==========================================================================
+// 5. STATS & SYSTEM METRICS
+// ==========================================================================
 async function loadStats() {
     try {
         const res = await fetch('/api/blockchain/stats', { headers: getAuthHeaders() });
@@ -141,12 +339,16 @@ async function loadStats() {
     }
 }
 
-// ==========================================
-// 4. MEDICAL REPORTS ARCHIVE & OCR SEARCH
-// ==========================================
+// ==========================================================================
+// 6. MEDICAL REPORTS ARCHIVE & OCR SEARCH
+// ==========================================================================
 async function loadReports() {
     try {
         const res = await fetch('/api/reports', { headers: getAuthHeaders() });
+        if (res.status === 401) {
+            logout();
+            return;
+        }
         const data = await res.json();
         if (data.success) {
             allReportsCache = data.reports || [];
@@ -181,11 +383,33 @@ function renderReports(reports) {
         return;
     }
 
+    const isDoctorOrAdmin = currentUser && (currentUser.role === 'Doctor' || currentUser.role === 'Admin');
+
     filtered.forEach(r => {
         const card = document.createElement('div');
         card.className = 'report-card';
 
         const tagsHtml = (r.keywords || []).slice(0, 4).map(k => `<span class="tag-badge">${escapeHtml(k)}</span>`).join('');
+
+        // Doctor diagnosis remarks badge if present
+        let remarksBadge = '';
+        if (r.doctorRemarks) {
+            remarksBadge = `
+                <div style="margin-top: 6px; padding: 4px 8px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: var(--radius-sm); font-size: 0.74rem; color: #fde68a;">
+                    👨‍⚕️ <strong>Evaluation:</strong> ${escapeHtml(r.doctorRemarks.status || 'Reviewed')} • ${escapeHtml(r.doctorRemarks.doctorName || '')}
+                </div>
+            `;
+        }
+
+        // Action buttons tailored by role
+        let editBtnHtml = '';
+        if (isDoctorOrAdmin) {
+            editBtnHtml = `
+                <button class="btn btn-edit" onclick="openEditReportModal('${escapeHtml(r.reportId)}')">
+                    ✏️ Edit Notes
+                </button>
+            `;
+        }
 
         card.innerHTML = `
             <div>
@@ -198,7 +422,8 @@ function renderReports(reports) {
                     Patient: <strong>${escapeHtml(r.patientName)}</strong> (${escapeHtml(r.patientPseudonym)})<br>
                     <span style="color: var(--text-muted); font-size: 0.78rem;">Anchored on Block #${r.blockIndex} • ${escapeHtml(r.reportType)}</span>
                 </p>
-                <div class="report-tags">
+                ${remarksBadge}
+                <div class="report-tags" style="margin-top: 8px;">
                     ${tagsHtml}
                 </div>
             </div>
@@ -207,6 +432,7 @@ function renderReports(reports) {
                 <button class="btn btn-primary" onclick="openReportModal('${escapeHtml(r.reportId)}')">
                     👁️ View Decrypted
                 </button>
+                ${editBtnHtml}
                 <button class="btn btn-qr" onclick="openQrModal('${escapeHtml(r.reportId)}')">
                     🔍 Verify QR
                 </button>
@@ -222,6 +448,7 @@ function renderReports(reports) {
 
 function initSearch() {
     const input = document.getElementById('reportSearchInput');
+    if (!input) return;
     input.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase().trim();
         if (!query) {
@@ -249,12 +476,17 @@ function filterByTag(tag) {
     renderReports(allReportsCache);
 }
 
-// ==========================================
-// 5. CHRONOLOGICAL TIMELINE (Obj 1 & 3)
-// ==========================================
+// ==========================================================================
+// 7. CHRONOLOGICAL TIMELINE (Obj 1 & 3)
+// ==========================================================================
 async function loadTimeline() {
     const patientSelect = document.getElementById('timelinePatientSelect');
-    const patientId = patientSelect ? patientSelect.value : 'usr_pat_01';
+    let patientId = patientSelect ? patientSelect.value : 'usr_pat_01';
+
+    if (currentUser && currentUser.role === 'Patient') {
+        patientId = currentUser.id;
+    }
+
     const container = document.getElementById('timelineEntries');
 
     try {
@@ -267,11 +499,21 @@ async function loadTimeline() {
             return;
         }
 
-        data.timeline.forEach((item, idx) => {
+        data.timeline.forEach((item) => {
             const entry = document.createElement('div');
             entry.className = 'timeline-entry';
 
             const tags = (item.keywords || []).map(k => `<span class="tag-badge">${escapeHtml(k)}</span>`).join('');
+
+            let doctorRemarkHtml = '';
+            if (item.doctorRemarks) {
+                doctorRemarkHtml = `
+                    <div style="margin: 0.5rem 0; padding: 6px 10px; background: rgba(245, 158, 11, 0.12); border-left: 3px solid var(--accent-warning); border-radius: 4px; font-size: 0.8rem; color: #fde68a;">
+                        <strong>Attending Diagnosis:</strong> ${escapeHtml(item.doctorRemarks.status || 'Evaluated')}<br>
+                        ${escapeHtml(item.notes || '')}
+                    </div>
+                `;
+            }
 
             entry.innerHTML = `
                 <div class="timeline-node"></div>
@@ -283,9 +525,7 @@ async function loadTimeline() {
                         </div>
                         <span class="timeline-date-badge">📅 Test Date: ${escapeHtml(item.testDate)}</span>
                     </div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0.5rem 0;">
-                        ${escapeHtml(item.notes || 'Routine clinical investigation.')}
-                    </p>
+                    ${doctorRemarkHtml || `<p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0.5rem 0;">${escapeHtml(item.notes || 'Routine clinical investigation.')}</p>`}
                     <div style="display: flex; gap: 0.35rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
                         ${tags}
                     </div>
@@ -308,9 +548,9 @@ async function loadTimeline() {
     }
 }
 
-// ==========================================
-// 6. UPLOAD & DUPLICATE DETECTION (Obj 2)
-// ==========================================
+// ==========================================================================
+// 8. UPLOAD & DUPLICATE DETECTION (Obj 2 - Lab Staff Only)
+// ==========================================================================
 let selectedUploadFile = null;
 
 function initUploadDropzone() {
@@ -318,6 +558,8 @@ function initUploadDropzone() {
     const fileInput = document.getElementById('fileInput');
     const fileNameDisplay = document.getElementById('dropFileName');
     const form = document.getElementById('uploadForm');
+
+    if (!dropZone || !fileInput || !form) return;
 
     dropZone.addEventListener('click', () => fileInput.click());
 
@@ -352,6 +594,11 @@ function initUploadDropzone() {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        if (currentUser && currentUser.role !== 'Lab Staff' && currentUser.role !== 'Admin') {
+            alert('Access Denied: Only Lab Staff are authorized to upload diagnostic test reports to the consortium.');
+            return;
+        }
 
         if (!selectedUploadFile) {
             alert('Please select a medical report file (PDF / PNG / JPG / TXT).');
@@ -407,7 +654,7 @@ function initUploadDropzone() {
             loadBlockchain();
 
             // Switch to Records tab
-            document.querySelector('.nav-tab[data-target="recordsTab"]').click();
+            document.getElementById('tabNavRecords').click();
 
         } catch (err) {
             alert('Upload Error: ' + err.message);
@@ -418,7 +665,6 @@ function initUploadDropzone() {
     });
 }
 
-// Objective 2 Live Trigger Helper
 async function simulateDuplicateUpload() {
     const sampleDuplicateContent = `PATIENT DIAGNOSTIC REPORT - METRO APEX HOSPITAL
 Patient: John Doe | ID: PT-9901 | Age: 48 | Sex: M
@@ -467,11 +713,277 @@ Signed: Alex Smith, Senior Biochemist`;
     }
 }
 
-// ==========================================
-// 7. BLOCKCHAIN EXPLORER & TAMPER SIMULATOR
-// ==========================================
+// ==========================================================================
+// 9. DOCTOR CLINICAL NOTES EDITING (Doctor Only)
+// ==========================================================================
+function openEditReportModal(reportId) {
+    if (currentUser && currentUser.role !== 'Doctor' && currentUser.role !== 'Admin') {
+        alert('Access Denied: Only attending physicians (Doctors) are authorized to edit clinical diagnostic evaluations.');
+        return;
+    }
+
+    const report = allReportsCache.find(r => r.reportId === reportId);
+    if (!report) {
+        alert('Report details not found.');
+        return;
+    }
+
+    document.getElementById('editReportIdInput').value = report.reportId;
+    document.getElementById('editReportBadge').textContent = report.reportId;
+    document.getElementById('editReportTitle').textContent = `Clinical Evaluation: ${report.title}`;
+    document.getElementById('editReportSubtitle').textContent = `Patient: ${report.patientName} (${report.patientPseudonym}) • Date: ${report.testDate}`;
+    
+    document.getElementById('editReportNotes').value = report.notes || '';
+    if (report.doctorRemarks) {
+        document.getElementById('editDiagnosisStatus').value = report.doctorRemarks.status || 'Confirmed Diagnosis';
+    } else {
+        document.getElementById('editDiagnosisStatus').value = 'Confirmed Diagnosis';
+    }
+
+    document.getElementById('editReportPrescription').value = report.prescription || '';
+    document.getElementById('editReportFollowUp').value = report.followUpDate || '';
+
+    const modal = document.getElementById('editReportModal');
+    if (modal) modal.classList.add('active');
+}
+
+// ==========================================================================
+// 10. ADMIN USER MANAGEMENT (Admin Only)
+// ==========================================================================
+function updateRoleSpecificFields() {
+    const role = document.getElementById('newRoleSelect').value;
+    const docFields = document.getElementById('doctorFieldsGroup');
+    const patFields = document.getElementById('patientFieldsGroup');
+    const labFields = document.getElementById('labFieldsGroup');
+
+    docFields.style.display = role === 'Doctor' ? 'grid' : 'none';
+    patFields.style.display = role === 'Patient' ? 'grid' : 'none';
+    labFields.style.display = role === 'Lab Staff' ? 'grid' : 'none';
+}
+
+async function loadAdminUsers() {
+    try {
+        const res = await fetch('/api/admin/users', { headers: getAuthHeaders() });
+        if (res.status === 403 || res.status === 401) return;
+        const data = await res.json();
+
+        if (data.success && data.stats) {
+            document.getElementById('statTotalUsers').textContent = data.stats.total;
+            document.getElementById('statTotalDoctors').textContent = data.stats.doctors;
+            document.getElementById('statTotalPatients').textContent = data.stats.patients;
+            document.getElementById('statTotalLabStaff').textContent = data.stats.labStaff;
+
+            renderAdminUsersTable(data.users);
+            populatePatientDropdowns(data.users);
+        }
+    } catch (err) {
+        console.warn('Failed to load admin users:', err);
+    }
+}
+
+function renderAdminUsersTable(users) {
+    const tbody = document.getElementById('adminUsersTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    users.forEach(u => {
+        const tr = document.createElement('tr');
+        const avatar = u.role === 'Doctor' ? '👨‍⚕️' : u.role === 'Lab Staff' ? '🔬' : u.role === 'Admin' ? '🛡️' : '👤';
+        const tagClass = u.role === 'Doctor' ? 'tag-doctor' : u.role === 'Lab Staff' ? 'tag-lab' : u.role === 'Admin' ? 'tag-admin' : 'tag-patient';
+
+        let affiliation = u.hospital || u.laboratory || u.institution || (u.patientId ? `Patient ID: ${u.patientId}` : 'Consortium Member');
+        let licenseOrNode = u.license || u.nodeId || 'Validated Node';
+
+        tr.innerHTML = `
+            <td>
+                <strong>${avatar} ${escapeHtml(u.name)}</strong>
+                <div style="font-size: 0.74rem; color: var(--text-muted); font-family: var(--font-mono);">${escapeHtml(u.id)}</div>
+            </td>
+            <td><span class="role-card-tag ${tagClass}">${escapeHtml(u.role)}</span></td>
+            <td style="font-family: var(--font-mono); font-size: 0.8rem;">${escapeHtml(u.email)}</td>
+            <td style="font-size: 0.82rem;">${escapeHtml(affiliation)}</td>
+            <td style="font-size: 0.78rem; color: var(--text-secondary);">${escapeHtml(licenseOrNode)}</td>
+            <td>
+                ${u.role !== 'Admin' ? `<button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; color: var(--accent-danger); border-color: rgba(239, 68, 68, 0.4);" onclick="deleteAdminUser('${escapeHtml(u.id)}')">🗑️ Remove</button>` : `<span style="font-size: 0.75rem; color: var(--text-muted);">Root</span>`}
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function populatePatientDropdowns(users) {
+    const patients = users.filter(u => u.role === 'Patient');
+    const uploadSelect = document.getElementById('uploadPatient');
+    const timelineSelect = document.getElementById('timelinePatientSelect');
+
+    if (uploadSelect) {
+        uploadSelect.innerHTML = patients.map(p => 
+            `<option value="${p.id}">${escapeHtml(p.name)} (${p.patientId || p.id}, Age: ${p.age || 'N/A'}, ${p.gender || 'N/A'})</option>`
+        ).join('');
+    }
+
+    if (timelineSelect) {
+        timelineSelect.innerHTML = patients.map(p => 
+            `<option value="${p.id}">${escapeHtml(p.name)} (${p.patientId || p.id})</option>`
+        ).join('');
+    }
+}
+
+async function deleteAdminUser(userId) {
+    if (!confirm('Are you sure you want to remove this identity from the healthcare consortium?')) return;
+
+    try {
+        const res = await fetch(`/api/admin/users/${encodeURIComponent(userId)}`, {
+            method: 'DELETE',
+            headers: getAuthHeaders()
+        });
+        const data = await res.json();
+        if (data.success) {
+            alert('✓ Identity successfully removed.');
+            loadAdminUsers();
+        } else {
+            alert('Removal failed: ' + data.message);
+        }
+    } catch (e) {
+        alert('Error removing user: ' + e.message);
+    }
+}
+
+// ==========================================================================
+// 11. FORM LISTENERS INITIALIZATION
+// ==========================================================================
+function initFormListeners() {
+    // 1. Credentials Login Form
+    const credsForm = document.getElementById('credentialLoginForm');
+    if (credsForm) {
+        credsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmailInput').value;
+            const password = document.getElementById('loginPasswordInput').value;
+            loginWithCredentials(email, password);
+        });
+    }
+
+    // 2. Doctor Edit Report Form
+    const editForm = document.getElementById('editReportForm');
+    if (editForm) {
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const reportId = document.getElementById('editReportIdInput').value;
+            const notes = document.getElementById('editReportNotes').value;
+            const diagnosisStatus = document.getElementById('editDiagnosisStatus').value;
+            const prescription = document.getElementById('editReportPrescription').value;
+            const followUpDate = document.getElementById('editReportFollowUp').value;
+
+            try {
+                const res = await fetch(`/api/reports/${encodeURIComponent(reportId)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+                    body: JSON.stringify({ notes, diagnosisStatus, prescription, followUpDate })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    alert('✓ Clinical notes & diagnosis successfully updated by Attending Physician!');
+                    closeModal('editReportModal');
+                    loadReports();
+                    loadTimeline();
+                    loadAuditLogs();
+                } else {
+                    alert('Update failed: ' + data.message);
+                }
+            } catch (err) {
+                alert('Error updating report: ' + err.message);
+            }
+        });
+    }
+
+    // 3. Admin Create User Form
+    const adminUserForm = document.getElementById('adminCreateUserForm');
+    if (adminUserForm) {
+        adminUserForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const role = document.getElementById('newRoleSelect').value;
+            const name = document.getElementById('newNameInput').value;
+            const email = document.getElementById('newEmailInput').value;
+            const password = document.getElementById('newPasswordInput').value;
+
+            const payload = { role, name, email, password };
+
+            if (role === 'Doctor') {
+                payload.department = document.getElementById('newDoctorDept').value;
+                payload.hospital = document.getElementById('newDoctorHospital').value;
+                payload.doctorLicense = document.getElementById('newDoctorLicense').value;
+            } else if (role === 'Patient') {
+                payload.patientId = document.getElementById('newPatientId').value;
+                payload.age = document.getElementById('newPatientAge').value;
+                payload.gender = document.getElementById('newPatientGender').value;
+                payload.bloodGroup = document.getElementById('newPatientBlood').value;
+            } else if (role === 'Lab Staff') {
+                payload.designation = document.getElementById('newLabDesignation').value;
+                payload.laboratory = document.getElementById('newLabName').value;
+            }
+
+            try {
+                const res = await fetch('/api/admin/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    alert(`✓ SUCCESS: ${role} account created for ${name} (${email})!\nDefault password: ${password || 'password123'}`);
+                    adminUserForm.reset();
+                    updateRoleSpecificFields();
+                    loadAdminUsers();
+                } else {
+                    alert('Registration failed: ' + data.message);
+                }
+            } catch (err) {
+                alert('Error creating user: ' + err.message);
+            }
+        });
+    }
+
+    // 4. Share Form Listener
+    const shareForm = document.getElementById('shareLinkForm');
+    if (shareForm) {
+        shareForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const reportId = document.getElementById('shareReportId').value;
+            const durationMinutes = document.getElementById('shareDuration').value;
+            const recipientDoctor = document.getElementById('shareDoctor').value;
+
+            try {
+                const res = await fetch('/api/share/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+                    body: JSON.stringify({ reportId, durationMinutes, recipientDoctor })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    currentShareUrl = data.shareUrl;
+                    document.getElementById('generatedShareUrl').value = data.shareUrl;
+                    document.getElementById('openShareUrlBtn').href = data.shareUrl;
+                    document.getElementById('shareResultBox').style.display = 'block';
+                } else {
+                    alert('Share failed: ' + data.message);
+                }
+            } catch (e) {
+                alert('Error generating share link: ' + e.message);
+            }
+        });
+    }
+}
+
+// ==========================================================================
+// 12. BLOCKCHAIN EXPLORER & TAMPER SIMULATOR
+// ==========================================================================
 async function loadBlockchain() {
     const stream = document.getElementById('blockchainStream');
+    if (!stream) return;
     try {
         const res = await fetch('/api/blockchain/ledger', { headers: getAuthHeaders() });
         const data = await res.json();
@@ -547,7 +1059,7 @@ async function triggerTamperSimulation() {
             headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
             body: JSON.stringify({ blockIndex: 1, maliciousHash: '0000000000malicious_hacker_hash_tamper_attempt' })
         });
-        const data = await res.json();
+        await res.json();
         alert(`⚠️ TAMPER INJECTED: Block #1 has been modified.\n\nNow running chain verification to see detection:`);
         verifyChainIntegrity();
     } catch (e) {
@@ -567,11 +1079,12 @@ async function restoreChain() {
     }
 }
 
-// ==========================================
-// 8. AUDIT LOGS
-// ==========================================
+// ==========================================================================
+// 13. AUDIT LOGS
+// ==========================================================================
 async function loadAuditLogs() {
     const tbody = document.getElementById('auditLogsBody');
+    if (!tbody) return;
     try {
         const res = await fetch('/api/blockchain/audit-logs', { headers: getAuthHeaders() });
         const data = await res.json();
@@ -598,9 +1111,9 @@ async function loadAuditLogs() {
     }
 }
 
-// ==========================================
-// 9. MODALS & FEATURE POPUPS
-// ==========================================
+// ==========================================================================
+// 14. MODAL POPUPS & HANDLERS
+// ==========================================================================
 async function openReportModal(reportId) {
     const modal = document.getElementById('viewReportModal');
     const badge = document.getElementById('modalReportBadge');
@@ -609,10 +1122,25 @@ async function openReportModal(reportId) {
     const content = document.getElementById('modalReportContent');
     const hash = document.getElementById('modalReportHash');
     const downloadBtn = document.getElementById('modalDownloadBtn');
+    const editBtn = document.getElementById('modalDoctorEditBtn');
+    const remarksSection = document.getElementById('modalDoctorRemarksSection');
+    const remarksContent = document.getElementById('modalDoctorRemarksContent');
 
     badge.textContent = reportId;
     title.textContent = 'Decrypting report from AES storage...';
     content.textContent = 'Loading...';
+    remarksSection.style.display = 'none';
+
+    // Doctor edit button inside modal
+    if (currentUser && (currentUser.role === 'Doctor' || currentUser.role === 'Admin')) {
+        editBtn.style.display = 'inline-block';
+        editBtn.onclick = () => {
+            closeModal('viewReportModal');
+            openEditReportModal(reportId);
+        };
+    } else {
+        editBtn.style.display = 'none';
+    }
 
     modal.classList.add('active');
 
@@ -626,6 +1154,17 @@ async function openReportModal(reportId) {
             content.textContent = r.rawSnippet || 'Report decrypted successfully from off-chain storage.';
             hash.textContent = `SHA-256 Fingerprint: ${r.reportHash}`;
             downloadBtn.href = `/api/reports/${encodeURIComponent(reportId)}/download`;
+
+            if (r.doctorRemarks) {
+                remarksSection.style.display = 'block';
+                remarksContent.innerHTML = `
+                    <strong>Diagnosis Status:</strong> ${escapeHtml(r.doctorRemarks.status || 'Verified')}<br>
+                    <strong>Attending Physician:</strong> ${escapeHtml(r.doctorRemarks.doctorName || '')} (${escapeHtml(r.doctorRemarks.department || '')})<br>
+                    <strong>Doctor Notes:</strong> ${escapeHtml(r.notes || 'None recorded')}<br>
+                    ${r.prescription ? `<strong>Prescription:</strong> ${escapeHtml(r.prescription)}<br>` : ''}
+                    ${r.followUpDate ? `<strong>Follow-up Date:</strong> ${escapeHtml(r.followUpDate)}` : ''}
+                `;
+            }
         }
     } catch (e) {
         content.textContent = 'Error decrypting report: ' + e.message;
@@ -660,37 +1199,6 @@ function openShareModal(reportId, reportTitle) {
     document.getElementById('shareReportTitle').value = `${reportId} - ${reportTitle}`;
     document.getElementById('shareResultBox').style.display = 'none';
     modal.classList.add('active');
-}
-
-// Handle Share Form Submission
-const shareForm = document.getElementById('shareLinkForm');
-if (shareForm) {
-    shareForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const reportId = document.getElementById('shareReportId').value;
-        const durationMinutes = document.getElementById('shareDuration').value;
-        const recipientDoctor = document.getElementById('shareDoctor').value;
-
-        try {
-            const res = await fetch('/api/share/create', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-                body: JSON.stringify({ reportId, durationMinutes, recipientDoctor })
-            });
-
-            const data = await res.json();
-            if (data.success) {
-                currentShareUrl = data.shareUrl;
-                document.getElementById('generatedShareUrl').value = data.shareUrl;
-                document.getElementById('openShareUrlBtn').href = data.shareUrl;
-                document.getElementById('shareResultBox').style.display = 'block';
-            } else {
-                alert('Share failed: ' + data.message);
-            }
-        } catch (e) {
-            alert('Error generating share link: ' + e.message);
-        }
-    });
 }
 
 function copyVerificationUrl() {

@@ -60,8 +60,8 @@
 > *"Our third feature addresses searchable privacy. Using Tesseract.js OCR, our system extracts clinical terms like 'Blood Sugar' or 'Fracture' upon upload and stores tags in our database index. Attending doctors can search reports by clinical condition without needing to decrypt the raw files on the server."*
 
 ### Slide 11: Phase 2 Implementation Progress Matrix
-> *"As demonstrated in this matrix, while the college requirement for Phase 2 is a minimum of 50% implementation, our batch has completed over 75% of the system, including full off-chain AES encryption, SHA-256 duplicate detection, permissioned blockchain ledger, QR anti-forgery verification, time-expiring JWT links, chronological timelines, and OCR search."*
+> *"As demonstrated in this matrix, while the college requirement for Phase 2 is a minimum of 50% implementation, our batch has completed over 85% of the system. This includes our newly enforced Mandatory Login Gate, strict Role-Based Access Control (Lab upload only, Doctor clinical review editing, Patient personal download scoping, and Admin identity enrollment), full off-chain AES encryption, SHA-256 duplicate detection, permissioned blockchain ledger, QR anti-forgery verification, time-expiring JWT links, chronological timelines, and OCR search."*
 
 ### Slide 12 & 13: Transition to Live System Demonstration
-> *"We would now like to demonstrate our working software live to the panel."*
+> *"We would now like to demonstrate our working software live to the panel. We will show the Mandatory Login Gate first, walk through the role restrictions for Lab Staff, Doctors, and Patients, demonstrate live duplicate detection, and prove our tamper detection via QR code."*
 > *(Proceed to open the live portal and follow the steps in [EVALUATION_GUIDE.md](EVALUATION_GUIDE.md)).*

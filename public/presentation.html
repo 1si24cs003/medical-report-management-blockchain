@@ -623,6 +623,12 @@
                                 <td><span class="status-pill status-completed">Completed</span></td>
                             </tr>
                             <tr>
+                                <td><strong>Mandatory Login Gate & Strict RBAC</strong></td>
+                                <td>Phase 2</td>
+                                <td>Pre-login access lockout with role-based routing (Lab, Doctor, Patient, Admin)</td>
+                                <td><span class="status-pill status-completed">Completed</span></td>
+                            </tr>
+                            <tr>
                                 <td><strong>Off-Chain AES-256-CBC Encryption</strong></td>
                                 <td>Phase 2</td>
                                 <td>Safe off-chain storage separating data from blockchain anchor</td>
@@ -694,45 +700,43 @@
             <div class="slide-body">
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
                     <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(0, 229, 255, 0.25);">
-                        <h4 style="color: var(--pres-cyan); margin-bottom: 0.75rem;">Step 1: Upload & Duplicate Detection</h4>
+                        <h4 style="color: var(--pres-cyan); margin-bottom: 0.75rem;">Step 1: Mandatory Login Gate & RBAC</h4>
                         <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
-                            1. Switch to <strong>Lab Staff (Alex Smith)</strong> role.<br>
-                            2. Drag and drop a diagnostic report (e.g. Blood Sugar or X-Ray).<br>
-                            3. Show instant <strong>OCR extraction</strong> of keywords ("Blood Sugar", "Glucose").<br>
-                            4. Show off-chain <strong>AES-256 encryption</strong> & new block mined on Blockchain.<br>
-                            5. <em>Highlight:</em> Try uploading the same file again → System raises <strong>DUPLICATE DETECTED (HTTP 409)</strong>, directly demonstrating Objective 2!
+                            1. Open portal: access is locked behind <strong>Mandatory Login Gate</strong>.<br>
+                            2. <strong>Patient (John Doe):</strong> Upload and Edit blocked; only personal reports visible.<br>
+                            3. <strong>Doctor (Dr. Sarah):</strong> Reviews records & edits clinical notes/diagnoses live.<br>
+                            4. <strong>Admin:</strong> Enrolls new Doctors & Patients into consortium ledger.<br>
+                            5. <em>Highlight:</em> Zero unauthenticated access allowed (`HTTP 401 Unauthorized`).
                         </p>
                     </div>
 
                     <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.25);">
-                        <h4 style="color: var(--pres-green); margin-bottom: 0.75rem;">Step 2: QR Anti-Forgery Verification</h4>
+                        <h4 style="color: var(--pres-green); margin-bottom: 0.75rem;">Step 2: Upload & Duplicate Detection (Obj 2)</h4>
                         <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
-                            1. Click <strong>"Verify QR"</strong> on any report.<br>
-                            2. System shows <strong>MATCH (100% Authentic)</strong>.<br>
-                            3. Click the <strong>"Simulate File Tampering"</strong> button to flip bits in the off-chain file.<br>
-                            4. Re-run verification → Instantly turns to <strong>MISMATCH (TAMPERED)</strong> with red security alert!<br>
-                            5. Proves to panel how blockchain anchors detect data tampering without exposing patient data.
+                            1. Switch to <strong>Lab Staff (Alex Smith)</strong> role (only role authorized to upload).<br>
+                            2. Shows off-chain <strong>AES-256 encryption</strong> & SHA-256 blockchain block mining.<br>
+                            3. Test duplicate button → System rejects with <strong>HTTP 409 CONFLICT</strong>.<br>
+                            4. Directly proves Objective 2 cryptographic deduplication on ledger!
                         </p>
                     </div>
 
                     <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(245, 158, 11, 0.25);">
-                        <h4 style="color: var(--pres-amber); margin-bottom: 0.75rem;">Step 3: Time-Expiring Secure Link</h4>
+                        <h4 style="color: var(--pres-amber); margin-bottom: 0.75rem;">Step 3: QR Anti-Forgery Verification</h4>
                         <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
-                            1. Switch to <strong>Patient (John Doe)</strong> role.<br>
-                            2. Click <strong>"Share with Doctor"</strong> and pick 2-minute demo expiry.<br>
-                            3. Open the generated secure link in browser.<br>
-                            4. Demonstrates live animated countdown clock & decrypted access.<br>
-                            5. Once expired, access is blocked with <strong>403 Token Expired</strong>.
+                            1. Click <strong>"Verify QR"</strong> on any report → Shows <strong>MATCH (Authentic)</strong>.<br>
+                            2. Click <strong>"Simulate File Tampering"</strong> to flip bytes in the off-chain file.<br>
+                            3. Re-run verification → Instantly turns to <strong>MISMATCH (TAMPERED)</strong>!<br>
+                            4. Demonstrates tamper-evident security without exposing patient data.
                         </p>
                     </div>
 
                     <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(99, 102, 241, 0.25);">
-                        <h4 style="color: #a5b4fc; margin-bottom: 0.75rem;">Step 4: Chronological History Timeline</h4>
+                        <h4 style="color: #a5b4fc; margin-bottom: 0.75rem;">Step 4: Expiring Links & History Timeline</h4>
                         <p style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
-                            1. Switch to <strong>Doctor (Dr. Sarah Rao)</strong> role.<br>
-                            2. Open <strong>"Chronological Timeline"</strong> for patient John Doe.<br>
-                            3. Demonstrates sequential progression of diagnostic tests over time.<br>
-                            4. Direct proof of <strong>Objective 1</strong>: prevents ordering repetitive tests.
+                            1. Generate 2-minute <strong>Time-Expiring Link</strong> with live countdown timer.<br>
+                            2. Show automatic token revocation (`HTTP 403`) upon timer expiry.<br>
+                            3. Inspect <strong>Chronological Timeline (Obj 1 & 3)</strong> across patient visits.<br>
+                            4. Proves reduction of repeated scans and tests across hospitals.
                         </p>
                     </div>
                 </div>

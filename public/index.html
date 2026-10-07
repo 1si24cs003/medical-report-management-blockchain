@@ -8,380 +8,739 @@
 </head>
 <body>
 
-    <!-- ==========================================
-         TOP HEADER & ROLE SWITCHER TOOLBAR
-         ========================================== -->
-    <header class="top-header">
-        <div class="header-container">
-            <a href="/" class="brand-wrapper">
-                <div class="brand-icon">🏥</div>
-                <div class="brand-text">
-                    <h1>HealthChain</h1>
-                    <p>Blockchain Medical Report Management & Distribution System</p>
+    <!-- ==========================================================================
+         MANDATORY LOGIN SCREEN (Role-Based Access Gate)
+         Visible by default whenever unauthenticated
+         ========================================================================== -->
+    <section id="loginScreen" class="login-screen-wrapper">
+        <div class="login-card">
+            <div class="login-brand-header">
+                <div class="login-brand-icon">🏥</div>
+                <h1 class="login-brand-title">HealthChain Consortium Portal</h1>
+                <p class="login-brand-subtitle">
+                    Medical Report Management & Distribution System on Blockchain • Role-Based Access Control (RBAC) Gate
+                </p>
+                <div style="margin-top: 0.75rem;">
+                    <span class="status-pill status-completed">🔒 Zero-Trust Security Gate • Authentication Required</span>
                 </div>
-            </a>
+            </div>
 
-            <div class="header-actions">
-                <!-- Role Switcher for Panel Evaluation -->
-                <div class="role-switcher-bar">
-                    <span class="role-switcher-label">Active Role:</span>
-                    <button class="role-btn active" data-user-id="usr_doc_01" onclick="switchUser('usr_doc_01')">
-                        👨‍⚕️ Dr. Sarah (Doctor)
-                    </button>
-                    <button class="role-btn" data-user-id="usr_lab_01" onclick="switchUser('usr_lab_01')">
-                        🔬 Alex (Lab Staff)
-                    </button>
-                    <button class="role-btn" data-user-id="usr_pat_01" onclick="switchUser('usr_pat_01')">
-                        👤 John Doe (Patient)
-                    </button>
-                    <button class="role-btn" data-user-id="usr_adm_01" onclick="switchUser('usr_adm_01')">
-                        🛡️ Admin
-                    </button>
+            <!-- Mode Selector Tabs -->
+            <div class="login-mode-tabs">
+                <button type="button" class="login-mode-tab active" id="tabQuickLogin" onclick="switchLoginMode('quick')">
+                    ⚡ One-Click Role Access (Evaluation Demo)
+                </button>
+                <button type="button" class="login-mode-tab" id="tabCredsLogin" onclick="switchLoginMode('creds')">
+                    🔑 Standard Credentials Sign-In
+                </button>
+            </div>
+
+            <!-- Mode 1: Quick Role Login Cards -->
+            <div id="quickLoginView">
+                <div class="role-cards-grid">
+                    <!-- Doctor Card -->
+                    <div class="role-card-select" onclick="loginAsRole('usr_doc_01')">
+                        <div>
+                            <div class="role-card-header">
+                                <span class="role-card-avatar">👨‍⚕️</span>
+                                <div>
+                                    <span class="role-card-tag tag-doctor">Doctor Portal</span>
+                                    <div class="role-card-title">Dr. Sarah Rao</div>
+                                </div>
+                            </div>
+                            <div class="role-card-desc">
+                                Cardiology & General Medicine • Metro Apex Hospital
+                            </div>
+                        </div>
+                        <div>
+                            <div class="role-card-perms">
+                                <strong>Permissions:</strong> View all records, Review & Edit clinical notes/diagnoses, Issue share links.
+                            </div>
+                            <button type="button" class="btn-login-select">Sign In as Doctor →</button>
+                        </div>
+                    </div>
+
+                    <!-- Lab Staff Card -->
+                    <div class="role-card-select" onclick="loginAsRole('usr_lab_01')">
+                        <div>
+                            <div class="role-card-header">
+                                <span class="role-card-avatar">🔬</span>
+                                <div>
+                                    <span class="role-card-tag tag-lab">Lab Staff Portal</span>
+                                    <div class="role-card-title">Alex Smith</div>
+                                </div>
+                            </div>
+                            <div class="role-card-desc">
+                                Senior Technologist • Pathology Diagnostics Lab
+                            </div>
+                        </div>
+                        <div>
+                            <div class="role-card-perms">
+                                <strong>Permissions:</strong> Upload & anchor diagnostic test data, SHA-256 duplicate prevention. <em>(Cannot edit reports)</em>.
+                            </div>
+                            <button type="button" class="btn-login-select">Sign In as Lab Staff →</button>
+                        </div>
+                    </div>
+
+                    <!-- Patient Card -->
+                    <div class="role-card-select" onclick="loginAsRole('usr_pat_01')">
+                        <div>
+                            <div class="role-card-header">
+                                <span class="role-card-avatar">👤</span>
+                                <div>
+                                    <span class="role-card-tag tag-patient">Patient Portal</span>
+                                    <div class="role-card-title">John Doe (PT-9901)</div>
+                                </div>
+                            </div>
+                            <div class="role-card-desc">
+                                Patient Record • Age: 48 • Blood Group: O+
+                            </div>
+                        </div>
+                        <div>
+                            <div class="role-card-perms">
+                                <strong>Permissions:</strong> View own records & timeline, Download decrypted files, Anti-forgery QR. <em>(Cannot edit or upload)</em>.
+                            </div>
+                            <button type="button" class="btn-login-select">Sign In as Patient →</button>
+                        </div>
+                    </div>
+
+                    <!-- Admin Card -->
+                    <div class="role-card-select" onclick="loginAsRole('usr_adm_01')">
+                        <div>
+                            <div class="role-card-header">
+                                <span class="role-card-avatar">🛡️</span>
+                                <div>
+                                    <span class="role-card-tag tag-admin">Consortium Admin</span>
+                                    <div class="role-card-title">SuperAdmin</div>
+                                </div>
+                            </div>
+                            <div class="role-card-desc">
+                                Healthcare Consortium Blockchain Authority
+                            </div>
+                        </div>
+                        <div>
+                            <div class="role-card-perms">
+                                <strong>Permissions:</strong> Register Doctors & Patients, Manage consortium users, Blockchain Ledger Explorer.
+                            </div>
+                            <button type="button" class="btn-login-select">Sign In as Admin →</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <a href="/presentation.html" class="btn btn-presentation">
-                    📊 Phase 2 Presentation Deck
+            <!-- Mode 2: Standard Credentials Form -->
+            <div id="credsLoginView" style="display: none;">
+                <div class="login-form-box">
+                    <form id="credentialLoginForm">
+                        <div class="form-group">
+                            <label class="form-label">Email or Identity ID</label>
+                            <input type="text" id="loginEmailInput" class="form-control" placeholder="e.g. dr.sarah@hospital.org or alex.lab@pathology.org" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" id="loginPasswordInput" class="form-control" placeholder="Default demo password: password123" value="password123" required>
+                            <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 4px;">Default consortium demo password: <code>password123</code></p>
+                        </div>
+                        <button type="submit" id="loginSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 0.5rem;">
+                            🚀 Authenticate & Enter Consortium Portal
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Role Access & Security Matrix -->
+            <div class="role-permission-matrix">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase;">
+                        🛡️ Role-Based Access Control (RBAC) Specification
+                    </span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">Consortium Node Security Policy</span>
+                </div>
+                <div class="matrix-grid">
+                    <div class="matrix-item">
+                        <strong>🔬 Lab Staff:</strong>
+                        Authorized solely to upload diagnostic data and run duplicate checks. Cannot edit doctor clinical observations.
+                    </div>
+                    <div class="matrix-item">
+                        <strong>👨‍⚕️ Doctor:</strong>
+                        Authorized to inspect records, view history, and edit/add clinical notes & diagnoses.
+                    </div>
+                    <div class="matrix-item">
+                        <strong>👤 Patient:</strong>
+                        Strictly scoped to own records; can view & download decrypted data. Cannot edit or upload.
+                    </div>
+                    <div class="matrix-item">
+                        <strong>🛡️ SuperAdmin:</strong>
+                        Can enroll new doctors and patients into the consortium ledger and inspect system audits.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         MAIN SECURE APPLICATION (Revealed after successful authentication)
+         ========================================================================== -->
+    <div id="appScreen" style="display: none;">
+
+        <!-- TOP HEADER -->
+        <header class="top-header">
+            <div class="header-container">
+                <a href="/" class="brand-wrapper">
+                    <div class="brand-icon">🏥</div>
+                    <div class="brand-text">
+                        <h1>HealthChain</h1>
+                        <p>Blockchain Medical Report Management & Distribution System</p>
+                    </div>
                 </a>
-            </div>
-        </div>
-    </header>
 
-    <!-- ==========================================
-         NAVIGATION TABS
-         ========================================== -->
-    <nav class="nav-tabs-wrapper">
-        <div class="nav-tabs">
-            <button class="nav-tab active" data-target="recordsTab">
-                📋 Medical Records & Search <span id="recordsCountBadge" class="badge">4</span>
-            </button>
-            <button class="nav-tab" data-target="timelineTab">
-                ⏳ Chronological Medical Timeline (Obj 1 & 3)
-            </button>
-            <button class="nav-tab" data-target="uploadTab">
-                📤 Upload & Anchor Report (Lab / Staff)
-            </button>
-            <button class="nav-tab" data-target="blockchainTab">
-                ⛓️ Permissioned Blockchain Explorer
-            </button>
-            <button class="nav-tab" data-target="auditTab">
-                📜 Audit Logs
-            </button>
-        </div>
-    </nav>
-
-    <!-- ==========================================
-         MAIN CONTENT CONTAINER
-         ========================================== -->
-    <main class="main-content">
-
-        <!-- User Identity Banner -->
-        <section class="status-banner">
-            <div class="user-identity-badge">
-                <div id="userAvatar" class="user-avatar">👨‍⚕️</div>
-                <div class="user-info">
-                    <h2 id="userNameDisplay">Dr. Sarah Rao</h2>
-                    <p id="userRoleDisplay">Department of Cardiology • Metro Apex Hospital</p>
-                </div>
-            </div>
-
-            <div class="metrics-strip">
-                <div class="metric-item">
-                    <div id="metricReports" class="metric-value">0</div>
-                    <div class="metric-label">Anchored Reports</div>
-                </div>
-                <div class="metric-item">
-                    <div id="metricBlocks" class="metric-value">0</div>
-                    <div class="metric-label">Ledger Blocks</div>
-                </div>
-                <div class="metric-item">
-                    <div id="metricDuplicates" class="metric-value">0</div>
-                    <div class="metric-label">Duplicates Prevented</div>
-                </div>
-                <div class="metric-item">
-                    <div id="metricChainStatus" class="metric-value" style="color: var(--accent-success);">VALID</div>
-                    <div class="metric-label">Blockchain Integrity</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==========================================
-             TAB 1: MEDICAL RECORDS & SEARCH
-             ========================================== -->
-        <div id="recordsTab" class="tab-pane active">
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <h3 class="card-title">Diagnostic Reports Archive</h3>
-                        <p class="card-subtitle">Searchable via Smart OCR Keyword Indexing without exposing raw files (Feature 7.3)</p>
-                    </div>
-                    <button class="btn btn-secondary" onclick="loadReports()">🔄 Refresh</button>
-                </div>
-
-                <!-- Smart Search Bar -->
-                <div class="search-box-wrapper">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="reportSearchInput" class="search-input" placeholder="Search by clinical keywords (e.g. 'Blood Sugar', 'Fracture', 'Hemoglobin', 'Spine')...">
-                </div>
-
-                <!-- Quick Filter Tags -->
-                <div class="quick-filter-tags">
-                    <span class="filter-tag-label">Quick OCR Filters:</span>
-                    <button class="filter-tag-chip active" onclick="filterByTag('')">All Records</button>
-                    <button class="filter-tag-chip" onclick="filterByTag('Blood Sugar')">Blood Sugar / Glucose</button>
-                    <button class="filter-tag-chip" onclick="filterByTag('Fracture')">Fracture / Orthopedic</button>
-                    <button class="filter-tag-chip" onclick="filterByTag('Hemoglobin')">Hemoglobin / CBC</button>
-                    <button class="filter-tag-chip" onclick="filterByTag('Cholesterol')">Lipid Profile</button>
-                </div>
-
-                <!-- Reports Grid -->
-                <div id="reportsGrid" class="reports-grid" style="margin-top: 1.5rem;">
-                    <!-- Dynamically populated -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ==========================================
-             TAB 2: CHRONOLOGICAL MEDICAL TIMELINE (Obj 1 & 3)
-             ========================================== -->
-        <div id="timelineTab" class="tab-pane">
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <h3 class="card-title">Patient Diagnostic History Timeline</h3>
-                        <p class="card-subtitle">Chronological progression of tests to prevent repeated scans & fragmented care (Objectives 1 & 3)</p>
+                <div class="header-actions">
+                    <!-- Active User Identity Chip -->
+                    <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); padding: 5px 12px; border-radius: var(--radius-full);">
+                        <span id="headerUserAvatar" style="font-size: 1.1rem;">👨‍⚕️</span>
+                        <div style="line-height: 1.2;">
+                            <div id="headerUserName" style="font-size: 0.82rem; font-weight: 700; color: var(--text-primary);">Dr. Sarah Rao</div>
+                            <div id="headerUserRoleBadge" style="font-size: 0.68rem; color: var(--accent-cyan);">DOCTOR</div>
+                        </div>
                     </div>
 
-                    <div style="display: flex; gap: 0.75rem; align-items: center;">
-                        <label style="font-size: 0.82rem; color: var(--text-secondary);">Select Patient:</label>
-                        <select id="timelinePatientSelect" class="form-control" style="width: auto; padding: 6px 12px;" onchange="loadTimeline()">
-                            <option value="usr_pat_01">John Doe (PT-9901)</option>
-                            <option value="usr_pat_02">Meera Patel (PT-9902)</option>
-                        </select>
+                    <!-- Role Switcher for Panel Evaluation -->
+                    <div class="role-switcher-bar">
+                        <span class="role-switcher-label">Switch Role:</span>
+                        <button class="role-btn" data-user-id="usr_doc_01" onclick="switchUserRole('usr_doc_01')">
+                            👨‍⚕️ Doctor
+                        </button>
+                        <button class="role-btn" data-user-id="usr_lab_01" onclick="switchUserRole('usr_lab_01')">
+                            🔬 Lab
+                        </button>
+                        <button class="role-btn" data-user-id="usr_pat_01" onclick="switchUserRole('usr_pat_01')">
+                            👤 Patient
+                        </button>
+                        <button class="role-btn" data-user-id="usr_adm_01" onclick="switchUserRole('usr_adm_01')">
+                            🛡️ Admin
+                        </button>
+                    </div>
+
+                    <a href="/presentation.html" class="btn btn-presentation">
+                        📊 Presentation Deck
+                    </a>
+
+                    <!-- Logout Button -->
+                    <button type="button" class="btn-logout" onclick="logout()">
+                        🚪 Sign Out
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="nav-tabs-wrapper">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-target="recordsTab" id="tabNavRecords">
+                    📋 Medical Records & Search <span id="recordsCountBadge" class="badge">4</span>
+                </button>
+                <button class="nav-tab" data-target="timelineTab" id="tabNavTimeline">
+                    ⏳ Chronological Medical Timeline (Obj 1 & 3)
+                </button>
+                <button class="nav-tab" data-target="uploadTab" id="tabNavUpload">
+                    📤 Upload & Anchor Report (Lab Staff)
+                </button>
+                <button class="nav-tab" data-target="adminTab" id="tabNavAdmin" style="display: none;">
+                    👥 Consortium User Management (Admin)
+                </button>
+                <button class="nav-tab" data-target="blockchainTab" id="tabNavBlockchain">
+                    ⛓️ Permissioned Blockchain Explorer
+                </button>
+                <button class="nav-tab" data-target="auditTab" id="tabNavAudit">
+                    📜 Audit Logs
+                </button>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT CONTAINER -->
+        <main class="main-content">
+
+            <!-- User Identity Banner -->
+            <section class="status-banner">
+                <div class="user-identity-badge">
+                    <div id="userAvatar" class="user-avatar">👨‍⚕️</div>
+                    <div class="user-info">
+                        <h2 id="userNameDisplay">Dr. Sarah Rao</h2>
+                        <p id="userRoleDisplay">Department of Cardiology • Metro Apex Hospital</p>
                     </div>
                 </div>
 
-                <div class="alert-box alert-info" style="margin-bottom: 1.5rem;">
-                    <span>💡</span>
-                    <div>
-                        <strong>Clinical Benefit:</strong> By organizing a patient's historical reports chronologically with instant retrieval, attending physicians can review previous investigations before ordering new ones, directly fulfilling <strong>Objective 1: Reduce Repeated Diagnostic Tests</strong>.
+                <div class="metrics-strip">
+                    <div class="metric-item">
+                        <div id="metricReports" class="metric-value">0</div>
+                        <div class="metric-label">Anchored Reports</div>
+                    </div>
+                    <div class="metric-item">
+                        <div id="metricBlocks" class="metric-value">0</div>
+                        <div class="metric-label">Ledger Blocks</div>
+                    </div>
+                    <div class="metric-item">
+                        <div id="metricDuplicates" class="metric-value">0</div>
+                        <div class="metric-label">Duplicates Prevented</div>
+                    </div>
+                    <div class="metric-item">
+                        <div id="metricChainStatus" class="metric-value" style="color: var(--accent-success);">VALID</div>
+                        <div class="metric-label">Blockchain Integrity</div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Timeline Entries -->
-                <div class="timeline-container">
-                    <div class="timeline-line"></div>
-                    <div id="timelineEntries">
+            <!-- ==========================================
+                 TAB 1: MEDICAL RECORDS & SEARCH
+                 ========================================== -->
+            <div id="recordsTab" class="tab-pane active">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Diagnostic Reports Archive</h3>
+                            <p class="card-subtitle">Searchable via Smart OCR Keyword Indexing without exposing raw files (Feature 7.3)</p>
+                        </div>
+                        <button class="btn btn-secondary" onclick="loadReports()">🔄 Refresh</button>
+                    </div>
+
+                    <!-- Notice if Patient -->
+                    <div id="patientScopedNotice" class="alert-box alert-info" style="display: none;">
+                        <span>👤</span>
+                        <div>
+                            <strong>Patient Scoped Access:</strong> You are viewing only diagnostic records issued to your patient identity. You can view, verify anti-forgery QR codes, and download decrypted reports. Editing is restricted to licensed physicians.
+                        </div>
+                    </div>
+
+                    <!-- Smart Search Bar -->
+                    <div class="search-box-wrapper">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="reportSearchInput" class="search-input" placeholder="Search by clinical keywords (e.g. 'Blood Sugar', 'Fracture', 'Hemoglobin', 'Spine')...">
+                    </div>
+
+                    <!-- Quick Filter Tags -->
+                    <div class="quick-filter-tags">
+                        <span class="filter-tag-label">Quick OCR Filters:</span>
+                        <button class="filter-tag-chip active" onclick="filterByTag('')">All Records</button>
+                        <button class="filter-tag-chip" onclick="filterByTag('Blood Sugar')">Blood Sugar / Glucose</button>
+                        <button class="filter-tag-chip" onclick="filterByTag('Fracture')">Fracture / Orthopedic</button>
+                        <button class="filter-tag-chip" onclick="filterByTag('Hemoglobin')">Hemoglobin / CBC</button>
+                        <button class="filter-tag-chip" onclick="filterByTag('Cholesterol')">Lipid Profile</button>
+                    </div>
+
+                    <!-- Reports Grid -->
+                    <div id="reportsGrid" class="reports-grid" style="margin-top: 1.5rem;">
                         <!-- Dynamically populated -->
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ==========================================
-             TAB 3: UPLOAD & ANCHOR (With Duplicate Detection)
-             ========================================== -->
-        <div id="uploadTab" class="tab-pane">
-            <div class="upload-grid">
-                <!-- Left: Form -->
+            <!-- ==========================================
+                 TAB 2: CHRONOLOGICAL MEDICAL TIMELINE (Obj 1 & 3)
+                 ========================================== -->
+            <div id="timelineTab" class="tab-pane">
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <h3 class="card-title">Upload & Anchor Diagnostic Report</h3>
-                            <p class="card-subtitle">Off-chain AES encryption + SHA-256 duplicate check + blockchain anchoring</p>
+                            <h3 class="card-title">Patient Diagnostic History Timeline</h3>
+                            <p class="card-subtitle">Chronological progression of tests to prevent repeated scans & fragmented care (Objectives 1 & 3)</p>
+                        </div>
+
+                        <div id="timelinePatientSelectorWrapper" style="display: flex; gap: 0.75rem; align-items: center;">
+                            <label style="font-size: 0.82rem; color: var(--text-secondary);">Select Patient:</label>
+                            <select id="timelinePatientSelect" class="form-control" style="width: auto; padding: 6px 12px;" onchange="loadTimeline()">
+                                <option value="usr_pat_01">John Doe (PT-9901)</option>
+                                <option value="usr_pat_02">Meera Patel (PT-9902)</option>
+                            </select>
                         </div>
                     </div>
 
-                    <form id="uploadForm">
-                        <div class="form-group">
-                            <label class="form-label">Patient</label>
-                            <select id="uploadPatient" class="form-control" required>
-                                <option value="usr_pat_01">John Doe (PT-9901, Age: 48, Male)</option>
-                                <option value="usr_pat_02">Meera Patel (PT-9902, Age: 34, Female)</option>
-                            </select>
+                    <div class="alert-box alert-info" style="margin-bottom: 1.5rem;">
+                        <span>💡</span>
+                        <div>
+                            <strong>Clinical Benefit:</strong> By organizing a patient's historical reports chronologically with instant retrieval, attending physicians can review previous investigations before ordering new ones, directly fulfilling <strong>Objective 1: Reduce Repeated Diagnostic Tests</strong>.
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Report Title</label>
-                            <input type="text" id="uploadTitle" class="form-control" placeholder="e.g. Glycemic Evaluation / Knee X-Ray" required>
+                    <!-- Timeline Entries -->
+                    <div class="timeline-container">
+                        <div class="timeline-line"></div>
+                        <div id="timelineEntries">
+                            <!-- Dynamically populated -->
                         </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div class="form-group">
-                                <label class="form-label">Report Category</label>
-                                <select id="uploadType" class="form-control">
-                                    <option value="Pathology / Biochemistry">Pathology / Biochemistry</option>
-                                    <option value="Radiology / Imaging">Radiology / Imaging</option>
-                                    <option value="Hematology">Hematology</option>
-                                    <option value="Cardiovascular">Cardiovascular</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Test Date</label>
-                                <input type="date" id="uploadDate" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Clinical Notes / Diagnosis</label>
-                            <textarea id="uploadNotes" class="form-control" rows="2" placeholder="Clinical findings or diagnostic observations..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Consortium Authorizing Node</label>
-                            <select id="uploadNode" class="form-control">
-                                <option value="NODE-HOSP-01">Metro Apex Hospital Node</option>
-                                <option value="NODE-LAB-01">Pathology Diagnostics Lab Node</option>
-                                <option value="NODE-CLINIC-01">City Care Clinic Node</option>
-                            </select>
-                        </div>
-
-                        <!-- Dropzone -->
-                        <div class="form-group">
-                            <label class="form-label">Select Medical Report File (PDF / Image / TXT)</label>
-                            <div id="dropZone" class="drop-zone">
-                                <div class="drop-icon">📄</div>
-                                <h4 id="dropFileName" style="font-size: 0.95rem; margin-bottom: 4px;">Drag & Drop or Click to Select</h4>
-                                <p style="font-size: 0.78rem; color: var(--text-muted);">PDF, PNG, JPG, or TXT up to 25MB</p>
-                                <input type="file" id="fileInput" style="display: none;" accept=".pdf,.png,.jpg,.jpeg,.txt">
-                            </div>
-                        </div>
-
-                        <button type="submit" id="submitUploadBtn" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem;">
-                            🔒 Encrypt, Detect Duplicates & Anchor on Blockchain
-                        </button>
-                    </form>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Right: Duplicate Detection Demonstration -->
-                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
+            <!-- ==========================================
+                 TAB 3: UPLOAD & ANCHOR (Lab Staff Only)
+                 ========================================== -->
+            <div id="uploadTab" class="tab-pane">
+                <div class="upload-grid">
+                    <!-- Left: Form -->
+                    <div class="card">
                         <div class="card-header">
                             <div>
-                                <h3 class="card-title">Objective 2: Duplicate Detection Engine</h3>
-                                <p class="card-subtitle">Cryptographic SHA-256 fingerprint comparison prior to blockchain recording</p>
+                                <h3 class="card-title">Upload & Anchor Diagnostic Report</h3>
+                                <p class="card-subtitle">Restricted to Lab Staff • Off-chain AES encryption + SHA-256 duplicate check + blockchain anchoring</p>
                             </div>
                         </div>
 
-                        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
-                            When an authorized staff member attempts to upload a medical report, the backend computes its SHA-256 hash. If this hash already matches an existing block on the blockchain, the upload is rejected with <strong>HTTP 409 Conflict</strong>. This prevents redundant storage and guarantees a single verified reference for each diagnostic document.
-                        </p>
-
-                        <div class="alert-box alert-info">
-                            <span>🧪</span>
+                        <div id="uploadRestrictedNotice" class="alert-box alert-danger" style="display: none;">
+                            <span>⚠️</span>
                             <div>
-                                <strong>Try the Live Demo for Panel:</strong> Click the button below to simulate uploading an identical report that already exists on the ledger. Watch the duplicate prevention engine block it in real time!
+                                <strong>Role Restriction Enforced:</strong> Only authorized <strong>Lab Staff</strong> can upload and anchor diagnostic reports to the consortium ledger. Please sign in as Lab Staff (Alex Smith) to upload.
+                            </div>
+                        </div>
+
+                        <form id="uploadForm">
+                            <div class="form-group">
+                                <label class="form-label">Patient</label>
+                                <select id="uploadPatient" class="form-control" required>
+                                    <option value="usr_pat_01">John Doe (PT-9901, Age: 48, Male)</option>
+                                    <option value="usr_pat_02">Meera Patel (PT-9902, Age: 34, Female)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Report Title</label>
+                                <input type="text" id="uploadTitle" class="form-control" placeholder="e.g. Glycemic Evaluation / Knee X-Ray" required>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Report Category</label>
+                                    <select id="uploadType" class="form-control">
+                                        <option value="Pathology / Biochemistry">Pathology / Biochemistry</option>
+                                        <option value="Radiology / Imaging">Radiology / Imaging</option>
+                                        <option value="Hematology">Hematology</option>
+                                        <option value="Cardiovascular">Cardiovascular</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Test Date</label>
+                                    <input type="date" id="uploadDate" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Lab Technologist Observations</label>
+                                <textarea id="uploadNotes" class="form-control" rows="2" placeholder="Lab test notes or technologist observations..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Consortium Authorizing Node</label>
+                                <select id="uploadNode" class="form-control">
+                                    <option value="NODE-LAB-01">Pathology Diagnostics Lab Node</option>
+                                    <option value="NODE-HOSP-01">Metro Apex Hospital Node</option>
+                                    <option value="NODE-CLINIC-01">City Care Clinic Node</option>
+                                </select>
+                            </div>
+
+                            <!-- Dropzone -->
+                            <div class="form-group">
+                                <label class="form-label">Select Medical Report File (PDF / Image / TXT)</label>
+                                <div id="dropZone" class="drop-zone">
+                                    <div class="drop-icon">📄</div>
+                                    <h4 id="dropFileName" style="font-size: 0.95rem; margin-bottom: 4px;">Drag & Drop or Click to Select</h4>
+                                    <p style="font-size: 0.78rem; color: var(--text-muted);">PDF, PNG, JPG, or TXT up to 25MB</p>
+                                    <input type="file" id="fileInput" style="display: none;" accept=".pdf,.png,.jpg,.jpeg,.txt">
+                                </div>
+                            </div>
+
+                            <button type="submit" id="submitUploadBtn" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem;">
+                                🔒 Encrypt, Detect Duplicates & Anchor on Blockchain
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Duplicate Detection Demonstration -->
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div class="card-header">
+                                <div>
+                                    <h3 class="card-title">Objective 2: Duplicate Detection Engine</h3>
+                                    <p class="card-subtitle">Cryptographic SHA-256 fingerprint comparison prior to blockchain recording</p>
+                                </div>
+                            </div>
+
+                            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                                When an authorized staff member attempts to upload a medical report, the backend computes its SHA-256 hash. If this hash already matches an existing block on the blockchain, the upload is rejected with <strong>HTTP 409 Conflict</strong>. This prevents redundant storage and guarantees a single verified reference for each diagnostic document.
+                            </p>
+
+                            <div class="alert-box alert-info">
+                                <span>🧪</span>
+                                <div>
+                                    <strong>Try the Live Demo for Panel:</strong> Click the button below to simulate uploading an identical report that already exists on the ledger. Watch the duplicate prevention engine block it in real time!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-top: 1rem;">
+                            <h4 style="font-size: 0.9rem; color: var(--accent-cyan); margin-bottom: 0.5rem;">Panel Demonstration Trigger:</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+                                Simulate uploading an exact duplicate of John Doe's Fasting Glucose Report.
+                            </p>
+                            <button class="btn btn-secondary" style="width: 100%; border-color: var(--accent-warning); color: var(--accent-warning);" onclick="simulateDuplicateUpload()">
+                                ⚠️ Test Duplicate Upload Rejection (Obj 2 Demo)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 TAB 4: ADMIN USER MANAGEMENT (Admin Only)
+                 ========================================== -->
+            <div id="adminTab" class="tab-pane">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Healthcare Consortium Identity Management</h3>
+                            <p class="card-subtitle">Register and authorize new Doctors, Patients, and Lab Technicians with blockchain node enrollment</p>
+                        </div>
+                        <button class="btn btn-secondary" onclick="loadAdminUsers()">🔄 Refresh Directory</button>
+                    </div>
+
+                    <!-- Identity Statistics -->
+                    <div class="admin-stats-grid">
+                        <div class="admin-stat-card">
+                            <div id="statTotalUsers" class="admin-stat-val">0</div>
+                            <div class="admin-stat-lbl">Enrolled Identities</div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <div id="statTotalDoctors" class="admin-stat-val" style="color: #60a5fa;">0</div>
+                            <div class="admin-stat-lbl">Registered Doctors</div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <div id="statTotalPatients" class="admin-stat-val" style="color: #fbbf24;">0</div>
+                            <div class="admin-stat-lbl">Enrolled Patients</div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <div id="statTotalLabStaff" class="admin-stat-val" style="color: #2dd4bf;">0</div>
+                            <div class="admin-stat-lbl">Lab Technologists</div>
+                        </div>
+                    </div>
+
+                    <!-- Register New User Section -->
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem;">
+                        <h4 style="font-size: 1.05rem; color: var(--accent-cyan); margin-bottom: 0.35rem;">
+                            ➕ Enroll New Healthcare Identity (Doctor / Patient / Lab)
+                        </h4>
+                        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                            Provide role credentials. The identity will be anchored with cryptographic login addresses and assigned consortium permissions.
+                        </p>
+
+                        <form id="adminCreateUserForm">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Role Classification *</label>
+                                    <select id="newRoleSelect" class="form-control" onchange="updateRoleSpecificFields()" required>
+                                        <option value="Doctor">👨‍⚕️ Doctor (Medical Specialist)</option>
+                                        <option value="Patient">👤 Patient (Healthcare Consumer)</option>
+                                        <option value="Lab Staff">🔬 Lab Staff (Pathology / Diagnostic)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Full Name *</label>
+                                    <input type="text" id="newNameInput" class="form-control" placeholder="e.g. Dr. Priya Sharma / Rakesh Kumar" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email Address (Login ID) *</label>
+                                    <input type="email" id="newEmailInput" class="form-control" placeholder="e.g. dr.priya@hospital.org" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Account Password</label>
+                                    <input type="password" id="newPasswordInput" class="form-control" placeholder="Default: password123" value="password123">
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Doctor Fields -->
+                            <div id="doctorFieldsGroup" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Clinical Department</label>
+                                    <input type="text" id="newDoctorDept" class="form-control" placeholder="e.g. Neurology / Pediatrics">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Hospital Affiliation</label>
+                                    <input type="text" id="newDoctorHospital" class="form-control" placeholder="e.g. Metro Apex Hospital">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Medical Council License</label>
+                                    <input type="text" id="newDoctorLicense" class="form-control" placeholder="e.g. MC-2026-8819">
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Patient Fields -->
+                            <div id="patientFieldsGroup" style="display: none; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Patient ID (Pseudonym)</label>
+                                    <input type="text" id="newPatientId" class="form-control" placeholder="e.g. PT-9903 (Auto if empty)">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Age</label>
+                                    <input type="number" id="newPatientAge" class="form-control" placeholder="e.g. 35" min="1" max="120">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Gender</label>
+                                    <select id="newPatientGender" class="form-control">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Blood Group</label>
+                                    <select id="newPatientBlood" class="form-control">
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Lab Staff Fields -->
+                            <div id="labFieldsGroup" style="display: none; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Staff Designation</label>
+                                    <input type="text" id="newLabDesignation" class="form-control" placeholder="e.g. Molecular Diagnostics Specialist">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Diagnostic Laboratory</label>
+                                    <input type="text" id="newLabName" class="form-control" placeholder="e.g. Pathology Diagnostics Lab">
+                                </div>
+                            </div>
+
+                            <button type="submit" id="btnEnrollUser" class="btn btn-primary" style="padding: 10px 24px;">
+                                🛡️ Enroll Healthcare Identity into Consortium
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Consortium User Directory Table -->
+                    <h4 style="font-size: 1rem; color: var(--text-primary); margin-bottom: 0.75rem;">
+                        📋 Enrolled Consortium Identities Directory
+                    </h4>
+                    <div class="lit-table-wrapper">
+                        <table class="lit-table">
+                            <thead>
+                                <tr>
+                                    <th>Identity</th>
+                                    <th>Role</th>
+                                    <th>Email / Login</th>
+                                    <th>Affiliation / Patient ID</th>
+                                    <th>License / Node</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminUsersTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 TAB 5: BLOCKCHAIN EXPLORER
+                 ========================================== -->
+            <div id="blockchainTab" class="tab-pane">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Consortium Blockchain Ledger Explorer</h3>
+                            <p class="card-subtitle">Permissioned distributed ledger with cryptographic SHA-256 block linking</p>
+                        </div>
+
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" onclick="verifyChainIntegrity()">🔍 Audit Chain Integrity</button>
+                            <button class="btn btn-tamper" onclick="triggerTamperSimulation()">⚠️ Simulate Block Tampering</button>
+                            <button class="btn btn-secondary" onclick="restoreChain()">🔄 Restore Valid Ledger</button>
+                        </div>
+                    </div>
+
+                    <!-- Consortium Node Strip -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="font-size: 1.5rem;">🏥</span>
+                            <div>
+                                <div style="font-size: 0.85rem; font-weight: 700;">Metro Apex Hospital</div>
+                                <div style="font-size: 0.72rem; color: #34d399;">● Online (Validator Node)</div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="font-size: 1.5rem;">🔬</span>
+                            <div>
+                                <div style="font-size: 0.85rem; font-weight: 700;">Pathology Diagnostic Lab</div>
+                                <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="font-size: 1.5rem;">🩺</span>
+                            <div>
+                                <div style="font-size: 0.85rem; font-weight: 700;">City Care Clinic</div>
+                                <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="font-size: 1.5rem;">💊</span>
+                            <div>
+                                <div style="font-size: 0.85rem; font-weight: 700;">CareFirst Pharmacy</div>
+                                <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
                             </div>
                         </div>
                     </div>
 
-                    <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-top: 1rem;">
-                        <h4 style="font-size: 0.9rem; color: var(--accent-cyan); margin-bottom: 0.5rem;">Panel Demonstration Trigger:</h4>
-                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
-                            Simulate uploading an exact duplicate of John Doe's Fasting Glucose Report.
-                        </p>
-                        <button class="btn btn-secondary" style="width: 100%; border-color: var(--accent-warning); color: var(--accent-warning);" onclick="simulateDuplicateUpload()">
-                            ⚠️ Test Duplicate Upload Rejection (Obj 2 Demo)
-                        </button>
+                    <!-- Blockchain Blocks Stream -->
+                    <div id="blockchainStream" class="blockchain-stream">
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ==========================================
-             TAB 4: BLOCKCHAIN EXPLORER
-             ========================================== -->
-        <div id="blockchainTab" class="tab-pane">
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <h3 class="card-title">Consortium Blockchain Ledger Explorer</h3>
-                        <p class="card-subtitle">Permissioned distributed ledger with cryptographic SHA-256 block linking</p>
+            <!-- ==========================================
+                 TAB 6: AUDIT LOGS
+                 ========================================== -->
+            <div id="auditTab" class="tab-pane">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Immutable System Audit Trail</h3>
+                            <p class="card-subtitle">Transparent record of report accesses, verifications, and duplicate rejections</p>
+                        </div>
+                        <button class="btn btn-secondary" onclick="loadAuditLogs()">🔄 Refresh Logs</button>
                     </div>
 
-                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                        <button class="btn btn-secondary" onclick="verifyChainIntegrity()">🔍 Audit Chain Integrity</button>
-                        <button class="btn btn-tamper" onclick="triggerTamperSimulation()">⚠️ Simulate Block Tampering</button>
-                        <button class="btn btn-secondary" onclick="restoreChain()">🔄 Restore Valid Ledger</button>
+                    <div class="lit-table-wrapper">
+                        <table class="lit-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Action Event</th>
+                                    <th>Actor / Identity</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditLogsBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-
-                <!-- Consortium Node Strip -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
-                        <span style="font-size: 1.5rem;">🏥</span>
-                        <div>
-                            <div style="font-size: 0.85rem; font-weight: 700;">Metro Apex Hospital</div>
-                            <div style="font-size: 0.72rem; color: #34d399;">● Online (Validator Node)</div>
-                        </div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
-                        <span style="font-size: 1.5rem;">🔬</span>
-                        <div>
-                            <div style="font-size: 0.85rem; font-weight: 700;">Pathology Diagnostic Lab</div>
-                            <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
-                        </div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
-                        <span style="font-size: 1.5rem;">🩺</span>
-                        <div>
-                            <div style="font-size: 0.85rem; font-weight: 700;">City Care Clinic</div>
-                            <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
-                        </div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 0.75rem;">
-                        <span style="font-size: 1.5rem;">💊</span>
-                        <div>
-                            <div style="font-size: 0.85rem; font-weight: 700;">CareFirst Pharmacy</div>
-                            <div style="font-size: 0.72rem; color: #34d399;">● Online (Participant Node)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blockchain Blocks Stream -->
-                <div id="blockchainStream" class="blockchain-stream">
-                    <!-- Populated dynamically -->
                 </div>
             </div>
-        </div>
 
-        <!-- ==========================================
-             TAB 5: AUDIT LOGS
-             ========================================== -->
-        <div id="auditTab" class="tab-pane">
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <h3 class="card-title">Immutable System Audit Trail</h3>
-                        <p class="card-subtitle">Transparent record of report accesses, verifications, and duplicate rejections</p>
-                    </div>
-                    <button class="btn btn-secondary" onclick="loadAuditLogs()">🔄 Refresh Logs</button>
-                </div>
+        </main>
+    </div>
 
-                <div class="lit-table-wrapper">
-                    <table class="lit-table">
-                        <thead>
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>Action Event</th>
-                                <th>Actor / Identity</th>
-                                <th>Details</th>
-                            </tr>
-                        </thead>
-                        <tbody id="auditLogsBody">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- ==========================================
+    <!-- ==========================================================================
          MODALS
-         ========================================== -->
+         ========================================================================== -->
 
-    <!-- Decrypted Report Viewer Modal -->
+    <!-- 1. Decrypted Report Viewer Modal -->
     <div id="viewReportModal" class="modal-overlay">
         <div class="modal-container">
             <button class="modal-close" onclick="closeModal('viewReportModal')">✕</button>
@@ -399,14 +758,76 @@
                 <pre id="modalReportContent" style="font-family: var(--font-mono); font-size: 0.85rem; color: #e2e8f0; white-space: pre-wrap; line-height: 1.5;"></pre>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <!-- Doctor Remarks / Clinical Observations Box if present -->
+            <div id="modalDoctorRemarksSection" class="doctor-remarks-box" style="display: none;">
+                <h4 style="font-size: 0.82rem; color: var(--accent-warning); text-transform: uppercase; margin-bottom: 0.35rem;">
+                    👨‍⚕️ Attending Physician Clinical Evaluation:
+                </h4>
+                <div id="modalDoctorRemarksContent" style="font-size: 0.88rem; color: #fef08a; line-height: 1.5;"></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem;">
                 <span id="modalReportHash" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); word-break: break-all;"></span>
-                <a id="modalDownloadBtn" href="#" class="btn btn-primary" download>📥 Download File</a>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button id="modalDoctorEditBtn" class="btn btn-edit" style="display: none;">
+                        ✏️ Edit Clinical Notes
+                    </button>
+                    <a id="modalDownloadBtn" href="#" class="btn btn-primary" download>📥 Download File</a>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- QR Code Anti-Forgery Modal (Feature 7.1) -->
+    <!-- 2. Doctor Edit Clinical Notes Modal (Doctor Only) -->
+    <div id="editReportModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal('editReportModal')">✕</button>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem;">
+                <span id="editReportBadge" class="report-id-badge"></span>
+                <span class="status-pill status-completed">👨‍⚕️ Doctor Clinical Review</span>
+            </div>
+            <h3 id="editReportTitle" style="font-size: 1.3rem; margin-bottom: 0.25rem;">Update Clinical Notes & Diagnosis</h3>
+            <p id="editReportSubtitle" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                Attending physician diagnostic evaluation and prescription management.
+            </p>
+
+            <form id="editReportForm">
+                <input type="hidden" id="editReportIdInput">
+
+                <div class="form-group">
+                    <label class="form-label">Clinical Evaluation & Diagnosis Status</label>
+                    <select id="editDiagnosisStatus" class="form-control">
+                        <option value="Confirmed Diagnosis">Confirmed Diagnosis</option>
+                        <option value="In Progress / Under Observation">In Progress / Under Observation</option>
+                        <option value="Critical Attention Required">⚠️ Critical Attention Required</option>
+                        <option value="Routine / Cleared">Routine / Normal Investigation</option>
+                        <option value="Follow-Up Required">Follow-Up Required</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Doctor's Clinical Notes / Diagnostic Findings *</label>
+                    <textarea id="editReportNotes" class="form-control" rows="3" placeholder="Enter clinical assessment, diagnostic impressions, and patient observations..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Prescription & Medical Recommendations</label>
+                    <textarea id="editReportPrescription" class="form-control" rows="2" placeholder="e.g. Metformin 500mg OD, Dietary carbohydrate restriction..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Recommended Follow-up Consultation Date</label>
+                    <input type="date" id="editReportFollowUp" class="form-control">
+                </div>
+
+                <button type="submit" id="btnSaveReportEdit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 0.5rem;">
+                    💾 Save Clinical Update & Log to Audit Trail
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. QR Code Anti-Forgery Modal (Feature 7.1) -->
     <div id="qrModal" class="modal-overlay">
         <div class="modal-container" style="text-align: center;">
             <button class="modal-close" onclick="closeModal('qrModal')">✕</button>
@@ -434,7 +855,7 @@
         </div>
     </div>
 
-    <!-- Time-Expiring Secure Share Modal (Feature 7.2) -->
+    <!-- 4. Time-Expiring Secure Share Modal (Feature 7.2) -->
     <div id="shareModal" class="modal-overlay">
         <div class="modal-container">
             <button class="modal-close" onclick="closeModal('shareModal')">✕</button>

@@ -27,7 +27,7 @@ class Database {
         if (fs.existsSync(DB_FILE_PATH)) {
             try {
                 const data = JSON.parse(fs.readFileSync(DB_FILE_PATH, 'utf8'));
-                this.users = data.users || [];
+                this.users = (data.users || []).map(u => ({ password: 'password123', ...u }));
                 this.reports = data.reports || [];
                 this.sharedLinks = data.sharedLinks || [];
                 this.auditLogs = data.auditLogs || [];
@@ -106,6 +106,32 @@ class Database {
 
     findUserByEmail(email) {
         return this.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    }
+
+    addUser(userData) {
+        if (!userData.id) {
+            const prefix = userData.role === 'Doctor' ? 'usr_doc' : userData.role === 'Patient' ? 'usr_pat' : userData.role === 'Lab Staff' ? 'usr_lab' : 'usr_adm';
+            userData.id = `${prefix}_${Date.now().toString(36)}`;
+        }
+        if (!userData.password) {
+            userData.password = 'password123';
+        }
+        if (!userData.createdAt) {
+            userData.createdAt = new Date().toISOString();
+        }
+        this.users.push(userData);
+        this.persist();
+        return userData;
+    }
+
+    deleteUser(userId) {
+        const index = this.users.findIndex(u => u.id === userId);
+        if (index !== -1) {
+            const removed = this.users.splice(index, 1)[0];
+            this.persist();
+            return removed;
+        }
+        return null;
     }
 
     getAllUsers() {

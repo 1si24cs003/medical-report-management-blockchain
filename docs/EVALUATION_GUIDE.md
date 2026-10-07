@@ -52,7 +52,22 @@ Follow this exact 5-step script during your demonstration to impress the evaluat
 
 ---
 
-### Step 2: Demonstrate Objective 1 & 3 — Chronological Medical History Timeline
+### Step 2: Demonstrate Mandatory Login Gate & Role-Based Access Control (RBAC)
+* **Login Gate Requirement (Guide / Evaluator Input):**
+  - When opening [http://localhost:3000](http://localhost:3000), the system strictly displays the **Mandatory Login Gate**.
+  - No records or ledger controls are accessible without logging in.
+  - Explain the 4 consortium roles and show the **Role Permission Matrix**:
+    1. 🔬 **Lab Staff (Alex Smith):** Authorized strictly to upload diagnostic data and run duplicate checks. Cannot edit doctor clinical observations.
+    2. 👨‍⚕️ **Doctor (Dr. Sarah Rao):** Can review reports, search via OCR, and edit/add clinical notes & diagnoses.
+    3. 👤 **Patient (John Doe):** Can only view and download their personal health records and verify anti-forgery QR codes. Cannot edit or upload.
+    4. 🛡️ **SuperAdmin:** Can enroll new Doctors, Patients, and Lab Technicians with blockchain node credentials.
+* **Demonstrate Patient Restriction:** Click **John Doe (Patient)** → Show that Upload and Admin tabs are hidden, patient only sees their own reports, and cannot edit anything.
+* **Demonstrate Doctor Editing:** Switch to **Dr. Sarah Rao (Doctor)** → Click **"✏️ Edit Notes"** on any report → Update diagnosis status to *"Confirmed Diagnosis"* and save. Show how it logs an audit trail!
+* **Demonstrate Admin Identity Enrollment:** Switch to **SuperAdmin** → Go to **"👥 Consortium User Management"** tab → Enroll a new Doctor or Patient live in front of the panel!
+
+---
+
+### Step 3: Demonstrate Objective 1 & 3 — Chronological Medical History Timeline
 * In the top toolbar, ensure the active role is **Dr. Sarah Rao (Doctor)**.
 * Click the **"⏳ Chronological Medical Timeline (Obj 1 & 3)"** tab.
 * Show the sequential timeline for patient **John Doe (PT-9901)**:

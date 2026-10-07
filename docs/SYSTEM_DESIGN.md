@@ -22,75 +22,65 @@
 
 ---
 
-## 2. High-Level Architecture (Figure 6.1)
+## 2. High-Level Architecture & RBAC Security Gate
 
-The system enforces a clean separation between **Off-Chain Encrypted Storage** and **On-Chain Blockchain Anchoring**:
+### 2.1 Mandatory Login Gate & Zero-Trust Authentication
+The system enforces a mandatory pre-authentication gateway. All application routes, report viewers, upload dropzones, and blockchain ledger controls are locked behind a cryptographic JWT authentication gate:
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                                             USERS                                                 |
-|   [Doctor] (Search/View)    [Lab Staff] (Upload)    [Patient] (View/Share)    [Admin] (Audit)     |
-+--------------------------------------------------+------------------------------------------------+
-                                                   | HTTPS (Secure Web Interface)
-                                                   v
+|                                     MANDATORY LOGIN GATE                                          |
+|            Authentication Required (JWT Session Token + Zero-Trust Role Routing)                  |
++---------------------------------------------------------------------------------------------------+
+                                                  |
+           +--------------------+-----------------+--------------------+--------------------+
+           |                    |                                      |                    |
+           v                    v                                      v                    v
+      [LAB STAFF]            [DOCTOR]                              [PATIENT]             [ADMIN]
+  - Upload Test Reports  - Search Reports via OCR              - View Own Records   - Enroll Doctors & Patients
+  - Deduplication Check  - Edit Clinical Notes & Diagnosis     - Download Decrypted - Manage Consortium Directory
+  - Ledger Anchoring     - Inspect Patient Timelines           - Verify QR Code     - Audit Chain Integrity
+           |                    |                                      |                    |
+           +--------------------+-----------------+--------------------+--------------------+
+                                                  |
+                                                  v HTTPS (REST API)
 +---------------------------------------------------------------------------------------------------+
 |                                      APPLICATION LAYER                                            |
 |                  Frontend UI (HTML5, Modern CSS Glassmorphism, JavaScript SPA)                    |
-|                        Backend API Server (Node.js & Express.js Engine)                           |
-+--------------------------+-------------------------------------------------+----------------------+
-                           |                                                 |
-                           v                                                 v
-           +-------------------------------+                 +-------------------------------+
-           |    REPORT FILE PROCESSING     |                 |  HASH GENERATION & DUPLICATE  |
-           | 1. Medical Report (PDF/Img)   |                 | 1. Compute SHA-256 Hash       |
-           | 2. AES-256-CBC Encryption     |                 | 2. Compare with Existing Chain|
-           | 3. Store in uploads/          |                 | 3. If Match -> Block Duplicate|
-           +---------------+---------------+                 +---------------+---------------+
-                           |                                                 | (If New Report)
-                           v                                                 v
-+------------------------------------------+     +--------------------------------------------------+
-|           OFF-CHAIN STORAGE              |     |          PERMISSIONED BLOCKCHAIN LAYER           |
-|  - AES-256 Encrypted Binary Blobs        |     |  Consortium Nodes: Hospital, Lab, Clinic, Pharm   |
-|  - Storage Reference Pointer             |     |  Stores ONLY:                                    |
-|  - Accessible only with Decryption Key   |     |    * Pseudonymous Report ID (e.g. REP-7A91F2C4)  |
-|  - Zero PII / Zero Patient Data On-Chain |     |    * Cryptographic SHA-256 File Hash             |
-+------------------------------------------+     |    * Off-chain Storage Reference Pointer         |
-                                                 |    * Block Hash, Previous Hash, Timestamp        |
-                                                 +--------------------------------------------------+
-                                                                     |
-                                   Verification Flow (MATCH / MISMATCH)
-                                                                     v
-                                                 +--------------------------------------------------+
-                                                 |        QR CODE ANTI-FORGERY VERIFICATION         |
-                                                 |  Doctor scans QR -> Backend recalculates SHA-256 |
-                                                 |  Compares live hash to blockchain -> Alert!      |
-                                                 +--------------------------------------------------+
+|                  Backend API Server (Node.js, Express.js Engine, RBAC Guards)                     |
++---------------------------------------------------------------------------------------------------+
 ```
 
-### 5-Step Core System Workflow
-1. **Upload:** Staff member uploads a diagnostic file (PDF/Image) along with patient metadata.
-2. **Duplicate Check & Off-Chain Encryption:** SHA-256 hash is computed. If unique, file is encrypted using AES-256-CBC and committed to off-chain storage.
-3. **Blockchain Anchoring:** A new block is mined on the permissioned ledger recording the pseudonymous report ID, SHA-256 hash, timestamp, and storage pointer.
-4. **QR Generation:** A high-resolution QR code is generated pointing to the verification endpoint.
-5. **Authorized Retrieval & Verification:** Doctors retrieve the record, decrypt using the institution key, and compare hashes for 100% integrity validation.
+### 2.2 Role-Based Access Control (RBAC) Specification
+1. **🔬 Lab Staff:** Authorized exclusively to upload diagnostic files, calculate SHA-256 digests, and trigger duplicate detection. Blocked from editing doctor diagnoses.
+2. **👨‍⚕️ Doctor:** Authorized to search reports via OCR, review chronological timelines, and **edit/update clinical notes, diagnoses, prescriptions, and follow-up dates**.
+3. **👤 Patient:** Strictly scoped to their own personal health records. Can view and download decrypted files with live SHA-256 blockchain verification and issue expiring links. **Blocked from uploading or editing reports**.
+4. **🛡️ Consortium SuperAdmin:** Full administrative control to enroll new Doctors, Patients, and Lab Technicians with login credentials, inspect ledger health, and review audit logs.
+
+### 2.3 Separation of Storage & Proof
+Diagnostic medical files (PDFs, X-rays, lab scans) remain encrypted off-chain using **AES-256-CBC**, while the **Permissioned Blockchain Ledger** anchors immutable cryptographic proofs (pseudonymous Report IDs, SHA-256 digests, timestamps, and storage pointers).
 
 ---
 
-## 3. Layered Architecture & Core Modules (Figure 6.2)
+## 3. Layered Architecture & Core Modules
 
 ### 3.1 Application Layer
-* **Frontend:** Responsive, single-page application crafted with vanilla HTML5, modern CSS3 glassmorphism, CSS custom properties, and JavaScript. Zero complex client framework overhead.
-* **Backend:** Node.js runtime with Express.js REST API routing, Multer memory storage buffers, and JWT authentication.
+* **Frontend:** Responsive, single-page application crafted with vanilla HTML5, modern CSS3 glassmorphism, CSS custom properties, and JavaScript. Includes the Mandatory Login Gate, Doctor Clinical Editor Modal, and Admin Identity Enrollment panel.
+* **Backend:** Node.js runtime with Express.js REST API routing, Multer memory storage buffers, strict JWT verification, and Role-Based Access Control middleware (`authMiddleware.js`).
 
-### 3.2 Core Modules (Business Logic)
-* **Report Management Module:** Orchestrates upload parsing, cryptographic key management, off-chain file writing, and retrieval streaming.
-* **Duplicate Detection Engine:** Queries the blockchain ledger by SHA-256 digest to prevent identical uploads.
-* **Smart Keyword Extraction (OCR):** Uses `Tesseract.js` to parse textual diagnostics from images and scans, tagging documents with clinical entities ("Blood Sugar", "Fracture", "Hemoglobin") for search indexing without decrypting the entire database.
+### 3.2 Core Business Modules
+* **Authentication & Identity Module (`authController.js`):** Issues signed JWT tokens, verifies credentials, and manages user sessions.
+* **Consortium Administration Module (`adminController.js`):** Handles registration of new Doctors, Patients, and Lab Staff identities, assigning wallet/node IDs and credentials.
+* **Report Management & Review Module (`reportController.js`):** Orchestrates upload parsing, AES-256 off-chain encryption, retrieval streaming, and **Doctor Clinical Diagnosis Updates (`PUT /api/reports/:id`)**.
+* **Duplicate Detection Engine:** Queries the blockchain ledger by SHA-256 digest to prevent redundant document uploads (HTTP 409).
+* **Smart Keyword Extraction (OCR) (`ocrHelper.js`):** Uses `Tesseract.js` to parse textual diagnostics from images and scans, tagging documents with clinical entities ("Blood Sugar", "Fracture", "Hemoglobin") for search indexing without decrypting the entire database.
 * **Chronological Timeline Engine:** Sorts and filters historical records by patient ID and date.
+* **Anti-Forgery QR Engine (`qrController.js`):** Generates anti-forgery QR codes and verifies live off-chain file hashes against blockchain records.
+* **Time-Expiring Sharing Module (`shareController.js`):** Generates cryptographically signed JWT consultation links with countdown timers and automated revocation.
 
 ### 3.3 Data Storage Layer
-* **Off-Chain Encrypted Storage:** AES-256-CBC encrypted `.bin` files stored in a dedicated protected repository (`uploads/`).
-* **Application Database:** JSON / MongoDB document store holding user accounts, report metadata tags, time-expiring shared link tokens, and immutable audit logs.
+* **Off-Chain Encrypted Storage (`uploads/`):** AES-256-CBC encrypted `.bin` files stored in a dedicated protected repository.
+* **Application Database (`data/database.json`):** Persistent JSON document store holding user accounts, report metadata tags, time-expiring shared link tokens, and immutable audit logs.
 
 ### 3.4 Permissioned Blockchain Layer
 * **Consortium Nodes:** Pre-authorized institutional participants:
@@ -108,7 +98,7 @@ The system enforces a clean separation between **Off-Chain Encrypted Storage** a
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Staff as Lab Staff / Doctor
+    actor Staff as Lab Staff
     participant API as Node.js Backend
     participant Store as Off-Chain Storage
     participant Chain as Blockchain Ledger
@@ -116,7 +106,7 @@ sequenceDiagram
 
     Staff->>API: Upload Diagnostic Report (PDF/Image)
     API->>API: Compute SHA-256 Hash
-    API->>Store: Encrypt (AES-256) & Save File
+    API->>Store: Encrypt (AES-256) & Save File (.bin)
     API->>Chain: Mine Block (Report ID, Hash, Storage Ref)
     API->>API: Generate Verification QR Code
     API-->>Staff: Return Success + QR Code Data URL
@@ -143,19 +133,29 @@ sequenceDiagram
   5. While valid: displays decrypted report.
   6. Upon expiration: system automatically revokes access, returning `HTTP 403 Forbidden: Access Link Expired`.
 
-### 4.3 Smart Keyword Extraction (OCR) (Feature 7.3)
-1. **OCR Ingestion:** When an image or document is uploaded, `tesseract.js` executes text recognition.
-2. **Clinical Entity Mapping:** A dictionary-backed entity extractor identifies recognized diagnostic terms (e.g. Glucose, HbA1c, Fracture, Lumbar, Platelet, Cholesterol).
-3. **Metadata Indexing:** Extracted tags are stored in the searchable database index alongside the Report ID.
-4. **Zero-Decryption Search:** When a doctor searches for "Fracture", the query resolves against the tag index in sub-millisecond time without decrypting all raw medical files off-chain.
+### 4.3 Doctor Clinical Evaluation Workflow
+1. Attending physician signs in with Doctor credentials.
+2. Selects diagnostic report and opens the **Doctor Clinical Notes Editor Modal**.
+3. Inputs clinical findings, selects diagnosis status (e.g. *Confirmed Diagnosis, In Progress, Critical Attention Required*), prescription instructions, and follow-up consultation date.
+4. Submits to `PUT /api/reports/:reportId`.
+5. System verifies doctor role, persists updates, and writes an immutable audit log entry (`DOCTOR_CLINICAL_UPDATE`).
+
+### 4.4 Admin Consortium Identity Enrollment Workflow
+1. SuperAdmin logs into the Consortium User Management panel.
+2. Fills out the identity registration form selecting role (Doctor, Patient, or Lab Staff).
+3. Submits to `POST /api/admin/users`.
+4. Backend validates input, checks for unique email, generates cryptographic identity ID, assigns blockchain node, and records the new member.
+5. Newly registered user is immediately eligible for authentication at the Mandatory Login Gate.
 
 ---
 
 ## 5. Security & Threat Model
 
 | Threat / Attack Vector | Vulnerability in Centralized Systems | Proposed Blockchain Mitigation |
-|------------------------|---------------------------------------|--------------------------------|
+| :--- | :--- | :--- |
 | **Unauthorized File Tampering** | Privileged admin or hacker modifies lab values directly in SQL database. | Recalculated SHA-256 immediately mismatches anchored blockchain block, alerting doctor with crimson **MISMATCH** warning. |
+| **Unauthorized Portal Snooping** | Open portals expose medical databases to unauthenticated users. | **Mandatory Login Gate** blocks all access without verified JWT session token. |
+| **Role Privilege Escalation** | Patients or lab technicians modify physician diagnosis notes. | Strict backend **RBAC Guards** (`authorizeRoles`) reject unauthorized actions with `403 Forbidden`. |
 | **Ransomware Data Loss** | Single database server is encrypted by malicious ransomware. | Distributed consortium ledger ensures ledger provenance survives; off-chain files can be independently verified against cold backups. |
 | **Data Breach / Public Exposure** | Medical files leaked directly from server. | All stored files are AES-256 encrypted at rest; files cannot be read without cryptographic keys. |
 | **Permanent Unauthorized Access** | Doctor retains permanent access after one consultation. | Time-expiring signed JWT links automatically expire; tokens become permanently invalid after configured duration. |

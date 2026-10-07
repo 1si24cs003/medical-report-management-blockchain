@@ -26,10 +26,7 @@ function authenticate(req, res, next) {
     }
 
     if (!token) {
-        // Default to first doctor for non-credentialed exploratory queries if safe
-        const defaultUser = db.findUserById('usr_doc_01');
-        req.user = defaultUser;
-        return next();
+        return res.status(401).json({ success: false, message: 'Authentication required. Access denied without login credentials.' });
     }
 
     try {

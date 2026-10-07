@@ -25,6 +25,12 @@ async function uploadReport(req, res) {
         }
 
         const user = req.user;
+        if (user.role !== 'Lab Staff' && user.role !== 'Admin') {
+            return res.status(403).json({
+                success: false,
+                message: `Access denied. Role '${user.role}' cannot upload reports. Only Lab Staff are authorized to upload and anchor diagnostic reports to the blockchain.`
+            });
+        }
         const {
             patientId,
             title,
@@ -177,10 +183,15 @@ function getReports(req, res) {
     const { patientId, query } = req.query;
 
     let reports;
-    if (query) {
-        reports = db.searchReports(query, user.role, user.role === 'Patient' ? user.id : patientId);
-    } else if (user.role === 'Patient') {
-        reports = db.getReportsForPatient(user.id);
+    if (user.role === 'Patient') {
+        // Patient can only view their own diagnostic records
+        if (query) {
+            reports = db.searchReports(query, 'Patient', user.id);
+        } else {
+            reports = db.getReportsForPatient(user.id);
+        }
+    } else if (query) {
+        reports = db.searchReports(query, user.role, patientId);
     } else if (patientId) {
         reports = db.getReportsForPatient(patientId);
     } else {
@@ -195,9 +206,16 @@ function getReports(req, res) {
  */
 function getPatientTimeline(req, res) {
     const user = req.user;
-    const targetPatientId = req.params.patientId || (user.role === 'Patient' ? user.id : 'usr_pat_01');
-    const sortOrder = req.query.order || 'asc';
+    let targetPatientId = req.params.patientId;
+    
+    // Strict privacy: Patient can ONLY view their own clinical timeline
+    if (user.role === 'Patient') {
+        targetPatientId = user.id;
+    } else if (!targetPatientId) {
+        targetPatientId = 'usr_pat_01';
+    }
 
+    const sortOrder = req.query.order || 'asc';
     const timeline = db.getPatientTimeline(targetPatientId, sortOrder);
     const patient = db.findUserById(targetPatientId);
 
@@ -292,11 +310,66 @@ function searchReports(req, res) {
     });
 }
 
+/**
+ * Doctor Feature: Update clinical notes, diagnosis status, prescription, follow-up
+ * Strictly restricted to Doctor (and Admin)
+ */
+function updateReport(req, res) {
+    try {
+        const user = req.user;
+        const { reportId } = req.params;
+        const { notes, diagnosisStatus, prescription, followUpDate } = req.body;
+
+        if (user.role !== 'Doctor' && user.role !== 'Admin') {
+            return res.status(403).json({
+                success: false,
+                message: `Permission denied. Role '${user.role}' cannot modify clinical diagnostic records. Only authorized Doctors can update clinical evaluations.`
+            });
+        }
+
+        const existingReport = db.findReportById(reportId);
+        if (!existingReport) {
+            return res.status(404).json({ success: false, message: 'Report not found in consortium database.' });
+        }
+
+        const updates = {};
+        if (notes !== undefined) updates.notes = notes;
+        if (diagnosisStatus !== undefined) updates.diagnosisStatus = diagnosisStatus;
+        if (prescription !== undefined) updates.prescription = prescription;
+        if (followUpDate !== undefined) updates.followUpDate = followUpDate;
+        updates.doctorRemarks = {
+            doctorName: user.name,
+            doctorId: user.id,
+            department: user.department || 'Attending Physician',
+            hospital: user.hospital || 'Metro Apex Hospital',
+            updatedAt: new Date().toISOString(),
+            status: diagnosisStatus || existingReport.diagnosisStatus || 'Reviewed & Verified'
+        };
+
+        const updated = db.updateReport(reportId, updates);
+
+        db.logAudit(
+            'DOCTOR_CLINICAL_UPDATE',
+            user.name,
+            `Doctor updated diagnosis notes for report ${reportId} (Status: ${diagnosisStatus || 'Clinical Review Updated'})`
+        );
+
+        return res.json({
+            success: true,
+            message: `Clinical notes and diagnosis successfully updated by ${user.name}.`,
+            report: updated
+        });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: 'Failed to update report.', error: err.message });
+    }
+}
+
 module.exports = {
     uploadReport,
     getReports,
     getPatientTimeline,
     getReportById,
     downloadDecryptedReport,
-    searchReports
+    searchReports,
+    updateReport
 };

@@ -921,3 +921,321 @@ body {
     border: 1px solid rgba(0, 229, 255, 0.35);
     color: #7dd3fc;
 }
+
+/* ==========================================================================
+   MANDATORY LOGIN SCREEN (Role-Based Access Gate)
+   ========================================================================== */
+.login-screen-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+.login-card {
+    background: rgba(14, 23, 42, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(0, 229, 255, 0.35);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 960px;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(0, 229, 255, 0.15);
+    animation: scaleIn 0.35s ease;
+}
+
+.login-brand-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-brand-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(135deg, #00e5ff, #3b82f6);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    box-shadow: var(--glow-cyan);
+}
+
+.login-brand-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, #ffffff, #00e5ff, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.35rem;
+}
+
+.login-brand-subtitle {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.login-mode-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    margin-bottom: 1.75rem;
+    gap: 4px;
+}
+
+.login-mode-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.88rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.login-mode-tab.active {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(59, 130, 246, 0.25));
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.15);
+}
+
+/* Quick Role Select Grid */
+.role-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.role-card-select {
+    background: rgba(18, 29, 53, 0.65);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.role-card-select:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-cyan);
+    background: rgba(26, 42, 75, 0.85);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+.role-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.role-card-avatar {
+    font-size: 1.8rem;
+}
+
+.role-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.role-card-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.tag-doctor { background: rgba(59, 130, 246, 0.25); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+.tag-lab { background: rgba(20, 184, 166, 0.25); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.4); }
+.tag-patient { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+.tag-admin { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+
+.role-card-user {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.role-card-desc {
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+.role-card-perms {
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 0.65rem;
+    margin-top: auto;
+}
+
+.role-card-perms strong {
+    color: var(--text-secondary);
+}
+
+.btn-login-select {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: var(--accent-cyan);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.role-card-select:hover .btn-login-select {
+    background: var(--accent-cyan);
+    color: #080d1a;
+}
+
+/* Credentials Form */
+.login-form-box {
+    max-width: 480px;
+    margin: 0 auto 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.75rem;
+}
+
+.role-permission-matrix {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+.matrix-item {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.matrix-item strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* Logout Button */
+.btn-logout {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    padding: 7px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-logout:hover {
+    background: rgba(239, 68, 68, 0.3);
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
+}
+
+/* Edit Button */
+.btn-edit {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.35));
+    border: 1px solid var(--accent-warning);
+    color: #fde68a;
+    padding: 7px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-edit:hover {
+    background: var(--accent-warning);
+    color: #080d1a;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+/* Doctor Observations Card inside Report View */
+.doctor-remarks-box {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+}
+
+/* Admin Tab Specific Styles */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-stat-card {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.admin-stat-val {
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--accent-cyan);
+}
+
+.admin-stat-lbl {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+}

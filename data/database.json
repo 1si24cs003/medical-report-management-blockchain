@@ -1,6 +1,7 @@
 {
   "users": [
     {
+      "password": "password123",
       "id": "usr_doc_01",
       "name": "Dr. Sarah Rao",
       "email": "dr.sarah@hospital.org",
@@ -10,6 +11,7 @@
       "license": "MC-2018-9941"
     },
     {
+      "password": "password123",
       "id": "usr_doc_02",
       "name": "Dr. Rajesh Nair",
       "email": "dr.rajesh@hospital.org",
@@ -19,6 +21,7 @@
       "license": "MC-2015-4412"
     },
     {
+      "password": "password123",
       "id": "usr_pat_01",
       "name": "John Doe",
       "email": "john.doe@patient.net",
@@ -30,6 +33,7 @@
       "contact": "+91 98765 43210"
     },
     {
+      "password": "password123",
       "id": "usr_pat_02",
       "name": "Meera Patel",
       "email": "meera.patel@patient.net",
@@ -41,6 +45,7 @@
       "contact": "+91 98450 11223"
     },
     {
+      "password": "password123",
       "id": "usr_lab_01",
       "name": "Alex Smith",
       "email": "alex.lab@pathology.org",
@@ -50,11 +55,24 @@
       "license": "LAB-TECH-772"
     },
     {
+      "password": "password123",
       "id": "usr_adm_01",
       "name": "Consortium SuperAdmin",
       "email": "admin@healthchain.gov",
       "role": "Admin",
       "institution": "Healthcare Consortium Blockchain Authority"
+    },
+    {
+      "name": "Dr. Vikram Seth",
+      "email": "dr.vikram@hospital.org",
+      "password": "password123",
+      "role": "Doctor",
+      "nodeId": "NODE-HOSP-01",
+      "createdAt": "2026-10-07T14:50:05.833Z",
+      "id": "usr_doc_muy8547d",
+      "department": "Neurology",
+      "hospital": "Metro Apex Hospital",
+      "license": "MC-2026-7788"
     }
   ],
   "reports": [
@@ -69,7 +87,7 @@
       "title": "Fasting Blood Glucose & HbA1c Diagnostic Report",
       "reportType": "Pathology / Biochemistry",
       "testDate": "2026-08-14",
-      "notes": "Patient presented with mild fatigue and polydipsia. Routine glycemic profile evaluation.",
+      "notes": "Clinical evaluation confirmed early Stage 2 Diabetes. Patient advised lifestyle modifications.",
       "keywords": [
         "Blood Sugar",
         "Glucose",
@@ -90,8 +108,19 @@
       "encryptedSize": 592,
       "createdAt": "2026-08-14T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockIndex": 1,
-      "blockHash": "008ab183e4a9faf4a138a93ee9f3f18d702ddf9f7526027ac86a815458083c7c"
+      "blockIndex": 5,
+      "blockHash": "0004865bc922449723ba3f48c504a27e3a54cec111c72f39fe9359303ef2721f",
+      "diagnosisStatus": "Confirmed Diagnosis",
+      "prescription": "Metformin 500mg OD post meal",
+      "followUpDate": "2026-11-14",
+      "doctorRemarks": {
+        "doctorName": "Dr. Sarah Rao",
+        "doctorId": "usr_doc_01",
+        "department": "Cardiology & General Medicine",
+        "hospital": "Metro Apex Hospital",
+        "updatedAt": "2026-10-07T14:50:05.827Z",
+        "status": "Confirmed Diagnosis"
+      }
     },
     {
       "reportId": "REP-8D44B190",
@@ -210,42 +239,148 @@
       "durationMinutes": 2,
       "expiresAt": "2026-10-04T20:04:35.127Z",
       "createdAt": "2026-10-04T20:02:35.127Z"
+    },
+    {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXBvcnRJZCI6IlJFUC04RDQ0QjE5MCIsInBhdGllbnRJZCI6InVzcl9wYXRfMDEiLCJwYXRpZW50TmFtZSI6IkpvaG4gRG9lIiwiYWNjZXNzQ29udGV4dCI6ImRvY3Rvcl9jb25zdWx0YXRpb25fdGltZV9saW1pdGVkIiwicmVjaXBpZW50RG9jdG9yIjoiQ29uc3VsdGluZyBTcGVjaWFsaXN0Iiwibm90ZXMiOiIiLCJjcmVhdGVkQXQiOjE3OTExNDUyOTYsImlhdCI6MTc5MTE0NTI5NiwiZXhwIjoxNzkxMTQ1NDE2fQ.JX_f0v1F7Fej5jKjQWZGl_4wk-zIfJhECmqbeDrOWNw",
+      "reportId": "REP-8D44B190",
+      "patientId": "usr_pat_01",
+      "patientName": "John Doe",
+      "reportTitle": "Lumbosacral Spine Digital X-Ray Examination",
+      "recipientDoctor": "Consulting Specialist",
+      "durationMinutes": 2,
+      "expiresAt": "2026-10-04T20:23:36.527Z",
+      "createdAt": "2026-10-04T20:21:36.527Z"
+    },
+    {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXBvcnRJZCI6IlJFUC03QTkxRjJDNCIsInBhdGllbnRJZCI6InVzcl9wYXRfMDEiLCJwYXRpZW50TmFtZSI6IkpvaG4gRG9lIiwiYWNjZXNzQ29udGV4dCI6ImRvY3Rvcl9jb25zdWx0YXRpb25fdGltZV9saW1pdGVkIiwicmVjaXBpZW50RG9jdG9yIjoiQ29uc3VsdGluZyBTcGVjaWFsaXN0Iiwibm90ZXMiOiIiLCJjcmVhdGVkQXQiOjE3OTEyODM5NzUsImlhdCI6MTc5MTI4Mzk3NSwiZXhwIjoxNzkxMjg0MDk1fQ.pM6qEmm1soPlSeX1Ir6SIcXL4OF9rMU1R13fCVRtSZ8",
+      "reportId": "REP-7A91F2C4",
+      "patientId": "usr_pat_01",
+      "patientName": "John Doe",
+      "reportTitle": "Fasting Blood Glucose & HbA1c Diagnostic Report",
+      "recipientDoctor": "Consulting Specialist",
+      "durationMinutes": 2,
+      "expiresAt": "2026-10-06T10:54:55.383Z",
+      "createdAt": "2026-10-06T10:52:55.383Z"
     }
   ],
   "auditLogs": [
     {
-      "id": "log_1791144178122_mja7",
+      "id": "log_1791386769724_ez23",
+      "action": "USER_LOGIN",
+      "actor": "Consortium SuperAdmin",
+      "details": "User authenticated successfully with role: Admin",
+      "timestamp": "2026-10-07T15:26:09.724Z"
+    },
+    {
+      "id": "log_1791386390399_qcuo",
+      "action": "EXPIRED_LINK_ACCESS_REJECTED",
+      "actor": "Unauthorized Visitor",
+      "details": "Attempted access using expired token (Expired at: Tue Oct 06 2026 16:24:55 GMT+0530 (India Standard Time))",
+      "timestamp": "2026-10-07T15:19:50.399Z"
+    },
+    {
+      "id": "log_1791386379137_my5g",
+      "action": "USER_LOGIN",
+      "actor": "John Doe",
+      "details": "User authenticated successfully with role: Patient",
+      "timestamp": "2026-10-07T15:19:39.137Z"
+    },
+    {
+      "id": "log_1791386368570_5upn",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-07T15:19:28.570Z"
+    },
+    {
+      "id": "log_1791386342252_xgwu",
+      "action": "USER_LOGIN",
+      "actor": "Alex Smith",
+      "details": "User authenticated successfully with role: Lab Staff",
+      "timestamp": "2026-10-07T15:19:02.252Z"
+    },
+    {
+      "id": "log_1791386324180_b21e",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-07T15:18:44.180Z"
+    },
+    {
+      "id": "log_1791384605835_u87w",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Vikram Seth",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-07T14:50:05.835Z"
+    },
+    {
+      "id": "log_1791384605834_wa9q",
+      "action": "USER_REGISTERED",
+      "actor": "Consortium SuperAdmin",
+      "details": "Admin enrolled new Doctor: Dr. Vikram Seth (dr.vikram@hospital.org, ID: usr_doc_muy8547d)",
+      "timestamp": "2026-10-07T14:50:05.834Z"
+    },
+    {
+      "id": "log_1791384605832_98bh",
+      "action": "USER_LOGIN",
+      "actor": "Consortium SuperAdmin",
+      "details": "User authenticated successfully with role: Admin",
+      "timestamp": "2026-10-07T14:50:05.832Z"
+    },
+    {
+      "id": "log_1791384605829_rkn3",
+      "action": "USER_LOGIN",
+      "actor": "John Doe",
+      "details": "User authenticated successfully with role: Patient",
+      "timestamp": "2026-10-07T14:50:05.829Z"
+    },
+    {
+      "id": "log_1791384605828_i6sb",
+      "action": "DOCTOR_CLINICAL_UPDATE",
+      "actor": "Dr. Sarah Rao",
+      "details": "Doctor updated diagnosis notes for report REP-7A91F2C4 (Status: Confirmed Diagnosis)",
+      "timestamp": "2026-10-07T14:50:05.828Z"
+    },
+    {
+      "id": "log_1791384605824_cdk8",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-07T14:50:05.824Z"
+    },
+    {
+      "id": "log_1791284033210_4xe7",
       "action": "DUPLICATE_REPORT_PREVENTED",
       "actor": "Dr. Sarah Rao",
       "details": "Duplicate upload rejected. Hash: c1ec0cf3d448faba... matched existing report ID: REP-7A91F2C4",
-      "timestamp": "2026-10-04T20:02:58.122Z"
+      "timestamp": "2026-10-06T10:53:53.210Z"
     },
     {
-      "id": "log_1791144155133_vv0v",
+      "id": "log_1791283978518_kl50",
       "action": "SHARED_LINK_ACCESSED",
       "actor": "Consulting Doctor (via Shared Link)",
-      "details": "Accessed shared report REP-7A91F2C4 with token. Time remaining: 120s",
-      "timestamp": "2026-10-04T20:02:35.133Z"
+      "details": "Accessed shared report REP-7A91F2C4 with token. Time remaining: 117s",
+      "timestamp": "2026-10-06T10:52:58.518Z"
     },
     {
-      "id": "log_1791144155127_yaff",
+      "id": "log_1791283975385_vxx4",
       "action": "TIME_EXPIRING_LINK_CREATED",
       "actor": "Dr. Sarah Rao",
-      "details": "Created temporary share link for REP-7A91F2C4 valid for 2 min(s) (Expires: 2026-10-04T20:04:35.127Z)",
-      "timestamp": "2026-10-04T20:02:35.127Z"
+      "details": "Created temporary share link for REP-7A91F2C4 valid for 2 min(s) (Expires: 2026-10-06T10:54:55.383Z)",
+      "timestamp": "2026-10-06T10:52:55.385Z"
     },
     {
-      "id": "log_1791144146028_870t",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
-      "timestamp": "2026-10-04T20:02:26.028Z"
+      "id": "log_1791283944616_fqrs",
+      "action": "REPORT_DECRYPTED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Decrypted and accessed report REP-7A91F2C4",
+      "timestamp": "2026-10-06T10:52:24.616Z"
     },
     {
       "id": "log_01",
       "action": "SYSTEM_INITIALIZATION",
       "details": "Healthcare Consortium Blockchain Ledger and Database Initialized",
-      "timestamp": "2026-10-04T19:57:33.890Z",
+      "timestamp": "2026-10-05T15:41:53.243Z",
       "actor": "Consortium SuperAdmin"
     }
   ]

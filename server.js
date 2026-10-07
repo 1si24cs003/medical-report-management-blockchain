@@ -9,6 +9,7 @@ const { authenticate, authorizeRoles } = require('./middleware/authMiddleware');
 const upload = require('./middleware/uploadMiddleware');
 
 const authController = require('./controllers/authController');
+const adminController = require('./controllers/adminController');
 const reportController = require('./controllers/reportController');
 const qrController = require('./controllers/qrController');
 const shareController = require('./controllers/shareController');
@@ -33,10 +34,20 @@ app.post('/api/auth/login', authController.login);
 app.get('/api/auth/me', authenticate, authController.getCurrentUser);
 
 // ==========================================
+// 1.1 ADMIN USER MANAGEMENT (Role Restricted)
+// ==========================================
+app.get('/api/admin/users', authenticate, authorizeRoles('Admin'), adminController.getConsortiumUsers);
+app.post('/api/admin/users', authenticate, authorizeRoles('Admin'), adminController.registerUser);
+app.delete('/api/admin/users/:userId', authenticate, authorizeRoles('Admin'), adminController.deleteUser);
+
+// ==========================================
 // 2. MEDICAL REPORT MANAGEMENT ROUTES
 // ==========================================
-// Upload medical report (AES encrypted off-chain, SHA-256 duplicate detection, OCR keywords, Blockchain anchored)
-app.post('/api/reports/upload', authenticate, upload.single('reportFile'), reportController.uploadReport);
+// Upload medical report (Restricted: Lab Staff & Admin)
+app.post('/api/reports/upload', authenticate, authorizeRoles('Lab Staff', 'Admin'), upload.single('reportFile'), reportController.uploadReport);
+
+// Update medical report clinical notes (Restricted: Doctor & Admin)
+app.put('/api/reports/:reportId', authenticate, authorizeRoles('Doctor', 'Admin'), reportController.updateReport);
 
 // Retrieve reports (Role-based access & search)
 app.get('/api/reports', authenticate, reportController.getReports);
