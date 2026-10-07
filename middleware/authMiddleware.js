@@ -7,16 +7,18 @@ const JWT_SECRET = process.env.JWT_SECRET || 'med-blockchain-jwt-super-secret-ke
  * Authentication middleware that verifies JWT tokens or switches demo user
  */
 function authenticate(req, res, next) {
-    // 1. Check for standard Authorization Header
+    // 1. Check for standard Authorization Header or Query Parameter (used for browser file downloads)
     const authHeader = req.headers['authorization'];
     let token = null;
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
         token = authHeader.split(' ')[1];
+    } else if (req.query && req.query.token) {
+        token = req.query.token;
     }
 
-    // 2. Demo role / user header override for fast panel evaluation switcher
-    const demoUserId = req.headers['x-demo-user-id'];
+    // 2. Demo role / user header or query parameter override for fast panel evaluation switcher
+    const demoUserId = req.headers['x-demo-user-id'] || (req.query && (req.query.demoUserId || req.query.userId));
     if (demoUserId) {
         const demoUser = db.findUserById(demoUserId);
         if (demoUser) {

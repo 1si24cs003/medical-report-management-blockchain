@@ -281,8 +281,13 @@ function downloadDecryptedReport(req, res) {
             `Decrypted and accessed report ${report.reportId}`
         );
 
-        res.setHeader('Content-Type', report.mimeType || 'application/octet-stream');
-        res.setHeader('Content-Disposition', `inline; filename="${report.fileName || 'report.pdf'}"`);
+        const isInline = req.query.inline === 'true';
+        const dispositionType = isInline ? 'inline' : 'attachment';
+        const safeFileName = report.fileName || `${report.reportId}.pdf`;
+
+        res.setHeader('Content-Type', report.mimeType || 'application/pdf');
+        res.setHeader('Content-Disposition', `${dispositionType}; filename="${safeFileName}"`);
+        res.setHeader('Content-Length', decryptedBuffer.length);
         res.setHeader('X-Blockchain-Verified', 'true');
         res.setHeader('X-Report-Hash', liveHash);
 

@@ -201,52 +201,69 @@ body {
    MAIN NAVIGATION TABS
    ========================================================================== */
 .nav-tabs-wrapper {
-    background: rgba(10, 17, 34, 0.7);
+    background: rgba(10, 17, 34, 0.85);
     border-bottom: 1px solid var(--border-subtle);
-    padding: 0 2rem;
+    padding: 0.35rem 1.5rem;
+    position: sticky;
+    top: 73px;
+    z-index: 90;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow-x: auto;
 }
 
 .nav-tabs {
     max-width: 1440px;
     margin: 0 auto;
     display: flex;
-    gap: 0.5rem;
-    overflow-x: auto;
-    scrollbar-width: none;
+    flex-wrap: wrap; /* Guarantees all tabs remain visible across all screen aspect ratios */
+    gap: 0.35rem 0.6rem;
+    align-items: center;
 }
 
+/* Fallback visible sleek scrollbar if screen is very narrow */
+.nav-tabs-wrapper::-webkit-scrollbar,
 .nav-tabs::-webkit-scrollbar {
-    display: none;
+    height: 4px;
+}
+.nav-tabs-wrapper::-webkit-scrollbar-thumb,
+.nav-tabs::-webkit-scrollbar-thumb {
+    background: var(--accent-cyan);
+    border-radius: 4px;
 }
 
 .nav-tab {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-sm);
     color: var(--text-secondary);
-    padding: 1rem 1.25rem;
-    font-size: 0.88rem;
+    padding: 0.65rem 0.95rem;
+    font-size: 0.84rem;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     transition: var(--transition-fast);
     white-space: nowrap;
 }
 
 .nav-tab:hover {
     color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .nav-tab.active {
-    color: var(--accent-cyan);
-    border-bottom-color: var(--accent-cyan);
+    color: #ffffff;
+    background: rgba(0, 229, 255, 0.14);
+    border-color: rgba(0, 229, 255, 0.5);
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.2);
 }
 
 .nav-tab .badge {
-    background: rgba(0, 229, 255, 0.15);
+    background: rgba(0, 229, 255, 0.2);
     color: var(--accent-cyan);
     font-size: 0.72rem;
     padding: 2px 7px;

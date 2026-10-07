@@ -61,18 +61,6 @@
       "email": "admin@healthchain.gov",
       "role": "Admin",
       "institution": "Healthcare Consortium Blockchain Authority"
-    },
-    {
-      "name": "Dr. Vikram Seth",
-      "email": "dr.vikram@hospital.org",
-      "password": "password123",
-      "role": "Doctor",
-      "nodeId": "NODE-HOSP-01",
-      "createdAt": "2026-10-07T14:50:05.833Z",
-      "id": "usr_doc_muy8547d",
-      "department": "Neurology",
-      "hospital": "Metro Apex Hospital",
-      "license": "MC-2026-7788"
     }
   ],
   "reports": [
@@ -81,13 +69,28 @@
       "patientId": "usr_pat_01",
       "patientName": "John Doe",
       "patientPseudonym": "PT-9901",
+      "age": 48,
+      "gender": "Male",
       "uploadedBy": "Alex Smith (Lab Staff)",
       "uploaderId": "usr_lab_01",
       "uploaderRole": "Lab Staff",
+      "nodeId": "NODE-LAB-01",
       "title": "Fasting Blood Glucose & HbA1c Diagnostic Report",
       "reportType": "Pathology / Biochemistry",
       "testDate": "2026-08-14",
-      "notes": "Clinical evaluation confirmed early Stage 2 Diabetes. Patient advised lifestyle modifications.",
+      "notes": "Patient presented with mild fatigue and polydipsia. Routine glycemic profile evaluation.",
+      "clinicalImpression": "Indicative of early Stage-2 Type 2 Diabetes Mellitus with elevated glycemic variability. Advised strict glycemic control, lifestyle modification, and endocrinology follow-up in 90 days.",
+      "prescription": "Tab. Metformin 500mg BD after meals; 45 mins brisk walking daily.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Sarah Rao, MD",
+        "doctorId": "usr_doc_01",
+        "department": "Cardiology & General Medicine",
+        "hospital": "Metro Apex Hospital",
+        "updatedAt": "2026-08-14T14:30:00Z",
+        "status": "Reviewed & Prescribed"
+      },
+      "diagnosisStatus": "Reviewed & Prescribed",
+      "followUpDate": "2026-11-14",
       "keywords": [
         "Blood Sugar",
         "Glucose",
@@ -101,74 +104,172 @@
       ],
       "fileName": "JohnDoe_Glucose_Report_Aug2026.pdf",
       "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "Fasting Blood Sugar (FBS)",
+          "value": "142 mg/dL",
+          "ref": "70 - 99 mg/dL",
+          "status": "HIGH",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Postprandial Blood Glucose (PPBS)",
+          "value": "198 mg/dL",
+          "ref": "< 140 mg/dL",
+          "status": "ELEVATED",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Glycated Hemoglobin (HbA1c)",
+          "value": "7.4 %",
+          "ref": "4.0 - 5.6 %",
+          "status": "DIABETIC",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Estimated Average Glucose (eAG)",
+          "value": "165 mg/dL",
+          "ref": "< 114 mg/dL",
+          "status": "ELEVATED",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Fasting Serum Insulin",
+          "value": "18.2 uIU/mL",
+          "ref": "2.6 - 24.9 uIU/mL",
+          "status": "NORMAL",
+          "isAbnormal": false
+        }
+      ],
       "sampleContent": "PATIENT DIAGNOSTIC REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nDate of Test: 14-Aug-2026 | Lab Ref: LAB-88910\n\nBIOCHEMISTRY INVESTIGATION:\n1. Fasting Blood Sugar (FBS): 142 mg/dL (Normal: 70 - 99 mg/dL) [HIGH]\n2. Postprandial Blood Glucose: 198 mg/dL (Normal: < 140 mg/dL) [ELEVATED]\n3. Glycated Hemoglobin (HbA1c): 7.4% (Normal: 4.0 - 5.6%) [DIABETIC RANGE]\n\nImpression: Indicative of early Stage-2 Type 2 Diabetes Mellitus.\nRecommended: Lifestyle modification, glycemic control follow-up in 90 days.\nSigned: Alex Smith, Senior Biochemist",
-      "reportHash": "c1ec0cf3d448fabace5bef6b79e3a9ef26beadacdfe72ad05a800b7c6f1b1566",
+      "blockIndex": 1,
+      "reportHash": "a1400d6b3886ba130ce23538aef9b5b2f480fb29cc2c9900de7f3f0315bd8465",
       "storageReference": "REP-7A91F2C4_encrypted.bin",
-      "fileSize": 575,
-      "encryptedSize": 592,
+      "fileSize": 7127,
+      "encryptedSize": 7152,
+      "qrCodeDataUrl": "data:image/png;base64,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",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-7A91F2C4",
       "createdAt": "2026-08-14T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockIndex": 5,
-      "blockHash": "0004865bc922449723ba3f48c504a27e3a54cec111c72f39fe9359303ef2721f",
-      "diagnosisStatus": "Confirmed Diagnosis",
-      "prescription": "Metformin 500mg OD post meal",
-      "followUpDate": "2026-11-14",
-      "doctorRemarks": {
-        "doctorName": "Dr. Sarah Rao",
-        "doctorId": "usr_doc_01",
-        "department": "Cardiology & General Medicine",
-        "hospital": "Metro Apex Hospital",
-        "updatedAt": "2026-10-07T14:50:05.827Z",
-        "status": "Confirmed Diagnosis"
-      }
+      "blockHash": "00376dd05a8628f06f8a72813711333bf77ea4b5cfcdd4fa936de69aa3f1dd06"
     },
     {
       "reportId": "REP-8D44B190",
       "patientId": "usr_pat_01",
       "patientName": "John Doe",
       "patientPseudonym": "PT-9901",
+      "age": 48,
+      "gender": "Male",
       "uploadedBy": "Dr. Rajesh Nair (Doctor)",
       "uploaderId": "usr_doc_02",
       "uploaderRole": "Doctor",
+      "nodeId": "NODE-HOSP-01",
       "title": "Lumbosacral Spine Digital X-Ray Examination",
       "reportType": "Radiology / Imaging",
       "testDate": "2026-09-02",
       "notes": "Complaints of chronic lower back pain following occupational heavy lifting.",
+      "clinicalImpression": "No acute cortical fracture or vertebral dislocation identified. Mild lumbar spondylosis with degenerative disc space narrowing at L4-L5 and L5-S1 interspaces.",
+      "prescription": "Core lumbar stabilization physiotherapy; ergonomically contoured lumbar support belt.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Rajesh Nair, MS",
+        "doctorId": "usr_doc_02",
+        "department": "Orthopedics & Trauma",
+        "hospital": "Metro Apex Hospital",
+        "updatedAt": "2026-09-02T16:15:00Z",
+        "status": "Evaluated & Rehabilitation Prescribed"
+      },
+      "diagnosisStatus": "Evaluated & Rehabilitation Prescribed",
+      "followUpDate": "2026-10-15",
       "keywords": [
         "Fracture",
         "X-Ray",
         "Spine",
         "Lumbar",
         "Bone",
-        "Trauma"
+        "Trauma",
+        "Spondylosis"
       ],
       "categories": [
         "Radiology / Orthopedic"
       ],
-      "fileName": "JohnDoe_Spine_XRay_Sep2026.png",
-      "mimeType": "image/png",
+      "fileName": "JohnDoe_Spine_XRay_Report_Sep2026.pdf",
+      "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "Lumbar Vertebral Alignment",
+          "value": "Preserved Lordosis",
+          "ref": "Normal Anatomical Curve",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Cortical Margins & Density",
+          "value": "Intact, No Fracture",
+          "ref": "Intact Cortices",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Intervertebral Disc Height",
+          "value": "Narrowing at L4-L5 & L5-S1",
+          "ref": "Uniform Intervertebral Space",
+          "status": "DEGENERATIVE",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Anterior Marginal Osteophytes",
+          "value": "Early Spurring Present",
+          "ref": "Absent Osteophytes",
+          "status": "BORDERLINE",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Paraspinal Soft Tissue Contours",
+          "value": "Symmetrical / Normal",
+          "ref": "Normal Soft Tissue Contour",
+          "status": "NORMAL",
+          "isAbnormal": false
+        }
+      ],
       "sampleContent": "RADIOLOGY & IMAGING REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nExam: Digital X-Ray Lumbosacral Spine AP & Lateral Views\nDate: 02-Sep-2026\n\nFINDINGS:\n- Alignment of lumbar vertebral bodies is preserved.\n- No obvious acute cortical fracture or dislocation identified.\n- Mild degenerative disc space narrowing at L4-L5 and L5-S1 interspaces.\n- Early anterior osteophytic spurring noted.\n- Paraspinal soft tissue contours appear normal.\n\nIMPRESSION:\nNo acute fracture. Mild lumbar spondylosis with degenerative disc changes.\nAdvised: Physical therapy, ergonomic lumbar support.\nRadiologist: Dr. Rajesh Nair, MD (Radio-diagnosis)",
-      "reportHash": "a01b2714eb3699820392cb5018598d7bd17b0b5c1ee530db4c32ec8b9be12546",
+      "blockIndex": 2,
+      "reportHash": "34a37c5545b8fccfd85f9190870ee452565edd1c222cae237b379eac086a278d",
       "storageReference": "REP-8D44B190_encrypted.bin",
-      "fileSize": 661,
-      "encryptedSize": 688,
+      "fileSize": 7098,
+      "encryptedSize": 7120,
+      "qrCodeDataUrl": "data:image/png;base64,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",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-8D44B190",
       "createdAt": "2026-09-02T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockIndex": 2,
-      "blockHash": "00e33391524fb82f273c86d450fa960db26d9cacff13162edb40089725c1adfd"
+      "blockHash": "00fc7f4bdcf765efdf63d6af19f3f636a5ab3a118600c4c8f5b4f3a05d5e225f"
     },
     {
       "reportId": "REP-9E11C83F",
       "patientId": "usr_pat_01",
       "patientName": "John Doe",
       "patientPseudonym": "PT-9901",
+      "age": 48,
+      "gender": "Male",
       "uploadedBy": "Alex Smith (Lab Staff)",
       "uploaderId": "usr_lab_01",
       "uploaderRole": "Lab Staff",
+      "nodeId": "NODE-LAB-01",
       "title": "Complete Blood Count (CBC) with Differential",
       "reportType": "Hematology",
       "testDate": "2026-09-28",
       "notes": "Pre-procedural hematological workup and general health screening.",
+      "clinicalImpression": "Normocytic, normochromic peripheral smear. Complete blood count parameters within normal biological reference intervals. No evidence of infection, anemia, or thrombocytopenia.",
+      "prescription": "Normal health maintenance; balanced nutritional intake.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Sarah Rao, MD",
+        "doctorId": "usr_doc_01",
+        "department": "Cardiology & General Medicine",
+        "hospital": "Metro Apex Hospital",
+        "updatedAt": "2026-09-28T11:45:00Z",
+        "status": "Verified Normal"
+      },
+      "diagnosisStatus": "Verified Normal",
+      "followUpDate": "2027-03-28",
       "keywords": [
         "Hemoglobin",
         "Wbc",
@@ -182,28 +283,96 @@
       ],
       "fileName": "JohnDoe_CBC_Screening_Sep2026.pdf",
       "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "Hemoglobin (Hb)",
+          "value": "14.8 g/dL",
+          "ref": "13.5 - 17.5 g/dL",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Total Leucocyte Count (WBC)",
+          "value": "6,900 /cumm",
+          "ref": "4,000 - 11,000 /cumm",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Platelet Count",
+          "value": "265,000 /cumm",
+          "ref": "150,000 - 450,000 /cumm",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Packed Cell Volume (Hematocrit)",
+          "value": "44.2 %",
+          "ref": "40.0 - 52.0 %",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Total RBC Count",
+          "value": "4.90 mil/cumm",
+          "ref": "4.50 - 5.90 mil/cumm",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Neutrophils",
+          "value": "62 %",
+          "ref": "40 - 75 %",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Lymphocytes",
+          "value": "30 %",
+          "ref": "20 - 45 %",
+          "status": "NORMAL",
+          "isAbnormal": false
+        }
+      ],
       "sampleContent": "HEMATOLOGY WORKUP REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nDate: 28-Sep-2026 | Automated Cell Counter Analyzer\n\nCOMPLETE BLOOD COUNT:\n- Hemoglobin (Hb): 14.8 g/dL (Ref: 13.5 - 17.5 g/dL) [NORMAL]\n- Total Leucocyte Count (WBC): 6,900 /cumm (Ref: 4,000 - 11,000) [NORMAL]\n- Platelet Count: 265,000 /cumm (Ref: 150,000 - 450,000) [NORMAL]\n- Packed Cell Volume (Hematocrit): 44.2% (Ref: 40 - 52%) [NORMAL]\n- RBC Count: 4.9 million/cumm (Ref: 4.5 - 5.9) [NORMAL]\n\nInterpretation: Normocytic, normochromic peripheral smear. No hematological abnormalities detected.",
-      "reportHash": "9c35a6582bf2352ada01fe0f57712698c657776a5733cd3bd0625d3eb7aa04b2",
+      "blockIndex": 3,
+      "reportHash": "b4d70b546f22ddbee817f91b7277efd2d52077b4b75dd35a366550fb41ca4dc7",
       "storageReference": "REP-9E11C83F_encrypted.bin",
-      "fileSize": 597,
-      "encryptedSize": 624,
+      "fileSize": 7152,
+      "encryptedSize": 7184,
+      "qrCodeDataUrl": "data:image/png;base64,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",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-9E11C83F",
       "createdAt": "2026-09-28T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockIndex": 3,
-      "blockHash": "0087f393865f676839d4f177bebf5383b4385e95cd988627fa1403287af96dc9"
+      "blockHash": "008f4837a6f5a961f3bc50b2aa131c0d60a4bfc852b3aaa4cf86ef964c211e1e"
     },
     {
       "reportId": "REP-3C55A701",
       "patientId": "usr_pat_02",
       "patientName": "Meera Patel",
       "patientPseudonym": "PT-9902",
+      "age": 34,
+      "gender": "Female",
       "uploadedBy": "Alex Smith (Lab Staff)",
       "uploaderId": "usr_lab_01",
       "uploaderRole": "Lab Staff",
+      "nodeId": "NODE-LAB-01",
       "title": "Comprehensive Lipid Profile & Cardiac Risk Panel",
       "reportType": "Cardiovascular / Biochemistry",
       "testDate": "2026-09-15",
       "notes": "Routine executive health checkup and lipid assessment.",
+      "clinicalImpression": "Normal lipid profile with low cardiovascular risk index. Borderline LDL noted; advised Mediterranean diet with reduced saturated fat and regular cardio exercise.",
+      "prescription": "Lifestyle and dietary modification; recheck fasting lipid profile in 12 months.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Sarah Rao, MD",
+        "doctorId": "usr_doc_01",
+        "department": "Cardiology & General Medicine",
+        "hospital": "Metro Apex Hospital",
+        "updatedAt": "2026-09-15T15:00:00Z",
+        "status": "Reviewed & Advised"
+      },
+      "diagnosisStatus": "Reviewed & Advised",
+      "followUpDate": "2027-09-15",
       "keywords": [
         "Cholesterol",
         "Triglycerides",
@@ -217,15 +386,61 @@
       ],
       "fileName": "MeeraPatel_Lipid_Profile_Sep2026.pdf",
       "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "Total Serum Cholesterol",
+          "value": "185 mg/dL",
+          "ref": "< 200 mg/dL",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Serum Triglycerides",
+          "value": "132 mg/dL",
+          "ref": "< 150 mg/dL",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "HDL Cholesterol (Protective)",
+          "value": "54 mg/dL",
+          "ref": "> 50 mg/dL",
+          "status": "OPTIMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "LDL Cholesterol (Calculated)",
+          "value": "105 mg/dL",
+          "ref": "< 100 mg/dL",
+          "status": "BORDERLINE",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "VLDL Cholesterol",
+          "value": "26.4 mg/dL",
+          "ref": "5.0 - 40.0 mg/dL",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Total Cholesterol / HDL Ratio",
+          "value": "3.42",
+          "ref": "< 4.50 Ratio",
+          "status": "NORMAL",
+          "isAbnormal": false
+        }
+      ],
       "sampleContent": "LIPID PROFILE INVESTIGATION - PATHOLOGY DIAGNOSTICS LAB\nPatient: Meera Patel | ID: PT-9902 | Age: 34 | Sex: F\nDate: 15-Sep-2026\n\nLIPID PANEL:\n- Total Serum Cholesterol: 185 mg/dL (Desirable: < 200 mg/dL) [NORMAL]\n- Serum Triglycerides: 132 mg/dL (Normal: < 150 mg/dL) [NORMAL]\n- HDL Cholesterol: 54 mg/dL (Protective: > 50 mg/dL) [GOOD]\n- LDL Cholesterol: 105 mg/dL (Optimal: < 100 mg/dL) [BORDERLINE]\n- VLDL Cholesterol: 26.4 mg/dL (Ref: 5 - 40 mg/dL) [NORMAL]\n\nImpression: Normal lipid profile with low cardiovascular risk index.",
-      "reportHash": "0ef7393a3368a6ea4e9bb5e31202938c705ed6c3cee2b4ada00fce0abddad080",
+      "blockIndex": 4,
+      "reportHash": "9f7893841d7e3d7271173c6e8fd11318078475ac07faef2ca873caa5f260dd78",
       "storageReference": "REP-3C55A701_encrypted.bin",
-      "fileSize": 531,
-      "encryptedSize": 560,
+      "fileSize": 7112,
+      "encryptedSize": 7136,
+      "qrCodeDataUrl": "data:image/png;base64,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",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-3C55A701",
       "createdAt": "2026-09-15T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockIndex": 4,
-      "blockHash": "0064e455c35b3b233f8f9ee87d51d9341d7576903d7834f5b20a9311fd045305"
+      "blockHash": "00a432fff011180cd8b90ff39c9796162d6e82d89931973afab19ae6cc60bbaa"
     }
   ],
   "sharedLinks": [
@@ -265,122 +480,108 @@
   ],
   "auditLogs": [
     {
-      "id": "log_1791386769724_ez23",
-      "action": "USER_LOGIN",
-      "actor": "Consortium SuperAdmin",
-      "details": "User authenticated successfully with role: Admin",
-      "timestamp": "2026-10-07T15:26:09.724Z"
-    },
-    {
-      "id": "log_1791386390399_qcuo",
-      "action": "EXPIRED_LINK_ACCESS_REJECTED",
-      "actor": "Unauthorized Visitor",
-      "details": "Attempted access using expired token (Expired at: Tue Oct 06 2026 16:24:55 GMT+0530 (India Standard Time))",
-      "timestamp": "2026-10-07T15:19:50.399Z"
-    },
-    {
-      "id": "log_1791386379137_my5g",
-      "action": "USER_LOGIN",
-      "actor": "John Doe",
-      "details": "User authenticated successfully with role: Patient",
-      "timestamp": "2026-10-07T15:19:39.137Z"
-    },
-    {
-      "id": "log_1791386368570_5upn",
+      "id": "log_1791392904684_xgc9",
       "action": "USER_LOGIN",
       "actor": "Dr. Sarah Rao",
       "details": "User authenticated successfully with role: Doctor",
-      "timestamp": "2026-10-07T15:19:28.570Z"
+      "timestamp": "2026-10-07T17:08:24.684Z"
     },
     {
-      "id": "log_1791386342252_xgwu",
+      "id": "log_1791392903126_khpq",
       "action": "USER_LOGIN",
       "actor": "Alex Smith",
       "details": "User authenticated successfully with role: Lab Staff",
-      "timestamp": "2026-10-07T15:19:02.252Z"
+      "timestamp": "2026-10-07T17:08:23.126Z"
     },
     {
-      "id": "log_1791386324180_b21e",
+      "id": "log_1791392888121_yxz6",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-07T17:08:08.121Z"
+    },
+    {
+      "id": "log_1791392874400_f7sq",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-07T17:07:54.400Z"
+    },
+    {
+      "id": "log_1791392851936_aqnl",
       "action": "USER_LOGIN",
       "actor": "Dr. Sarah Rao",
       "details": "User authenticated successfully with role: Doctor",
-      "timestamp": "2026-10-07T15:18:44.180Z"
+      "timestamp": "2026-10-07T17:07:31.936Z"
     },
     {
-      "id": "log_1791384605835_u87w",
-      "action": "USER_LOGIN",
-      "actor": "Dr. Vikram Seth",
-      "details": "User authenticated successfully with role: Doctor",
-      "timestamp": "2026-10-07T14:50:05.835Z"
-    },
-    {
-      "id": "log_1791384605834_wa9q",
-      "action": "USER_REGISTERED",
-      "actor": "Consortium SuperAdmin",
-      "details": "Admin enrolled new Doctor: Dr. Vikram Seth (dr.vikram@hospital.org, ID: usr_doc_muy8547d)",
-      "timestamp": "2026-10-07T14:50:05.834Z"
-    },
-    {
-      "id": "log_1791384605832_98bh",
+      "id": "log_1791392849333_k61b",
       "action": "USER_LOGIN",
       "actor": "Consortium SuperAdmin",
       "details": "User authenticated successfully with role: Admin",
-      "timestamp": "2026-10-07T14:50:05.832Z"
+      "timestamp": "2026-10-07T17:07:29.333Z"
     },
     {
-      "id": "log_1791384605829_rkn3",
+      "id": "log_1791392847933_2398",
       "action": "USER_LOGIN",
       "actor": "John Doe",
       "details": "User authenticated successfully with role: Patient",
-      "timestamp": "2026-10-07T14:50:05.829Z"
+      "timestamp": "2026-10-07T17:07:27.933Z"
     },
     {
-      "id": "log_1791384605828_i6sb",
-      "action": "DOCTOR_CLINICAL_UPDATE",
-      "actor": "Dr. Sarah Rao",
-      "details": "Doctor updated diagnosis notes for report REP-7A91F2C4 (Status: Confirmed Diagnosis)",
-      "timestamp": "2026-10-07T14:50:05.828Z"
+      "id": "log_1791392842200_gv6k",
+      "action": "USER_LOGIN",
+      "actor": "Alex Smith",
+      "details": "User authenticated successfully with role: Lab Staff",
+      "timestamp": "2026-10-07T17:07:22.200Z"
     },
     {
-      "id": "log_1791384605824_cdk8",
+      "id": "log_1791392837713_ivnp",
       "action": "USER_LOGIN",
       "actor": "Dr. Sarah Rao",
       "details": "User authenticated successfully with role: Doctor",
-      "timestamp": "2026-10-07T14:50:05.824Z"
+      "timestamp": "2026-10-07T17:07:17.713Z"
     },
     {
-      "id": "log_1791284033210_4xe7",
-      "action": "DUPLICATE_REPORT_PREVENTED",
-      "actor": "Dr. Sarah Rao",
-      "details": "Duplicate upload rejected. Hash: c1ec0cf3d448faba... matched existing report ID: REP-7A91F2C4",
-      "timestamp": "2026-10-06T10:53:53.210Z"
+      "id": "log_1791392828160_jg5b",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-3C55A701: MATCH (Authentic)",
+      "timestamp": "2026-10-07T17:07:08.160Z"
     },
     {
-      "id": "log_1791283978518_kl50",
-      "action": "SHARED_LINK_ACCESSED",
-      "actor": "Consulting Doctor (via Shared Link)",
-      "details": "Accessed shared report REP-7A91F2C4 with token. Time remaining: 117s",
-      "timestamp": "2026-10-06T10:52:58.518Z"
+      "id": "log_1791392828158_cu3l",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-9E11C83F: MATCH (Authentic)",
+      "timestamp": "2026-10-07T17:07:08.158Z"
     },
     {
-      "id": "log_1791283975385_vxx4",
-      "action": "TIME_EXPIRING_LINK_CREATED",
-      "actor": "Dr. Sarah Rao",
-      "details": "Created temporary share link for REP-7A91F2C4 valid for 2 min(s) (Expires: 2026-10-06T10:54:55.383Z)",
-      "timestamp": "2026-10-06T10:52:55.385Z"
+      "id": "log_1791392828156_sz2p",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-07T17:07:08.156Z"
     },
     {
-      "id": "log_1791283944616_fqrs",
+      "id": "log_1791392828152_7d3l",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-07T17:07:08.152Z"
+    },
+    {
+      "id": "log_1791392810005_y1lu",
       "action": "REPORT_DECRYPTED",
       "actor": "Dr. Sarah Rao",
       "details": "Decrypted and accessed report REP-7A91F2C4",
-      "timestamp": "2026-10-06T10:52:24.616Z"
+      "timestamp": "2026-10-07T17:06:50.005Z"
     },
     {
       "id": "log_01",
       "action": "SYSTEM_INITIALIZATION",
-      "details": "Healthcare Consortium Blockchain Ledger and Database Initialized",
-      "timestamp": "2026-10-05T15:41:53.243Z",
+      "details": "Healthcare Consortium Blockchain Ledger and Database Initialized with Authentic Diagnostic Reports",
+      "timestamp": "2026-10-07T16:31:13.670Z",
       "actor": "Consortium SuperAdmin"
     }
   ]

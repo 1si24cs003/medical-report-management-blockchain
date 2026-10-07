@@ -176,8 +176,9 @@ function downloadSharedReportFile(req, res) {
         const encryptedData = fs.readFileSync(filePath);
         const decryptedBuffer = decryptBuffer(encryptedData);
 
-        res.setHeader('Content-Type', report.mimeType || 'application/octet-stream');
-        res.setHeader('Content-Disposition', `inline; filename="${report.fileName || 'report.pdf'}"`);
+        res.setHeader('Content-Type', report.mimeType || 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${report.fileName || 'report.pdf'}"`);
+        res.setHeader('Content-Length', decryptedBuffer.length);
         return res.send(decryptedBuffer);
 
     } catch (err) {

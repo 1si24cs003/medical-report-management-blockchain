@@ -45,31 +45,29 @@ class Database {
         }
     }
 
-    seedInitialData() {
-        console.log('[Database] Seeding initial users and clinical records...');
+    async seedInitialData() {
+        console.log('[Database] Seeding initial users and clinical records with authentic PDFs...');
         this.users = [...SAMPLE_USERS];
-        const seedReports = createSeedReports(UPLOADS_DIR);
+        const seedReports = await createSeedReports(UPLOADS_DIR);
 
-        // Anchor seed reports to the blockchain ledger if not already anchored
+        // Reset blockchain ledger to ensure 100% cryptographic consensus with the new PDF hashes
+        blockchain.chain = [blockchain.createGenesisBlock()];
+        blockchain.chain[0].mineBlock(blockchain.difficulty);
+
+        // Anchor seed reports to the blockchain ledger
         for (const rep of seedReports) {
-            let existingBlock = blockchain.findBlockByHash(rep.reportHash);
-            if (!existingBlock) {
-                const block = blockchain.addReportBlock({
-                    reportId: rep.reportId,
-                    reportHash: rep.reportHash,
-                    storageReference: rep.storageReference,
-                    reportType: rep.reportType,
-                    testDate: rep.testDate,
-                    patientPseudonym: rep.patientPseudonym,
-                    patientId: rep.patientId
-                }, rep.uploaderRole === 'Doctor' ? 'NODE-HOSP-01' : 'NODE-LAB-01');
+            const block = blockchain.addReportBlock({
+                reportId: rep.reportId,
+                reportHash: rep.reportHash,
+                storageReference: rep.storageReference,
+                reportType: rep.reportType,
+                testDate: rep.testDate,
+                patientPseudonym: rep.patientPseudonym,
+                patientId: rep.patientId
+            }, rep.uploaderRole === 'Doctor' ? 'NODE-HOSP-01' : 'NODE-LAB-01');
 
-                rep.blockIndex = block.index;
-                rep.blockHash = block.hash;
-            } else {
-                rep.blockIndex = existingBlock.index;
-                rep.blockHash = existingBlock.hash;
-            }
+            rep.blockIndex = block.index;
+            rep.blockHash = block.hash;
         }
 
         this.reports = seedReports;
@@ -77,12 +75,14 @@ class Database {
             {
                 id: 'log_01',
                 action: 'SYSTEM_INITIALIZATION',
-                details: 'Healthcare Consortium Blockchain Ledger and Database Initialized',
+                details: 'Healthcare Consortium Blockchain Ledger and Database Initialized with Authentic Diagnostic Reports',
                 timestamp: new Date().toISOString(),
                 actor: 'Consortium SuperAdmin'
             }
         ];
         this.persist();
+        console.log('[Database] Seeded 4 authentic PDF reports anchored on blockchain!');
+        return this.reports;
     }
 
     persist() {

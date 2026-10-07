@@ -236,13 +236,13 @@ function applyRolePermissions(role) {
     const uploadForm = document.getElementById('uploadForm');
     const timelinePatientSelectorWrapper = document.getElementById('timelinePatientSelectorWrapper');
 
-    // Reset default display
-    tabRecords.style.display = 'inline-block';
-    tabTimeline.style.display = 'inline-block';
-    tabUpload.style.display = 'inline-block';
+    // Reset default display - Use inline-flex to respect modern tab layout
+    tabRecords.style.display = 'inline-flex';
+    tabTimeline.style.display = 'inline-flex';
+    tabUpload.style.display = 'inline-flex';
     tabAdmin.style.display = 'none';
-    tabBlockchain.style.display = 'inline-block';
-    tabAudit.style.display = 'inline-block';
+    tabBlockchain.style.display = 'inline-flex';
+    tabAudit.style.display = 'inline-flex'; // Always visible across all roles!
 
     if (patientNotice) patientNotice.style.display = 'none';
     if (uploadRestrictedNotice) uploadRestrictedNotice.style.display = 'none';
@@ -250,11 +250,11 @@ function applyRolePermissions(role) {
     if (timelinePatientSelectorWrapper) timelinePatientSelectorWrapper.style.display = 'flex';
 
     if (role === 'Patient') {
-        // Patient can only view their own records and timeline; cannot upload or admin
+        // Patient can view their own records, timeline, and blockchain audit trail
         tabUpload.style.display = 'none';
         tabAdmin.style.display = 'none';
-        tabBlockchain.style.display = 'none';
-        tabAudit.style.display = 'none';
+        tabBlockchain.style.display = 'inline-flex';
+        tabAudit.style.display = 'inline-flex';
 
         if (patientNotice) patientNotice.style.display = 'flex';
         if (timelinePatientSelectorWrapper) timelinePatientSelectorWrapper.style.display = 'none';
@@ -263,19 +263,20 @@ function applyRolePermissions(role) {
         tabRecords.click();
 
     } else if (role === 'Lab Staff') {
-        // Lab staff is restricted to uploading data and viewing archives/ledger
+        // Lab staff uploads data, explores ledger, and verifies audit logs
         tabTimeline.style.display = 'none';
         tabAdmin.style.display = 'none';
-        tabAudit.style.display = 'none';
+        tabBlockchain.style.display = 'inline-flex';
+        tabAudit.style.display = 'inline-flex';
 
         if (uploadRestrictedNotice) uploadRestrictedNotice.style.display = 'none';
         tabUpload.click();
 
     } else if (role === 'Doctor') {
-        // Doctor reviews records, updates diagnosis, views timeline, verifies ledger
+        // Doctor reviews records, updates diagnosis, views timeline, verifies ledger and audits
         tabAdmin.style.display = 'none';
+        tabAudit.style.display = 'inline-flex';
 
-        // Doctor doesn't primarily upload (Lab does), but can view or is notified
         if (uploadRestrictedNotice) {
             uploadRestrictedNotice.style.display = 'flex';
             uploadRestrictedNotice.innerHTML = `<span>ℹ️</span><div><strong>Consortium Workflow Policy:</strong> Diagnostic documents are uploaded by <strong>Lab Staff</strong>. Doctors review results, add clinical diagnoses, and manage treatment plans.</div>`;
@@ -285,7 +286,8 @@ function applyRolePermissions(role) {
 
     } else if (role === 'Admin') {
         // Admin has full consortium privileges including User Management
-        tabAdmin.style.display = 'inline-block';
+        tabAdmin.style.display = 'inline-flex';
+        tabAudit.style.display = 'inline-flex';
         tabAdmin.click();
     }
 }
@@ -432,6 +434,9 @@ function renderReports(reports) {
                 <button class="btn btn-primary" onclick="openReportModal('${escapeHtml(r.reportId)}')">
                     👁️ View Decrypted
                 </button>
+                <button class="btn btn-secondary" onclick="downloadReportFile('${escapeHtml(r.reportId)}', '${escapeHtml(r.fileName || r.reportId + '.pdf')}')" title="Download Authentic Medical PDF with Embedded QR Code">
+                    📥 Download PDF
+                </button>
                 ${editBtnHtml}
                 <button class="btn btn-qr" onclick="openQrModal('${escapeHtml(r.reportId)}')">
                     🔍 Verify QR
@@ -533,8 +538,9 @@ async function loadTimeline() {
                         <span style="font-size: 0.75rem; color: var(--text-muted);">
                             Ledger Anchor: <strong>Block #${item.blockIndex}</strong> (${item.blockHash ? item.blockHash.slice(0, 16) + '...' : ''})
                         </span>
-                        <div style="display: flex; gap: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                             <button class="btn btn-secondary" onclick="openReportModal('${escapeHtml(item.reportId)}')">View Report</button>
+                            <button class="btn btn-primary" onclick="downloadReportFile('${escapeHtml(item.reportId)}', '${escapeHtml(item.fileName || item.reportId + '.pdf')}')">📥 Download PDF</button>
                             <button class="btn btn-qr" onclick="openQrModal('${escapeHtml(item.reportId)}')">Anti-Forgery QR</button>
                         </div>
                     </div>
@@ -1153,7 +1159,20 @@ async function openReportModal(reportId) {
             sub.textContent = `Patient: ${r.patientName} (${r.patientPseudonym}) • Date: ${r.testDate} • Category: ${r.reportType}`;
             content.textContent = r.rawSnippet || 'Report decrypted successfully from off-chain storage.';
             hash.textContent = `SHA-256 Fingerprint: ${r.reportHash}`;
-            downloadBtn.href = `/api/reports/${encodeURIComponent(reportId)}/download`;
+            
+            // Wire up secure download
+            const safeDownloadName = r.fileName || `${r.reportId}.pdf`;
+            downloadBtn.onclick = (e) => {
+                e.preventDefault();
+                downloadReportFile(r.reportId, safeDownloadName);
+            };
+
+            const token = localStorage.getItem('hc_token');
+            const user = getCurrentUser();
+            let fallbackUrl = `/api/reports/${encodeURIComponent(reportId)}/download`;
+            if (token) fallbackUrl += `?token=${encodeURIComponent(token)}`;
+            else if (user) fallbackUrl += `?demoUserId=${encodeURIComponent(user.id)}`;
+            downloadBtn.href = fallbackUrl;
 
             if (r.doctorRemarks) {
                 remarksSection.style.display = 'block';
@@ -1168,6 +1187,48 @@ async function openReportModal(reportId) {
         }
     } catch (e) {
         content.textContent = 'Error decrypting report: ' + e.message;
+    }
+}
+
+/**
+ * Downloads a decrypted medical report with live blockchain verification
+ */
+async function downloadReportFile(reportId, preferredFileName) {
+    try {
+        showToast('🔓 Decrypting report with AES-256 and verifying SHA-256 against blockchain...', 'info');
+        const token = localStorage.getItem('hc_token');
+        const user = getCurrentUser();
+        let url = `/api/reports/${encodeURIComponent(reportId)}/download`;
+        if (token) {
+            url += `?token=${encodeURIComponent(token)}`;
+        } else if (user) {
+            url += `?demoUserId=${encodeURIComponent(user.id)}`;
+        }
+
+        const res = await fetch(url, { headers: getAuthHeaders() });
+        if (!res.ok) {
+            let errMsg = 'Failed to download report.';
+            try {
+                const errData = await res.json();
+                errMsg = errData.message || errMsg;
+            } catch (ignored) {}
+            showToast(`❌ ${errMsg}`, 'error');
+            return;
+        }
+
+        const blob = await res.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = blobUrl;
+        a.download = preferredFileName || `${reportId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(a);
+        showToast('✅ Report decrypted & verified against blockchain! PDF downloaded successfully.', 'success');
+    } catch (err) {
+        showToast(`❌ Download error: ${err.message}`, 'error');
     }
 }
 
