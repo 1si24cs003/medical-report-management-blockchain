@@ -752,27 +752,51 @@
             <p id="modalReportSubtitle" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;"></p>
 
             <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.25rem;">
-                <h4 style="font-size: 0.8rem; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 0.5rem;">
-                    Decrypted Content (Streamed from AES Off-Chain Storage):
-                </h4>
-                <pre id="modalReportContent" style="font-family: var(--font-mono); font-size: 0.85rem; color: #e2e8f0; white-space: pre-wrap; line-height: 1.5;"></pre>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <h4 style="font-size: 0.8rem; color: var(--accent-cyan); text-transform: uppercase; margin: 0;">
+                        Decrypted Clinical Record (AES-256 Streamed):
+                    </h4>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button id="modalTabSummaryBtn" class="btn btn-primary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="switchModalView('summary')">
+                            📋 Investigation Summary
+                        </button>
+                        <button id="modalTabPdfBtn" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="switchModalView('pdf')">
+                            📄 Live PDF Document
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Summary View (Formatted Table & Details) -->
+                <div id="modalReportSummaryView">
+                    <div id="modalReportContent" style="font-size: 0.88rem; line-height: 1.5;"></div>
+                </div>
+
+                <!-- PDF Preview View (Interactive iFrame) -->
+                <div id="modalReportPdfView" style="display: none;">
+                    <iframe id="modalPdfFrame" style="width: 100%; height: 460px; border: 1px solid var(--border-subtle); border-radius: 6px; background: #ffffff;" src="about:blank"></iframe>
+                </div>
             </div>
 
             <!-- Doctor Remarks / Clinical Observations Box if present -->
-            <div id="modalDoctorRemarksSection" class="doctor-remarks-box" style="display: none;">
+            <div id="modalDoctorRemarksSection" class="doctor-remarks-box" style="display: none; margin-bottom: 1rem;">
                 <h4 style="font-size: 0.82rem; color: var(--accent-warning); text-transform: uppercase; margin-bottom: 0.35rem;">
                     👨‍⚕️ Attending Physician Clinical Evaluation:
                 </h4>
                 <div id="modalDoctorRemarksContent" style="font-size: 0.88rem; color: #fef08a; line-height: 1.5;"></div>
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem;">
-                <span id="modalReportHash" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); word-break: break-all;"></span>
-                <div style="display: flex; gap: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+                <span id="modalReportHash" style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); word-break: break-all;"></span>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <a id="modalOpenPdfTabBtn" href="#" target="_blank" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px;">
+                        ↗️ Open in New Tab
+                    </a>
                     <button id="modalDoctorEditBtn" class="btn btn-edit" style="display: none;">
                         ✏️ Edit Clinical Notes
                     </button>
-                    <a id="modalDownloadBtn" href="#" class="btn btn-primary" download>📥 Download File</a>
+                    <button id="modalDownloadBtn" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 6px;">
+                        📥 Download PDF
+                    </button>
                 </div>
             </div>
         </div>

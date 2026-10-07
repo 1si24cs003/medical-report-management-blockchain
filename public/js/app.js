@@ -1118,6 +1118,55 @@ async function loadAuditLogs() {
 }
 
 // ==========================================================================
+// TOAST NOTIFICATION SYSTEM
+// ==========================================================================
+function showToast(message, type = 'info') {
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        container.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; max-width: 440px; pointer-events: none;';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    const isError = type === 'error';
+    const isSuccess = type === 'success';
+    const bg = isError ? 'rgba(239, 68, 68, 0.95)' : isSuccess ? 'rgba(16, 185, 129, 0.95)' : 'rgba(15, 23, 42, 0.95)';
+    const border = isError ? '#f87171' : isSuccess ? '#34d399' : 'var(--accent-cyan)';
+
+    toast.style.cssText = `background: ${bg}; color: #ffffff; padding: 12px 18px; border-radius: 8px; border: 1px solid ${border}; box-shadow: 0 10px 25px rgba(0,0,0,0.45); font-size: 0.88rem; font-weight: 500; display: flex; align-items: center; gap: 10px; pointer-events: auto; backdrop-filter: blur(8px); transition: all 0.3s ease;`;
+    toast.innerHTML = `<span style="font-size: 1.1rem;">${isError ? '⚠️' : isSuccess ? '✅' : 'ℹ️'}</span><span style="flex: 1;">${message}</span>`;
+    
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 350);
+    }, 4500);
+}
+
+// Modal view switcher: summary vs live PDF preview
+function switchModalView(mode) {
+    const summaryView = document.getElementById('modalReportSummaryView');
+    const pdfView = document.getElementById('modalReportPdfView');
+    const sumBtn = document.getElementById('modalTabSummaryBtn');
+    const pdfBtn = document.getElementById('modalTabPdfBtn');
+
+    if (mode === 'pdf') {
+        if (summaryView) summaryView.style.display = 'none';
+        if (pdfView) pdfView.style.display = 'block';
+        if (sumBtn) { sumBtn.classList.remove('btn-primary'); sumBtn.classList.add('btn-secondary'); }
+        if (pdfBtn) { pdfBtn.classList.remove('btn-secondary'); pdfBtn.classList.add('btn-primary'); }
+    } else {
+        if (summaryView) summaryView.style.display = 'block';
+        if (pdfView) pdfView.style.display = 'none';
+        if (sumBtn) { sumBtn.classList.remove('btn-secondary'); sumBtn.classList.add('btn-primary'); }
+        if (pdfBtn) { pdfBtn.classList.remove('btn-primary'); pdfBtn.classList.add('btn-secondary'); }
+    }
+}
+
+// ==========================================================================
 // 14. MODAL POPUPS & HANDLERS
 // ==========================================================================
 async function openReportModal(reportId) {
@@ -1128,14 +1177,18 @@ async function openReportModal(reportId) {
     const content = document.getElementById('modalReportContent');
     const hash = document.getElementById('modalReportHash');
     const downloadBtn = document.getElementById('modalDownloadBtn');
+    const openPdfTabBtn = document.getElementById('modalOpenPdfTabBtn');
     const editBtn = document.getElementById('modalDoctorEditBtn');
     const remarksSection = document.getElementById('modalDoctorRemarksSection');
     const remarksContent = document.getElementById('modalDoctorRemarksContent');
+    const pdfFrame = document.getElementById('modalPdfFrame');
 
     badge.textContent = reportId;
     title.textContent = 'Decrypting report from AES storage...';
-    content.textContent = 'Loading...';
+    sub.textContent = 'Verifying cryptographic integrity against permissioned blockchain ledger...';
+    content.innerHTML = '<div style="color: var(--accent-cyan); padding: 1.25rem 0; text-align: center;">⏳ Decrypting record & recalculating SHA-256 fingerprint...</div>';
     remarksSection.style.display = 'none';
+    switchModalView('summary');
 
     // Doctor edit button inside modal
     if (currentUser && (currentUser.role === 'Doctor' || currentUser.role === 'Admin')) {
@@ -1156,37 +1209,95 @@ async function openReportModal(reportId) {
         if (data.success && data.report) {
             const r = data.report;
             title.textContent = r.title;
-            sub.textContent = `Patient: ${r.patientName} (${r.patientPseudonym}) • Date: ${r.testDate} • Category: ${r.reportType}`;
-            content.textContent = r.rawSnippet || 'Report decrypted successfully from off-chain storage.';
+            sub.textContent = `Patient: ${r.patientName} (${r.patientPseudonym}) • Date: ${r.testDate} • Category: ${r.reportType} • Ledger Block #${r.blockIndex || 1}`;
             hash.textContent = `SHA-256 Fingerprint: ${r.reportHash}`;
-            
-            // Wire up secure download
+
+            // Build rich diagnostic parameters table
+            let bodyHtml = '';
+            if (r.testParameters && Array.isArray(r.testParameters) && r.testParameters.length > 0) {
+                bodyHtml += `
+                    <div style="overflow-x: auto; margin-bottom: 1rem; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                            <thead>
+                                <tr style="background: rgba(255,255,255,0.06); text-align: left;">
+                                    <th style="padding: 10px 14px; border-bottom: 1px solid var(--border-subtle); color: var(--accent-cyan);">Investigation / Parameter</th>
+                                    <th style="padding: 10px 14px; border-bottom: 1px solid var(--border-subtle); color: var(--accent-cyan);">Observed Value</th>
+                                    <th style="padding: 10px 14px; border-bottom: 1px solid var(--border-subtle); color: var(--accent-cyan);">Reference Range</th>
+                                    <th style="padding: 10px 14px; border-bottom: 1px solid var(--border-subtle); color: var(--accent-cyan);">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                r.testParameters.forEach((param, idx) => {
+                    const rowBg = idx % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent';
+                    const statusColor = param.isAbnormal ? '#f87171' : '#34d399';
+                    const statusBadgeBg = param.isAbnormal ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+                    bodyHtml += `
+                        <tr style="background: ${rowBg}; border-bottom: 1px solid rgba(255,255,255,0.04);">
+                            <td style="padding: 10px 14px; font-weight: 600;">${escapeHtml(param.parameter)}</td>
+                            <td style="padding: 10px 14px; font-weight: 700; color: ${statusColor};">${escapeHtml(param.value)}</td>
+                            <td style="padding: 10px 14px; color: var(--text-muted); font-size: 0.82rem;">${escapeHtml(param.ref || 'Normal')}</td>
+                            <td style="padding: 10px 14px;">
+                                <span style="background: ${statusBadgeBg}; color: ${statusColor}; padding: 2px 8px; border-radius: 99px; font-size: 0.75rem; font-weight: 700;">
+                                    ${escapeHtml(param.status)}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                });
+                bodyHtml += `</tbody></table></div>`;
+            }
+
+            if (r.clinicalImpression || r.notes) {
+                bodyHtml += `
+                    <div style="background: rgba(2, 132, 199, 0.08); border-left: 3px solid var(--accent-cyan); padding: 10px 14px; border-radius: 4px; margin-bottom: 12px;">
+                        <strong style="color: var(--accent-cyan); font-size: 0.82rem; text-transform: uppercase;">Clinical Impression:</strong>
+                        <p style="margin: 4px 0 0 0; color: #e2e8f0; font-size: 0.86rem; line-height: 1.5;">${escapeHtml(r.clinicalImpression || r.notes)}</p>
+                    </div>
+                `;
+            }
+
+            if (r.sampleContent && (!r.testParameters || r.testParameters.length === 0)) {
+                bodyHtml += `<pre style="font-family: var(--font-mono); font-size: 0.82rem; color: #cbd5e1; white-space: pre-wrap; line-height: 1.5; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 6px;">${escapeHtml(r.sampleContent)}</pre>`;
+            }
+
+            content.innerHTML = bodyHtml || '<div style="color: var(--text-muted);">Decrypted diagnostic investigation archived on blockchain.</div>';
+
+            // Configure live PDF URL
+            let livePdfUrl = `/api/reports/${encodeURIComponent(r.reportId)}/download?inline=true`;
+            if (authToken) {
+                livePdfUrl += `&token=${encodeURIComponent(authToken)}`;
+            } else if (currentUser && currentUser.id) {
+                livePdfUrl += `&demoUserId=${encodeURIComponent(currentUser.id)}`;
+            }
+
+            if (pdfFrame) {
+                pdfFrame.src = livePdfUrl;
+            }
+            if (openPdfTabBtn) {
+                openPdfTabBtn.href = livePdfUrl;
+            }
+
+            // Wire up secure download button
             const safeDownloadName = r.fileName || `${r.reportId}.pdf`;
             downloadBtn.onclick = (e) => {
                 e.preventDefault();
                 downloadReportFile(r.reportId, safeDownloadName);
             };
 
-            const token = localStorage.getItem('hc_token');
-            const user = getCurrentUser();
-            let fallbackUrl = `/api/reports/${encodeURIComponent(reportId)}/download`;
-            if (token) fallbackUrl += `?token=${encodeURIComponent(token)}`;
-            else if (user) fallbackUrl += `?demoUserId=${encodeURIComponent(user.id)}`;
-            downloadBtn.href = fallbackUrl;
-
             if (r.doctorRemarks) {
                 remarksSection.style.display = 'block';
                 remarksContent.innerHTML = `
                     <strong>Diagnosis Status:</strong> ${escapeHtml(r.doctorRemarks.status || 'Verified')}<br>
                     <strong>Attending Physician:</strong> ${escapeHtml(r.doctorRemarks.doctorName || '')} (${escapeHtml(r.doctorRemarks.department || '')})<br>
-                    <strong>Doctor Notes:</strong> ${escapeHtml(r.notes || 'None recorded')}<br>
-                    ${r.prescription ? `<strong>Prescription:</strong> ${escapeHtml(r.prescription)}<br>` : ''}
+                    <strong>Doctor Clinical Remarks:</strong> ${escapeHtml(r.notes || 'None recorded')}<br>
+                    ${r.prescription ? `<strong>Prescription / Treatment Plan:</strong> ${escapeHtml(r.prescription)}<br>` : ''}
                     ${r.followUpDate ? `<strong>Follow-up Date:</strong> ${escapeHtml(r.followUpDate)}` : ''}
                 `;
             }
         }
     } catch (e) {
-        content.textContent = 'Error decrypting report: ' + e.message;
+        content.innerHTML = `<div style="color: #f87171;">Error decrypting report: ${escapeHtml(e.message)}</div>`;
     }
 }
 
@@ -1195,14 +1306,12 @@ async function openReportModal(reportId) {
  */
 async function downloadReportFile(reportId, preferredFileName) {
     try {
-        showToast('🔓 Decrypting report with AES-256 and verifying SHA-256 against blockchain...', 'info');
-        const token = localStorage.getItem('hc_token');
-        const user = getCurrentUser();
+        showToast('🔓 Decrypting report with AES-256 and validating SHA-256 against blockchain...', 'info');
         let url = `/api/reports/${encodeURIComponent(reportId)}/download`;
-        if (token) {
-            url += `?token=${encodeURIComponent(token)}`;
-        } else if (user) {
-            url += `?demoUserId=${encodeURIComponent(user.id)}`;
+        if (authToken) {
+            url += `?token=${encodeURIComponent(authToken)}`;
+        } else if (currentUser && currentUser.id) {
+            url += `?demoUserId=${encodeURIComponent(currentUser.id)}`;
         }
 
         const res = await fetch(url, { headers: getAuthHeaders() });
@@ -1224,9 +1333,11 @@ async function downloadReportFile(reportId, preferredFileName) {
         a.download = preferredFileName || `${reportId}.pdf`;
         document.body.appendChild(a);
         a.click();
-        window.URL.revokeObjectURL(blobUrl);
-        document.body.removeChild(a);
-        showToast('✅ Report decrypted & verified against blockchain! PDF downloaded successfully.', 'success');
+        setTimeout(() => {
+            window.URL.revokeObjectURL(blobUrl);
+            document.body.removeChild(a);
+        }, 150);
+        showToast('✅ Authentic PDF decrypted & downloaded successfully! (Anti-forgery QR verified)', 'success');
     } catch (err) {
         showToast(`❌ Download error: ${err.message}`, 'error');
     }
@@ -1290,3 +1401,13 @@ function escapeHtml(str) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 }
+
+// Expose handlers globally on window object for inline onclick handlers
+window.openReportModal = openReportModal;
+window.downloadReportFile = downloadReportFile;
+window.switchModalView = switchModalView;
+window.showToast = showToast;
+window.openQrModal = openQrModal;
+window.openShareModal = openShareModal;
+window.closeModal = closeModal;
+window.escapeHtml = escapeHtml;

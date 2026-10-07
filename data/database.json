@@ -480,6 +480,20 @@
   ],
   "auditLogs": [
     {
+      "id": "log_1791396773368_h0rj",
+      "action": "REPORT_DECRYPTED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Decrypted and accessed report REP-7A91F2C4",
+      "timestamp": "2026-10-07T18:12:53.368Z"
+    },
+    {
+      "id": "log_1791393131997_zsmb",
+      "action": "USER_LOGIN",
+      "actor": "Alex Smith",
+      "details": "User authenticated successfully with role: Lab Staff",
+      "timestamp": "2026-10-07T17:12:11.997Z"
+    },
+    {
       "id": "log_1791392904684_xgc9",
       "action": "USER_LOGIN",
       "actor": "Dr. Sarah Rao",
