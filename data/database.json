@@ -151,7 +151,26 @@
       "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-7A91F2C4",
       "createdAt": "2026-08-14T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockHash": "00376dd05a8628f06f8a72813711333bf77ea4b5cfcdd4fa936de69aa3f1dd06"
+      "blockHash": "00376dd05a8628f06f8a72813711333bf77ea4b5cfcdd4fa936de69aa3f1dd06",
+      "aiHighlights": {
+        "keyFindings": [
+          "Investigation: Fasting Blood Glucose & HbA1c Diagnostic Report",
+          "Fasting Blood Glucose: 142 mg/dL",
+          "Post-Prandial Glucose: 198 mg/dL",
+          "HbA1c Glycated Hemoglobin: 1 %",
+          "Total Hemoglobin: 1 g/dL"
+        ],
+        "abnormalFlags": [
+          "Elevated Fasting Blood Glucose (142 mg/dL) - Above normal threshold (100 mg/dL)",
+          "Elevated Post-Prandial Glucose (198 mg/dL) - Above normal threshold (140 mg/dL)",
+          "Low HbA1c Glycated Hemoglobin (1 %) - Below normal threshold (4 %)",
+          "Low Total Hemoglobin (1 g/dL) - Below normal threshold (12 g/dL)"
+        ],
+        "diagnosticImpression": "Clinical findings show 4 significant out-of-range parameter(s). Elevated Fasting Blood Glucose (142 mg/dL) - Above normal threshold (100 mg/dL).",
+        "recommendedAction": "Recommend clinical correlation with attending physician and timely therapeutic intervention.",
+        "aiEngine": "Local Clinical NLP Engine (Offline Fallback)",
+        "analyzedAt": "2026-10-08T08:20:53.732Z"
+      }
     },
     {
       "reportId": "REP-8D44B190",
@@ -241,7 +260,20 @@
       "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-8D44B190",
       "createdAt": "2026-09-02T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockHash": "00fc7f4bdcf765efdf63d6af19f3f636a5ab3a118600c4c8f5b4f3a05d5e225f"
+      "blockHash": "00fc7f4bdcf765efdf63d6af19f3f636a5ab3a118600c4c8f5b4f3a05d5e225f",
+      "aiHighlights": {
+        "keyFindings": [
+          "Investigation: Lumbosacral Spine Digital X-Ray Examination",
+          "Fracture identified on radiographic projection"
+        ],
+        "abnormalFlags": [
+          "Radiological evidence of cortical bone discontinuity / fracture identified"
+        ],
+        "diagnosticImpression": "Clinical findings show 1 significant out-of-range parameter(s). Radiological evidence of cortical bone discontinuity / fracture identified.",
+        "recommendedAction": "Recommend clinical correlation with attending physician and timely therapeutic intervention.",
+        "aiEngine": "Local Clinical NLP Engine (Offline Fallback)",
+        "analyzedAt": "2026-10-08T08:20:53.732Z"
+      }
     },
     {
       "reportId": "REP-9E11C83F",
@@ -344,7 +376,22 @@
       "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-9E11C83F",
       "createdAt": "2026-09-28T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockHash": "008f4837a6f5a961f3bc50b2aa131c0d60a4bfc852b3aaa4cf86ef964c211e1e"
+      "blockHash": "008f4837a6f5a961f3bc50b2aa131c0d60a4bfc852b3aaa4cf86ef964c211e1e",
+      "aiHighlights": {
+        "keyFindings": [
+          "Investigation: Complete Blood Count (CBC) with Differential",
+          "Total Hemoglobin: 14.8 g/dL",
+          "Total Leukocyte Count (WBC): 6,900 /mcL",
+          "Platelet Count: 265,000 /mcL"
+        ],
+        "abnormalFlags": [
+          "No critical out-of-range anomalies flagged"
+        ],
+        "diagnosticImpression": "Investigated parameters appear consistent with expected clinical thresholds or baseline physiological limits.",
+        "recommendedAction": "Maintain routine clinical observation and follow-up as indicated by attending specialist.",
+        "aiEngine": "Local Clinical NLP Engine (Offline Fallback)",
+        "analyzedAt": "2026-10-08T08:20:53.732Z"
+      }
     },
     {
       "reportId": "REP-3C55A701",
@@ -440,7 +487,23 @@
       "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-3C55A701",
       "createdAt": "2026-09-15T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockHash": "00a432fff011180cd8b90ff39c9796162d6e82d89931973afab19ae6cc60bbaa"
+      "blockHash": "00a432fff011180cd8b90ff39c9796162d6e82d89931973afab19ae6cc60bbaa",
+      "aiHighlights": {
+        "keyFindings": [
+          "Investigation: Comprehensive Lipid Profile & Cardiac Risk Panel",
+          "LIPID PROFILE INVESTIGATION - PATHOLOGY DIAGNOSTICS LAB",
+          "Patient: Meera Patel | ID: PT-9902 | Age: 34 | Sex: F",
+          "Date: 15-Sep-2026",
+          "LIPID PANEL:"
+        ],
+        "abnormalFlags": [
+          "No critical out-of-range anomalies flagged"
+        ],
+        "diagnosticImpression": "Investigated parameters appear consistent with expected clinical thresholds or baseline physiological limits.",
+        "recommendedAction": "Maintain routine clinical observation and follow-up as indicated by attending specialist.",
+        "aiEngine": "Local Clinical NLP Engine (Offline Fallback)",
+        "analyzedAt": "2026-10-08T08:20:53.732Z"
+      }
     }
   ],
   "sharedLinks": [

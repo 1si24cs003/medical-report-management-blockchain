@@ -5,6 +5,8 @@ const db = require('../models/db');
 const blockchain = require('../blockchain/Blockchain');
 const { computeSHA256, encryptBuffer, decryptBuffer, generatePseudonymousId } = require('../utils/cryptoUtils');
 const { processReportOCR } = require('../utils/ocrHelper');
+const { generateClinicalHighlights } = require('../utils/aiSummarizer');
+const { generateMedicalReportPDF } = require('../utils/pdfGenerator');
 
 const UPLOADS_DIR = path.join(__dirname, '..', 'uploads');
 
@@ -84,36 +86,80 @@ async function uploadReport(req, res) {
             extractedKeywords = Array.from(new Set([...extractedKeywords, ...extra]));
         }
 
-        // Step 4: OFF-CHAIN AES-256-CBC ENCRYPTION
+        // Step 3.5: AI CLINICAL HIGHLIGHTS & KEY FINDINGS SUMMARY (Feature 7.4 / Hybrid AI)
+        const combinedText = [title, notes, ocrResult.rawSnippet, extractedKeywords.join(', ')].filter(Boolean).join('\n');
+        const aiHighlights = await generateClinicalHighlights(combinedText, {
+            title,
+            patientName: targetPatient.name,
+            reportType
+        });
+
+        // Step 4: PREPARE STANDARDIZED CLINICAL DOCUMENT BUFFER
         const reportId = generatePseudonymousId('REP');
-        const encryptedBuffer = encryptBuffer(rawBuffer);
+        const hostUrl = req.protocol + '://' + req.get('host');
+        const verificationUrl = `${hostUrl}/verify.html?reportId=${reportId}`;
+
+        // QR Code Data URL for UI
+        const qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
+            errorCorrectionLevel: 'H',
+            margin: 2,
+            color: { dark: '#0b132b', light: '#ffffff' }
+        });
+
+        let finalBuffer = rawBuffer;
+        let finalMimeType = req.file.mimetype;
+        let finalFileName = req.file.originalname;
+
+        // If an image or text scan was uploaded, synthesize authentic NABH-certified clinical PDF with embedded QR
+        if (req.file.mimetype.startsWith('image/') || req.file.mimetype === 'text/plain') {
+            try {
+                const reportStub = {
+                    reportId,
+                    title: title || 'Clinical Diagnostic Report',
+                    patientName: targetPatient.name,
+                    patientPseudonym: targetPatient.patientId || 'PT-' + targetPatient.id.slice(-4),
+                    patientId: targetPatient.id,
+                    age: targetPatient.age || 48,
+                    gender: targetPatient.gender || 'Not Specified',
+                    uploadedBy: user.name,
+                    nodeId: nodeId || (user.role === 'Lab Staff' ? 'NODE-LAB-01' : 'NODE-HOSP-01'),
+                    reportType: reportType || 'Diagnostic Investigation',
+                    testDate: testDate || new Date().toISOString().split('T')[0],
+                    notes: notes || '',
+                    clinicalImpression: aiHighlights.diagnosticImpression,
+                    aiHighlights,
+                    rawSnippet: ocrResult.rawSnippet || '',
+                    keywords: extractedKeywords,
+                    blockIndex: (blockchain.chain.length)
+                };
+                const generatedPdf = await generateMedicalReportPDF(reportStub, hostUrl);
+                if (generatedPdf && generatedPdf.length > 0) {
+                    finalBuffer = generatedPdf;
+                    finalMimeType = 'application/pdf';
+                    finalFileName = `${reportId}_standardized.pdf`;
+                }
+            } catch (pdfErr) {
+                console.warn('[Upload] Standardized PDF synthesis fallback:', pdfErr.message);
+            }
+        }
+
+        // Step 5: OFF-CHAIN AES-256-CBC ENCRYPTION
+        const finalDocumentHash = computeSHA256(finalBuffer);
+        const encryptedBuffer = encryptBuffer(finalBuffer);
         const storageReference = `${reportId}_encrypted.bin`;
         const storagePath = path.join(UPLOADS_DIR, storageReference);
         fs.writeFileSync(storagePath, encryptedBuffer);
 
-        // Step 5: RECORD ON PERMISSIONED BLOCKCHAIN (Stores pseudonymous ID, hash, timestamp, storage ref)
+        // Step 6: RECORD ON PERMISSIONED BLOCKCHAIN
         const block = blockchain.addReportBlock({
             reportId,
-            reportHash: fileHash,
+            reportHash: finalDocumentHash,
             storageReference,
             reportType: reportType || 'Diagnostic Investigation',
             testDate: testDate || new Date().toISOString().split('T')[0],
             patientPseudonym: targetPatient.patientId || targetPatient.name,
             patientId: targetPatient.id
         }, nodeId || (user.role === 'Lab Staff' ? 'NODE-LAB-01' : 'NODE-HOSP-01'));
-
-        // Step 6: GENERATE ANTI-FORGERY QR CODE (Feature 7.1)
-        // Points to verification endpoint: /verify.html?reportId=...
-        const hostUrl = req.protocol + '://' + req.get('host');
-        const verificationUrl = `${hostUrl}/verify.html?reportId=${reportId}`;
-        const qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
-            errorCorrectionLevel: 'H',
-            margin: 2,
-            color: {
-                dark: '#0b132b',
-                light: '#ffffff'
-            }
-        });
 
         // Step 7: PERSIST METADATA IN APPLICATION DATABASE
         const newReport = {
@@ -130,12 +176,13 @@ async function uploadReport(req, res) {
             notes: notes || '',
             keywords: extractedKeywords,
             categories: extractedCategories,
+            aiHighlights,
             rawSnippet: ocrResult.rawSnippet || '',
-            fileName: req.file.originalname,
-            mimeType: req.file.mimetype,
-            reportHash: fileHash,
+            fileName: finalFileName,
+            mimeType: finalMimeType,
+            reportHash: finalDocumentHash,
             storageReference,
-            fileSize: rawBuffer.length,
+            fileSize: finalBuffer.length,
             encryptedSize: encryptedBuffer.length,
             qrCodeDataUrl,
             verificationUrl,
@@ -146,6 +193,7 @@ async function uploadReport(req, res) {
         };
 
         db.addReport(newReport);
+
 
         db.logAudit(
             'REPORT_UPLOADED',

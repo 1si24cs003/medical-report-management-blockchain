@@ -413,6 +413,20 @@ function renderReports(reports) {
             `;
         }
 
+        let aiBadgeHtml = '';
+        if (r.aiHighlights && (r.aiHighlights.keyFindings || r.aiHighlights.diagnosticImpression)) {
+            const keyBullets = (r.aiHighlights.keyFindings || []).slice(0, 2);
+            aiBadgeHtml = `
+                <div style="margin-top: 8px; padding: 6px 10px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-sm); font-size: 0.74rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                        <strong style="color: #34d399;">🤖 AI Key Highlights:</strong>
+                        <span style="font-size: 0.68rem; color: var(--accent-cyan);">${escapeHtml(r.aiHighlights.aiEngine || 'Hybrid AI')}</span>
+                    </div>
+                    ${keyBullets.map(b => `<div style="color: #cbd5e1; line-height: 1.35;">• ${escapeHtml(b)}</div>`).join('')}
+                </div>
+            `;
+        }
+
         card.innerHTML = `
             <div>
                 <div class="report-card-top">
@@ -424,11 +438,13 @@ function renderReports(reports) {
                     Patient: <strong>${escapeHtml(r.patientName)}</strong> (${escapeHtml(r.patientPseudonym)})<br>
                     <span style="color: var(--text-muted); font-size: 0.78rem;">Anchored on Block #${r.blockIndex} • ${escapeHtml(r.reportType)}</span>
                 </p>
+                ${aiBadgeHtml}
                 ${remarksBadge}
                 <div class="report-tags" style="margin-top: 8px;">
                     ${tagsHtml}
                 </div>
             </div>
+
 
             <div class="report-actions">
                 <button class="btn btn-primary" onclick="openReportModal('${escapeHtml(r.reportId)}')">
@@ -1246,6 +1262,35 @@ async function openReportModal(reportId) {
                     `;
                 });
                 bodyHtml += `</tbody></table></div>`;
+            }
+
+            if (r.aiHighlights && (r.aiHighlights.keyFindings || r.aiHighlights.diagnosticImpression)) {
+                const findingsList = (r.aiHighlights.keyFindings || []).map(f => `<li>${escapeHtml(f)}</li>`).join('');
+                const abnormalList = (r.aiHighlights.abnormalFlags || []).filter(a => !a.toLowerCase().includes('no critical')).map(a => `<li>${escapeHtml(a)}</li>`).join('');
+                bodyHtml += `
+                    <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid #10b981; border-radius: 8px; padding: 12px 16px; margin-bottom: 14px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong style="color: #34d399; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+                                🤖 AI Clinical Key Findings & Highlights
+                            </strong>
+                            <span style="font-size: 0.72rem; background: rgba(16, 185, 129, 0.2); color: #6ee7b7; padding: 2px 8px; border-radius: 12px; font-weight: 600;">
+                                ${escapeHtml(r.aiHighlights.aiEngine || 'Hybrid AI Engine')}
+                            </span>
+                        </div>
+                        ${findingsList ? `<ul style="margin: 0 0 8px 16px; padding: 0; color: #e2e8f0; font-size: 0.82rem; line-height: 1.4;">${findingsList}</ul>` : ''}
+                        ${abnormalList ? `
+                            <div style="margin-top: 6px; padding: 6px 10px; background: rgba(239, 68, 68, 0.12); border-left: 3px solid #ef4444; border-radius: 4px;">
+                                <strong style="color: #fca5a5; font-size: 0.75rem;">Flagged Abnormalities:</strong>
+                                <ul style="margin: 2px 0 0 14px; padding: 0; color: #fecaca; font-size: 0.78rem;">${abnormalList}</ul>
+                            </div>
+                        ` : ''}
+                        ${r.aiHighlights.diagnosticImpression ? `
+                            <div style="margin-top: 6px; font-size: 0.8rem; color: #94a3b8;">
+                                <strong style="color: #e2e8f0;">Summary:</strong> ${escapeHtml(r.aiHighlights.diagnosticImpression)}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
             }
 
             if (r.clinicalImpression || r.notes) {

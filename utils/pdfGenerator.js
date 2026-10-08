@@ -204,19 +204,45 @@ async function generateMedicalReportPDF(report, hostUrl = 'http://localhost:3000
             }
 
             // ==========================================
-            // 5. CLINICAL IMPRESSION / NOTES BOX
+            // 5. CLINICAL IMPRESSION / NOTES & AI HIGHLIGHTS BOX
             // ==========================================
-            y = Math.max(y + 10, 360);
-            const notesText = report.clinicalImpression || report.notes || 'Diagnostic findings evaluated. Correlate clinically with patient symptoms.';
-            doc.rect(35, y, 525, 46).fill('#f8fafc');
-            doc.rect(35, y, 525, 46).stroke('#cbd5e1');
+            y = Math.max(y + 8, 345);
 
-            doc.fillColor(accentBlue).fontSize(8.5).font('Helvetica-Bold')
-               .text('CLINICAL IMPRESSION & INTERPRETATION', 45, y + 7);
-            doc.fillColor(textDark).fontSize(8).font('Helvetica')
-               .text(notesText, 45, y + 20, { width: 505 });
+            if (report.aiHighlights && (report.aiHighlights.keyFindings || report.aiHighlights.diagnosticImpression)) {
+                const aiBoxHeight = 54;
+                doc.rect(35, y, 525, aiBoxHeight).fill('#f0fdf4');
+                doc.rect(35, y, 525, aiBoxHeight).stroke('#86efac');
 
-            y += 54;
+                doc.fillColor('#15803d').fontSize(8.5).font('Helvetica-Bold')
+                   .text(`🤖 AI CLINICAL KEY FINDINGS (${report.aiHighlights.aiEngine || 'Hybrid AI Engine'})`, 45, y + 6);
+
+                const bullets = (report.aiHighlights.keyFindings || []).slice(0, 2);
+                let curBulletY = y + 18;
+                bullets.forEach(b => {
+                    doc.fillColor(textDark).fontSize(7.5).font('Helvetica')
+                       .text(`• ${b}`, 48, curBulletY, { width: 500 });
+                    curBulletY += 11;
+                });
+
+                if (report.aiHighlights.diagnosticImpression) {
+                    doc.fillColor('#166534').fontSize(7.5).font('Helvetica-Bold')
+                       .text(`Impression: ${report.aiHighlights.diagnosticImpression}`, 48, curBulletY, { width: 500 });
+                }
+
+                y += aiBoxHeight + 8;
+            } else {
+                const notesText = report.clinicalImpression || report.notes || 'Diagnostic findings evaluated. Correlate clinically with patient symptoms.';
+                doc.rect(35, y, 525, 42).fill('#f8fafc');
+                doc.rect(35, y, 525, 42).stroke('#cbd5e1');
+
+                doc.fillColor(accentBlue).fontSize(8.5).font('Helvetica-Bold')
+                   .text('CLINICAL IMPRESSION & INTERPRETATION', 45, y + 6);
+                doc.fillColor(textDark).fontSize(8).font('Helvetica')
+                   .text(notesText, 45, y + 18, { width: 505 });
+
+                y += 48;
+            }
+
 
             // ==========================================
             // 6. ATTENDING PHYSICIAN CLINICAL EVALUATION
