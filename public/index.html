@@ -128,20 +128,20 @@
                 </div>
 
                 <!-- Extended Consortium Identities (Multi-Hospital Network) -->
-                <div style="margin-top: 1.25rem; padding: 1rem; background: var(--bg-surface-2); border: 1px solid var(--border-color); border-radius: var(--radius-md);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; flex-wrap: wrap; gap: 0.5rem;">
+                <div style="margin-top: 1.25rem; padding: 1.1rem; background: #0d172e; border: 1px solid rgba(0, 229, 255, 0.25); border-radius: var(--radius-md);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
                         <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px;">
                             🏥 Extended Consortium Identities (4 Specialized Doctors • 4 Patients)
                         </span>
                         <span style="font-size: 0.72rem; color: var(--text-muted);">One-click instant login for evaluation</span>
                     </div>
                     <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                        <button type="button" class="btn btn-secondary" style="font-size: 0.76rem; padding: 6px 12px;" onclick="loginAsRole('usr_doc_02')">👨‍⚕️ Dr. Rajesh Nair (Orthopedics)</button>
-                        <button type="button" class="btn btn-secondary" style="font-size: 0.76rem; padding: 6px 12px;" onclick="loginAsRole('usr_doc_03')">👩‍⚕️ Dr. Ananya Sen (Pulmonology)</button>
-                        <button type="button" class="btn btn-secondary" style="font-size: 0.76rem; padding: 6px 12px;" onclick="loginAsRole('usr_doc_04')">👨‍⚕️ Dr. Vikram Mehta (Neurology)</button>
-                        <button type="button" class="btn btn-secondary" style="font-size: 0.76rem; padding: 6px 12px;" onclick="loginAsRole('usr_pat_02')">👩 Meera Patel (PT-9902)</button>
-                        <button type="button" class="btn btn-secondary" style="font-size: 0.76rem; padding: 6px 12px;" onclick="loginAsRole('usr_pat_03')">👨 Robert Chen (PT-9903)</button>
-                        <button type="button" class="btn btn-secondary" style="font-size: 0.76rem; padding: 6px 12px;" onclick="loginAsRole('usr_pat_04')">👩 Ayesha Khan (PT-9904)</button>
+                        <button type="button" class="btn" style="font-size: 0.76rem; padding: 6px 12px; background: rgba(26, 42, 75, 0.7); border: 1px solid rgba(70, 95, 140, 0.45); color: #f8fafc;" onclick="loginAsRole('usr_doc_02')">👨‍⚕️ Dr. Rajesh Nair (Orthopedics)</button>
+                        <button type="button" class="btn" style="font-size: 0.76rem; padding: 6px 12px; background: rgba(26, 42, 75, 0.7); border: 1px solid rgba(70, 95, 140, 0.45); color: #f8fafc;" onclick="loginAsRole('usr_doc_03')">👩‍⚕️ Dr. Ananya Sen (Pulmonology)</button>
+                        <button type="button" class="btn" style="font-size: 0.76rem; padding: 6px 12px; background: rgba(26, 42, 75, 0.7); border: 1px solid rgba(70, 95, 140, 0.45); color: #f8fafc;" onclick="loginAsRole('usr_doc_04')">👨‍⚕️ Dr. Vikram Mehta (Neurology)</button>
+                        <button type="button" class="btn" style="font-size: 0.76rem; padding: 6px 12px; background: rgba(26, 42, 75, 0.7); border: 1px solid rgba(70, 95, 140, 0.45); color: #f8fafc;" onclick="loginAsRole('usr_pat_02')">👩 Meera Patel (PT-9902)</button>
+                        <button type="button" class="btn" style="font-size: 0.76rem; padding: 6px 12px; background: rgba(26, 42, 75, 0.7); border: 1px solid rgba(70, 95, 140, 0.45); color: #f8fafc;" onclick="loginAsRole('usr_pat_03')">👨 Robert Chen (PT-9903)</button>
+                        <button type="button" class="btn" style="font-size: 0.76rem; padding: 6px 12px; background: rgba(26, 42, 75, 0.7); border: 1px solid rgba(70, 95, 140, 0.45); color: #f8fafc;" onclick="loginAsRole('usr_pat_04')">👩 Ayesha Khan (PT-9904)</button>
                     </div>
                 </div>
             </div>
@@ -237,19 +237,19 @@
                         <button class="role-btn" data-user-id="usr_adm_01" onclick="switchUserRole('usr_adm_01')" title="Consortium SuperAdmin">
                             🛡️ Admin
                         </button>
-                        <select id="headerUserSelect" class="form-control" style="width: auto; padding: 4px 8px; font-size: 0.74rem; background: var(--bg-surface-2); border-color: var(--border-color); color: var(--text-primary); cursor: pointer;" onchange="if(this.value) { switchUserRole(this.value); this.value=''; }">
-                            <option value="">More Identities...</option>
+                        <select id="headerUserSelect" class="header-user-select" title="Switch between consortium Doctors and Patients" onchange="if(this.value) { switchUserRole(this.value); this.value=''; }">
+                            <option value="" disabled selected>👤 More Identities...</option>
                             <optgroup label="Attending Doctors">
-                                <option value="usr_doc_01">Dr. Sarah Rao (Cardiology)</option>
-                                <option value="usr_doc_02">Dr. Rajesh Nair (Orthopedics)</option>
-                                <option value="usr_doc_03">Dr. Ananya Sen (Pulmonology)</option>
-                                <option value="usr_doc_04">Dr. Vikram Mehta (Neurology)</option>
+                                <option value="usr_doc_01">👨‍⚕️ Dr. Sarah Rao (Cardiology)</option>
+                                <option value="usr_doc_02">👨‍⚕️ Dr. Rajesh Nair (Orthopedics)</option>
+                                <option value="usr_doc_03">👩‍⚕️ Dr. Ananya Sen (Pulmonology)</option>
+                                <option value="usr_doc_04">👨‍⚕️ Dr. Vikram Mehta (Neurology)</option>
                             </optgroup>
                             <optgroup label="Registered Patients">
-                                <option value="usr_pat_01">John Doe (PT-9901)</option>
-                                <option value="usr_pat_02">Meera Patel (PT-9902)</option>
-                                <option value="usr_pat_03">Robert Chen (PT-9903)</option>
-                                <option value="usr_pat_04">Ayesha Khan (PT-9904)</option>
+                                <option value="usr_pat_01">👤 John Doe (PT-9901)</option>
+                                <option value="usr_pat_02">👩 Meera Patel (PT-9902)</option>
+                                <option value="usr_pat_03">👨 Robert Chen (PT-9903)</option>
+                                <option value="usr_pat_04">👩 Ayesha Khan (PT-9904)</option>
                             </optgroup>
                         </select>
                     </div>

@@ -1052,6 +1052,41 @@
   ],
   "auditLogs": [
     {
+      "id": "log_1791453370305_kicf",
+      "action": "USER_LOGIN",
+      "actor": "Meera Patel",
+      "details": "User authenticated successfully with role: Patient",
+      "timestamp": "2026-10-08T09:56:10.305Z"
+    },
+    {
+      "id": "log_1791453367013_r3es",
+      "action": "USER_LOGIN",
+      "actor": "John Doe",
+      "details": "User authenticated successfully with role: Patient",
+      "timestamp": "2026-10-08T09:56:07.013Z"
+    },
+    {
+      "id": "log_1791453364681_fq1d",
+      "action": "USER_LOGIN",
+      "actor": "Alex Smith",
+      "details": "User authenticated successfully with role: Lab Staff",
+      "timestamp": "2026-10-08T09:56:04.681Z"
+    },
+    {
+      "id": "log_1791453353398_c9ta",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T09:55:53.398Z"
+    },
+    {
+      "id": "log_1791453227061_llft",
+      "action": "BLOCKCHAIN_INTEGRITY_AUDIT",
+      "actor": "System Auditor",
+      "details": "Full chain integrity verification: VALID",
+      "timestamp": "2026-10-08T09:53:47.061Z"
+    },
+    {
       "id": "log_1791452329922_lnl4",
       "action": "BLOCKCHAIN_INTEGRITY_AUDIT",
       "actor": "System Auditor",
