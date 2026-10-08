@@ -543,6 +543,13 @@
   ],
   "auditLogs": [
     {
+      "id": "log_1791447853808_w0vk",
+      "action": "USER_LOGIN",
+      "actor": "Consortium SuperAdmin",
+      "details": "User authenticated successfully with role: Admin",
+      "timestamp": "2026-10-08T08:24:13.808Z"
+    },
+    {
       "id": "log_1791444919700_huzf",
       "action": "ANTI_FORGERY_VERIFICATION",
       "actor": "Doctor / Verification Scanner",
