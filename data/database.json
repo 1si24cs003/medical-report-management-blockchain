@@ -480,6 +480,62 @@
   ],
   "auditLogs": [
     {
+      "id": "log_1791444919700_huzf",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:35:19.700Z"
+    },
+    {
+      "id": "log_1791444919513_rzo8",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:35:19.513Z"
+    },
+    {
+      "id": "log_1791444919329_3gmf",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:35:19.329Z"
+    },
+    {
+      "id": "log_1791444919133_6fif",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:35:19.133Z"
+    },
+    {
+      "id": "log_1791444918730_7f94",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:35:18.730Z"
+    },
+    {
+      "id": "log_1791444917868_5i3p",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:35:17.868Z"
+    },
+    {
+      "id": "log_1791444819998_1y1n",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:33:39.998Z"
+    },
+    {
+      "id": "log_1791444701305_ax8y",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:31:41.305Z"
+    },
+    {
       "id": "log_1791444487744_9qjg",
       "action": "ANTI_FORGERY_VERIFICATION",
       "actor": "Doctor / Verification Scanner",
