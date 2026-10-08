@@ -23,8 +23,23 @@ app.use(cors());
 app.use(express.json({ limit: '30mb' }));
 app.use(express.urlencoded({ extended: true, limit: '30mb' }));
 
-// Serve frontend static assets
-app.use(express.static(path.join(__dirname, 'public')));
+// ==========================================
+// 0. PUBLIC CONSORTIUM HOMEPAGE & PORTAL ROUTES
+// ==========================================
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
+
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
+
+app.get('/portal', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Serve frontend static assets (without auto-serving index.html at root)
+app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
 // ==========================================
 // 1. AUTHENTICATION & USERS ROUTES
@@ -102,9 +117,10 @@ app.use((req, res, next) => {
 // Start Server
 app.listen(PORT, () => {
     console.log(`================================================================`);
-    console.log(`🏥 Medical Report Management & Distribution System on Blockchain`);
-    console.log(`🌐 System Online at: http://localhost:${PORT}`);
-    console.log(`📊 Phase 2 Presentation Deck at: http://localhost:${PORT}/presentation.html`);
+    console.log(`🏥 HealthChain Healthcare Consortium on Permissioned Blockchain`);
+    console.log(`🌐 Public Consortium Homepage at:  http://localhost:${PORT}`);
+    console.log(`🔐 Role-Based Consortium Portal at: http://localhost:${PORT}/portal`);
+    console.log(`📊 Phase 2 Presentation Deck at:    http://localhost:${PORT}/presentation.html`);
     console.log(`🔍 Anti-Forgery QR Verification at: http://localhost:${PORT}/verify.html`);
     console.log(`================================================================`);
 });

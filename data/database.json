@@ -1052,6 +1052,209 @@
   ],
   "auditLogs": [
     {
+      "id": "log_1791471895050_rya7",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-08T15:04:55.050Z"
+    },
+    {
+      "id": "log_1791471832784_zkts",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-08T15:03:52.784Z"
+    },
+    {
+      "id": "log_1791471749493_5y5b",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-08T15:02:29.493Z"
+    },
+    {
+      "id": "log_1791471741276_1lc8",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-08T15:02:21.276Z"
+    },
+    {
+      "id": "log_1791471161978_12yg",
+      "action": "USER_LOGIN",
+      "actor": "John Doe",
+      "details": "User authenticated successfully with role: Patient",
+      "timestamp": "2026-10-08T14:52:41.978Z"
+    },
+    {
+      "id": "log_1791457062687_4x56",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-08T10:57:42.687Z"
+    },
+    {
+      "id": "log_1791456861119_uazz",
+      "action": "REPORT_DECRYPTED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Decrypted and accessed report REP-7A91F2C4",
+      "timestamp": "2026-10-08T10:54:21.119Z"
+    },
+    {
+      "id": "log_1791456859357_cnvh",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:54:19.357Z"
+    },
+    {
+      "id": "log_1791456850196_sdm6",
+      "action": "USER_LOGIN",
+      "actor": "Alex Smith",
+      "details": "User authenticated successfully with role: Lab Staff",
+      "timestamp": "2026-10-08T10:54:10.196Z"
+    },
+    {
+      "id": "log_1791456844825_njsx",
+      "action": "USER_LOGIN",
+      "actor": "Meera Patel",
+      "details": "User authenticated successfully with role: Patient",
+      "timestamp": "2026-10-08T10:54:04.825Z"
+    },
+    {
+      "id": "log_1791456835088_jxbs",
+      "action": "USER_LOGIN",
+      "actor": "John Doe",
+      "details": "User authenticated successfully with role: Patient",
+      "timestamp": "2026-10-08T10:53:55.088Z"
+    },
+    {
+      "id": "log_1791456812255_lotx",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-08T10:53:32.255Z"
+    },
+    {
+      "id": "log_1791456786533_drwx",
+      "action": "REPORT_DECRYPTED",
+      "actor": "Consortium SuperAdmin",
+      "details": "Decrypted and accessed report REP-7A91F2C4",
+      "timestamp": "2026-10-08T10:53:06.533Z"
+    },
+    {
+      "id": "log_1791456776642_a0fm",
+      "action": "USER_LOGIN",
+      "actor": "Consortium SuperAdmin",
+      "details": "User authenticated successfully with role: Admin",
+      "timestamp": "2026-10-08T10:52:56.642Z"
+    },
+    {
+      "id": "log_1791456773394_k4kk",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:52:53.394Z"
+    },
+    {
+      "id": "log_1791455825389_e7sq",
+      "action": "REPORT_DECRYPTED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Decrypted and accessed report REP-7A91F2C4",
+      "timestamp": "2026-10-08T10:37:05.389Z"
+    },
+    {
+      "id": "log_1791455810659_9uos",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-08T10:36:50.659Z"
+    },
+    {
+      "id": "log_1791455753459_xp2q",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:35:53.459Z"
+    },
+    {
+      "id": "log_1791455389201_yifc",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:29:49.201Z"
+    },
+    {
+      "id": "log_1791455345456_6ach",
+      "action": "USER_LOGIN",
+      "actor": "Consortium SuperAdmin",
+      "details": "User authenticated successfully with role: Admin",
+      "timestamp": "2026-10-08T10:29:05.456Z"
+    },
+    {
+      "id": "log_1791455334611_buzt",
+      "action": "USER_LOGIN",
+      "actor": "John Doe",
+      "details": "User authenticated successfully with role: Patient",
+      "timestamp": "2026-10-08T10:28:54.611Z"
+    },
+    {
+      "id": "log_1791455328530_05zi",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:28:48.530Z"
+    },
+    {
+      "id": "log_1791455325093_8p8p",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Ananya Sen",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:28:45.093Z"
+    },
+    {
+      "id": "log_1791455323223_b3ju",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Rajesh Nair",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:28:43.223Z"
+    },
+    {
+      "id": "log_1791455319353_axg9",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:28:39.353Z"
+    },
+    {
+      "id": "log_1791455305986_dit2",
+      "action": "AI_GATEWAY_CONFIGURED",
+      "actor": "Consortium SuperAdmin",
+      "details": "Admin verified and activated Google Gemini cloud gateway (Model: gemini-3.8-flash)",
+      "timestamp": "2026-10-08T10:28:25.986Z"
+    },
+    {
+      "id": "log_1791454579643_z32m",
+      "action": "USER_LOGIN",
+      "actor": "Consortium SuperAdmin",
+      "details": "User authenticated successfully with role: Admin",
+      "timestamp": "2026-10-08T10:16:19.643Z"
+    },
+    {
+      "id": "log_1791454578243_fdm0",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:16:18.243Z"
+    },
+    {
+      "id": "log_1791454044150_v3lm",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T10:07:24.150Z"
+    },
+    {
       "id": "log_1791453370305_kicf",
       "action": "USER_LOGIN",
       "actor": "Meera Patel",

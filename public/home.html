@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthChain Consortium | Multi-Hospital Healthcare & Blockchain Network</title>
+    <meta name="description" content="Integrated Healthcare Consortium powered by a permissioned SHA-256 blockchain. Multi-hospital medical record management, immutable diagnostic provenance, and patient-centric zero-trust security.">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+    <!-- ==========================================================================
+         TOP NAVIGATION BAR
+         Includes Prominent "Consortium Portal Login" in the Top Right Corner
+         ========================================================================== -->
+    <nav class="home-nav" id="topNav">
+        <div class="home-nav-container">
+            <a href="/" class="home-brand">
+                <div class="home-brand-icon">🏥</div>
+                <div>
+                    <div class="home-brand-title">HealthChain Consortium</div>
+                    <div class="home-brand-sub">Multi-Hospital Distributed Network</div>
+                </div>
+            </a>
+
+            <ul class="home-nav-links">
+                <li><a href="#facilities" class="home-nav-link">🏥 Facilities</a></li>
+                <li><a href="#specialties" class="home-nav-link">🩺 Specialties</a></li>
+                <li><a href="#specialists" class="home-nav-link">👨‍⚕️ Specialists</a></li>
+                <li><a href="#objectives" class="home-nav-link">🎯 Academic Pillars</a></li>
+                <li><a href="#verifier" class="home-nav-link">🔍 Verify Report</a></li>
+            </ul>
+
+            <div class="home-nav-actions">
+                <div class="consortium-status-badge" title="Permissioned Consortium Nodes Status">
+                    <span class="pulse-dot"></span>
+                    <span id="navNodeStatus">4 Nodes Active</span>
+                </div>
+                <!-- PROMINENT LOGIN BUTTON (Top Corner Request) -->
+                <a href="/portal" class="btn-portal-login" id="topPortalLoginBtn">
+                    <span>🔐 Consortium Portal Login</span>
+                    <span style="font-size: 1.1rem; line-height: 1;">→</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==========================================================================
+         HERO SECTION
+         High-Resolution Hospital Facility Background + Glassmorphic Overlay
+         ========================================================================== -->
+    <header class="hero-section">
+        <div class="hero-bg-container">
+            <img src="/images/hero-hospital.jpg" alt="HealthChain Consortium Central Medical Campus" class="hero-bg-img">
+            <div class="hero-overlay-gradient"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-pill">
+                <span>🛡️ Permissioned Healthcare Ledger</span>
+                <span>•</span>
+                <span>SHA-256 Cryptographic Anchoring</span>
+                <span>•</span>
+                <span>AES-256 Zero-Trust Privacy</span>
+            </div>
+
+            <h1 class="hero-title">
+                Unified Healthcare Consortium Secured by <span class="glow-text">Permissioned Blockchain</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Connecting multi-tier hospitals, specialized neuro institutes, ambulatory clinics, and automated pathology laboratories across an immutable distributed ledger with zero duplicate test redundancies, chronological longitudinal patient timelines, and anti-forgery cryptographic verification.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="/portal" class="hero-btn-primary" id="heroPortalBtn">
+                    <span>🚀 Enter Consortium Portal (Doctors • Labs • Patients • Admin)</span>
+                    <span>→</span>
+                </a>
+                <a href="#verifier" class="hero-btn-secondary">
+                    <span>🔍 Verify Report Integrity</span>
+                </a>
+            </div>
+
+            <!-- Live Consortium Telemetry Ribbon -->
+            <div class="hero-telemetry-grid">
+                <div class="telemetry-card">
+                    <div class="telemetry-value" id="statNodesCount">4</div>
+                    <div class="telemetry-label">Active Consortium Nodes</div>
+                </div>
+                <div class="telemetry-card">
+                    <div class="telemetry-value" id="statLedgerBlocks">10</div>
+                    <div class="telemetry-label">Immutable Ledger Blocks</div>
+                </div>
+                <div class="telemetry-card">
+                    <div class="telemetry-value" id="statReportsCount">9</div>
+                    <div class="telemetry-label">Anchored Clinical Records</div>
+                </div>
+                <div class="telemetry-card">
+                    <div class="telemetry-value" id="statIntegrityRate">100%</div>
+                    <div class="telemetry-label">Ledger Cryptographic Integrity</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+         CONSORTIUM FACILITIES & HOSPITAL NETWORK
+         Showcasing High-Resolution Architectural Images & Facility Capabilities
+         ========================================================================== -->
+    <section class="home-section" id="facilities">
+        <div class="section-header">
+            <span class="section-badge">Distributed Infrastructure</span>
+            <h2 class="section-title">Consortium Healthcare Facilities</h2>
+            <p class="section-desc">
+                Four federated healthcare institutions collaborating seamlessly on a unified permissioned ledger to eliminate medical report fragmentation and guarantee records across patient transfers.
+            </p>
+        </div>
+
+        <div class="facilities-grid">
+            <!-- Facility 1: Metro Apex Hospital -->
+            <article class="facility-card">
+                <div class="facility-img-wrapper">
+                    <img src="/images/metro-hospital.jpg" alt="Metro Apex Hospital" class="facility-img">
+                    <span class="facility-node-chip">NODE 01 • CENTRAL CORE</span>
+                    <span class="facility-status-badge">
+                        <span class="pulse-dot"></span> Online & Synced
+                    </span>
+                </div>
+                <div class="facility-body">
+                    <h3 class="facility-name">Metro Apex Hospital</h3>
+                    <div class="facility-type">
+                        <span>🏥 Quaternary Care & Trauma Center</span>
+                        <span>•</span>
+                        <span>Bangalore Central</span>
+                    </div>
+                    <div class="facility-specs-grid">
+                        <div class="facility-spec-item">
+                            Bed Capacity
+                            <strong>650 Inpatient Beds</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            ICU & Critical Units
+                            <strong>92 Level-III ICU Beds</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Specialties
+                            <strong>Cardiology, Trauma, Orthopedics</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Consortium Doctors
+                            <strong>Dr. Sarah Rao, Dr. Rajesh Nair</strong>
+                        </div>
+                    </div>
+                    <div class="facility-footer">
+                        <span>Emergency Dispatch: 24/7 Priority (+91 80 4001 0001)</span>
+                        <a href="/portal" style="color: var(--accent-cyan); font-weight: 700; text-decoration: none;">Access Portal →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Facility 2: Synapse Neurology & Spine Institute -->
+            <article class="facility-card">
+                <div class="facility-img-wrapper">
+                    <img src="/images/neuro-institute.jpg" alt="Apex Neuro Institute" class="facility-img">
+                    <span class="facility-node-chip">NODE 02 • NEURO RESEARCH</span>
+                    <span class="facility-status-badge">
+                        <span class="pulse-dot"></span> Online & Synced
+                    </span>
+                </div>
+                <div class="facility-body">
+                    <h3 class="facility-name">Apex Neuro Institute</h3>
+                    <div class="facility-type">
+                        <span>🧠 Advanced Neurology & Robotic Spine Center</span>
+                        <span>•</span>
+                        <span>Tech Corridor</span>
+                    </div>
+                    <div class="facility-specs-grid">
+                        <div class="facility-spec-item">
+                            Specialized Wings
+                            <strong>Neuro-ICU & Brain Mapping</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Advanced Modalities
+                            <strong>3T Functional MRI & Neuro-Nav</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Specialties
+                            <strong>Stroke, Epilepsy, Complex Spine</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Lead Specialist
+                            <strong>Dr. Vikram Mehta (DM Neurology)</strong>
+                        </div>
+                    </div>
+                    <div class="facility-footer">
+                        <span>Direct Line: (+91 80 4002 0002)</span>
+                        <a href="/portal" style="color: var(--accent-cyan); font-weight: 700; text-decoration: none;">Access Portal →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Facility 3: City Care Pulmonary Clinic -->
+            <article class="facility-card">
+                <div class="facility-img-wrapper">
+                    <img src="/images/city-clinic.jpg" alt="City Care Clinic" class="facility-img">
+                    <span class="facility-node-chip">NODE 03 • AMBULATORY CARE</span>
+                    <span class="facility-status-badge">
+                        <span class="pulse-dot"></span> Online & Synced
+                    </span>
+                </div>
+                <div class="facility-body">
+                    <h3 class="facility-name">City Care Clinic</h3>
+                    <div class="facility-type">
+                        <span>🫁 Outpatient Multi-Specialty & Pulmonary Pavilion</span>
+                        <span>•</span>
+                        <span>North Metro</span>
+                    </div>
+                    <div class="facility-specs-grid">
+                        <div class="facility-spec-item">
+                            Daily Outpatient Reach
+                            <strong>450+ Consultations</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Diagnostics
+                            <strong>PFT, Bronchoscopy, Spirometry</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Specialties
+                            <strong>Pulmonology, Asthma, Allergy</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Lead Specialist
+                            <strong>Dr. Ananya Sen (MD Pulmonology)</strong>
+                        </div>
+                    </div>
+                    <div class="facility-footer">
+                        <span>Appointments: (+91 80 4003 0003)</span>
+                        <a href="/portal" style="color: var(--accent-cyan); font-weight: 700; text-decoration: none;">Access Portal →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Facility 4: BioTrust Diagnostics & Pathology Lab -->
+            <article class="facility-card">
+                <div class="facility-img-wrapper">
+                    <img src="/images/diagnostic-lab.jpg" alt="BioTrust Pathology Lab" class="facility-img">
+                    <span class="facility-node-chip">NODE 04 • DIAGNOSTIC LEDGER</span>
+                    <span class="facility-status-badge">
+                        <span class="pulse-dot"></span> Online & Synced
+                    </span>
+                </div>
+                <div class="facility-body">
+                    <h3 class="facility-name">BioTrust Molecular & Pathology Lab</h3>
+                    <div class="facility-type">
+                        <span>🔬 Automated Robotic Pathology & Genomic Diagnostics</span>
+                        <span>•</span>
+                        <span>Bio-Park</span>
+                    </div>
+                    <div class="facility-specs-grid">
+                        <div class="facility-spec-item">
+                            Automation Level
+                            <strong>100% Robotic Specimen Tracking</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Cryptographic Guard
+                            <strong>SHA-256 Pre-Check (Zero Duplicates)</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Services
+                            <strong>Hematology, Histology, PCR, CBC</strong>
+                        </div>
+                        <div class="facility-spec-item">
+                            Lab Operations Head
+                            <strong>Alex Smith (Senior Technologist)</strong>
+                        </div>
+                    </div>
+                    <div class="facility-footer">
+                        <span>Lab Dispatch: (+91 80 4004 0004)</span>
+                        <a href="/portal" style="color: var(--accent-cyan); font-weight: 700; text-decoration: none;">Access Portal →</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         CLINICAL SPECIALTIES & HEALTHCARE SERVICES
+         ========================================================================== -->
+    <section class="home-section" id="specialties" style="background: rgba(10, 16, 32, 0.4); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-badge">Comprehensive Care</span>
+            <h2 class="section-title">Consortium Clinical Specialties</h2>
+            <p class="section-desc">
+                Multidisciplinary healthcare delivery interconnected by instantaneous blockchain ledger state synchronization, enabling doctors from any facility to examine verified patient records in seconds.
+            </p>
+        </div>
+
+        <div class="specialties-grid">
+            <div class="specialty-card">
+                <div class="specialty-icon-box">❤️</div>
+                <h3 class="specialty-title">Cardiology & Electrophysiology</h3>
+                <p class="specialty-desc">
+                    Comprehensive non-invasive & interventional cardiac management, 24/7 cardiac cath labs, stress testing, 2D echocardiograms, and pacemaker telemetry integration.
+                </p>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">ECG / Echo</span>
+                    <span class="specialty-tag">Angioplasty</span>
+                    <span class="specialty-tag">Lipid Profiling</span>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="specialty-icon-box">🧠</div>
+                <h3 class="specialty-title">Neurology & Cognitive Sciences</h3>
+                <p class="specialty-desc">
+                    Sub-specialized treatment for acute ischemic stroke, epilepsy mapping, migraine management, Parkinson's disease, and minimally invasive robotic spine decompression.
+                </p>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">Brain MRI</span>
+                    <span class="specialty-tag">EEG Mapping</span>
+                    <span class="specialty-tag">Spine Surgery</span>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="specialty-icon-box">🦴</div>
+                <h3 class="specialty-title">Orthopedics & Joint Reconstruction</h3>
+                <p class="specialty-desc">
+                    High-precision robotic joint replacements, sports injury arthroscopy, complex polytrauma surgery, spinal stabilization, and post-operative functional rehabilitation.
+                </p>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">Arthroplasty</span>
+                    <span class="specialty-tag">Fracture Fixation</span>
+                    <span class="specialty-tag">Spine Rehab</span>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="specialty-icon-box">🫁</div>
+                <h3 class="specialty-title">Pulmonology & Respiratory Medicine</h3>
+                <p class="specialty-desc">
+                    Advanced clinical management of chronic obstructive pulmonary disease (COPD), severe asthma, pulmonary fibrosis, sleep apnea studies, and high-resolution chest CT scans.
+                </p>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">HRCT Chest</span>
+                    <span class="specialty-tag">Spirometry / PFT</span>
+                    <span class="specialty-tag">Sleep Apnea</span>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="specialty-icon-box">🔬</div>
+                <h3 class="specialty-title">Automated Pathology & Molecular Labs</h3>
+                <p class="specialty-desc">
+                    Robotic biochemistry analyzers, continuous flow hematology, flow cytometry, real-time PCR genetic testing, and SHA-256 automated report anchoring with zero duplicate errors.
+                </p>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">Complete Blood Count</span>
+                    <span class="specialty-tag">Metabolic Panel</span>
+                    <span class="specialty-tag">Histopathology</span>
+                </div>
+            </div>
+
+            <div class="specialty-card">
+                <div class="specialty-icon-box">🚑</div>
+                <h3 class="specialty-title">Consortium 24/7 Critical Care</h3>
+                <p class="specialty-desc">
+                    Consortium-wide unified emergency dispatch, advanced life support telemetry, real-time cryptographic emergency patient intake, and cross-hospital bed allocation.
+                </p>
+                <div class="specialty-tags">
+                    <span class="specialty-tag">24/7 Trauma</span>
+                    <span class="specialty-tag">Cross-Hospital Intake</span>
+                    <span class="specialty-tag">Life Support</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         CONSORTIUM ATTENDING SPECIALISTS
+         Active Doctors in the HealthChain Network
+         ========================================================================== -->
+    <section class="home-section" id="specialists">
+        <div class="section-header">
+            <span class="section-badge">Medical Faculty</span>
+            <h2 class="section-title">Consortium Attending Specialists</h2>
+            <p class="section-desc">
+                Credentialed physicians and surgeons registered across the consortium nodes, authorized to review longitudinal patient timelines, document clinical observations, and issue cryptographic share tokens.
+            </p>
+        </div>
+
+        <div class="doctors-grid">
+            <!-- Doctor 1: Dr. Sarah Rao -->
+            <div class="doctor-card">
+                <div class="doctor-avatar-box">👩‍⚕️</div>
+                <h3 class="doctor-name">Dr. Sarah Rao</h3>
+                <div class="doctor-dept">Cardiology & Internal Medicine</div>
+                <div class="doctor-hospital">Metro Apex Hospital</div>
+                <span class="doctor-license">License: MC-2018-9941</span>
+                <div style="margin-top: 1rem;">
+                    <a href="/portal" class="btn" style="width: 100%; font-size: 0.78rem; padding: 7px; background: rgba(0, 229, 255, 0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); text-decoration: none; border-radius: var(--radius-sm); display: inline-block;">
+                        Sign In as Dr. Sarah →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Doctor 2: Dr. Rajesh Nair -->
+            <div class="doctor-card">
+                <div class="doctor-avatar-box">👨‍⚕️</div>
+                <h3 class="doctor-name">Dr. Rajesh Nair</h3>
+                <div class="doctor-dept">Orthopedics & Polytrauma</div>
+                <div class="doctor-hospital">Metro Apex Hospital</div>
+                <span class="doctor-license">License: MC-2015-4412</span>
+                <div style="margin-top: 1rem;">
+                    <a href="/portal" class="btn" style="width: 100%; font-size: 0.78rem; padding: 7px; background: rgba(0, 229, 255, 0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); text-decoration: none; border-radius: var(--radius-sm); display: inline-block;">
+                        Sign In as Dr. Rajesh →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Doctor 3: Dr. Ananya Sen -->
+            <div class="doctor-card">
+                <div class="doctor-avatar-box">👩‍⚕️</div>
+                <h3 class="doctor-name">Dr. Ananya Sen</h3>
+                <div class="doctor-dept">Pulmonology & Critical Care</div>
+                <div class="doctor-hospital">City Care Clinic</div>
+                <span class="doctor-license">License: MC-2019-3382</span>
+                <div style="margin-top: 1rem;">
+                    <a href="/portal" class="btn" style="width: 100%; font-size: 0.78rem; padding: 7px; background: rgba(0, 229, 255, 0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); text-decoration: none; border-radius: var(--radius-sm); display: inline-block;">
+                        Sign In as Dr. Ananya →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Doctor 4: Dr. Vikram Mehta -->
+            <div class="doctor-card">
+                <div class="doctor-avatar-box">👨‍⚕️</div>
+                <h3 class="doctor-name">Dr. Vikram Mehta</h3>
+                <div class="doctor-dept">Neurology & Robotic Spine</div>
+                <div class="doctor-hospital">Apex Neuro Institute</div>
+                <span class="doctor-license">License: MC-2014-8821</span>
+                <div style="margin-top: 1rem;">
+                    <a href="/portal" class="btn" style="width: 100%; font-size: 0.78rem; padding: 7px; background: rgba(0, 229, 255, 0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); text-decoration: none; border-radius: var(--radius-sm); display: inline-block;">
+                        Sign In as Dr. Vikram →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         ACADEMIC OBJECTIVES & ARCHITECTURAL PILLARS
+         Directly Mapping to College Mini Project Requirements
+         ========================================================================== -->
+    <section class="home-section" id="objectives" style="background: rgba(8, 13, 26, 0.7); border-top: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-badge">Academic Architecture</span>
+            <h2 class="section-title">System Objectives & Innovation Pillars</h2>
+            <p class="section-desc">
+                Engineered to satisfy core computer science and distributed systems deliverables, resolving real-world healthcare vulnerabilities with decentralized consensus algorithms.
+            </p>
+        </div>
+
+        <div class="academic-grid">
+            <div class="academic-card">
+                <span class="academic-badge">Academic Objective 1 & 3</span>
+                <h3 class="academic-title">Chronological Longitudinal Patient Timeline</h3>
+                <p class="academic-desc">
+                    Consolidates fragmented historical visits across disparate consortium hospitals into an interactive, chronological timeline grouped by hospital node and specialty.
+                </p>
+            </div>
+
+            <div class="academic-card">
+                <span class="academic-badge">Academic Objective 2</span>
+                <h3 class="academic-title">Prevention of Duplicate Report Generation</h3>
+                <p class="academic-desc">
+                    Employs deterministic SHA-256 pre-flight cryptographic hashing to detect and reject duplicate diagnostic uploads instantaneously before ledger anchoring, saving critical hospital resources.
+                </p>
+            </div>
+
+            <div class="academic-card">
+                <span class="academic-badge">Key Feature 7.1</span>
+                <h3 class="academic-title">QR Code Anti-Forgery Cryptographic Proof</h3>
+                <p class="academic-desc">
+                    Embeds verifiable HMAC-SHA-256 QR codes on every generated report, enabling instant verification on paper or screen against the immutable blockchain ledger.
+                </p>
+            </div>
+
+            <div class="academic-card">
+                <span class="academic-badge">Key Feature 7.2</span>
+                <h3 class="academic-title">Time-Expiring Secure Access Token Links</h3>
+                <p class="academic-desc">
+                    Granular patient-governed record sharing with time-limited cryptographic tokens (1h, 24h, 7d) that self-expire automatically, preventing unauthorized secondary record dissemination.
+                </p>
+            </div>
+
+            <div class="academic-card">
+                <span class="academic-badge">Key Feature 7.3</span>
+                <h3 class="academic-title">Hybrid Gemini AI Clinical Synthesis</h3>
+                <p class="academic-desc">
+                    Autonomous clinical highlights engine powered by Gemini AI with built-in offline NLP fallback, synthesizing complex diagnostics into clear summaries for attending doctors.
+                </p>
+            </div>
+
+            <div class="academic-card">
+                <span class="academic-badge">System Security</span>
+                <h3 class="academic-title">Role-Based Access Control (RBAC) & AES-256</h3>
+                <p class="academic-desc">
+                    Strict segregation of duties across Doctor, Lab Staff, Patient, and Admin identities, paired with AES-256-CBC off-chain encryption and on-chain hash verification.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         INTERACTIVE LIVE REPORT INTEGRITY VERIFIER WIDGET
+         Directly on the Homepage for Anyone (Evaluator, Patient, Clinic)
+         ========================================================================== -->
+    <section class="home-section" id="verifier">
+        <div class="section-header">
+            <span class="section-badge">Live Cryptographic Audit</span>
+            <h2 class="section-title">Instant Report Integrity Verifier</h2>
+            <p class="section-desc">
+                Publicly audit any HealthChain medical report against the immutable distributed ledger. Enter any Report ID (e.g. <code>REP-101</code>, <code>REP-102</code>) to verify its block seal and cryptographic hash in real time.
+            </p>
+        </div>
+
+        <div class="verifier-box">
+            <div style="display: flex; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <input type="text" id="verifyInputReportId" class="form-control" style="flex: 1; min-width: 260px; font-family: var(--font-mono); font-size: 1rem; padding: 12px 18px;" placeholder="Enter Report ID (e.g. REP-7A91F2C4)" value="REP-7A91F2C4">
+                <button type="button" class="btn btn-primary" id="btnRunVerification" onclick="runPublicVerification()" style="padding: 12px 28px; font-weight: 700;">
+                    🔍 Verify on Blockchain
+                </button>
+            </div>
+
+            <!-- Pre-set Demo Shortcuts with Real Consortium Records -->
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                <span style="font-size: 0.78rem; color: var(--text-muted);">Quick Sample Records:</span>
+                <button type="button" class="btn" style="font-size: 0.75rem; padding: 5px 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--accent-cyan);" onclick="quickVerify('REP-7A91F2C4')">🩸 REP-7A91F2C4 (HbA1c Glucose • Metro Apex)</button>
+                <button type="button" class="btn" style="font-size: 0.75rem; padding: 5px 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--accent-cyan);" onclick="quickVerify('REP-8D44B190')">🦴 REP-8D44B190 (Spine X-Ray • Metro Apex)</button>
+                <button type="button" class="btn" style="font-size: 0.75rem; padding: 5px 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--accent-cyan);" onclick="quickVerify('REP-3C55A701')">❤️ REP-3C55A701 (Lipid Panel • Metro Apex)</button>
+                <button type="button" class="btn" style="font-size: 0.75rem; padding: 5px 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--accent-cyan);" onclick="quickVerify('REP-2D44C119')">🫁 REP-2D44C119 (Spirometry • City Care Clinic)</button>
+            </div>
+
+            <!-- Verification Results Display -->
+            <div id="verifyResultDisplay" style="display: none; padding: 1.5rem; border-radius: var(--radius-md); background: rgba(14, 23, 42, 0.95); border: 1px solid rgba(0, 229, 255, 0.35);">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         CALL TO ACTION / PORTAL ENTRY BANNER
+         ========================================================================== -->
+    <section class="home-section" style="padding-top: 2rem;">
+        <div style="background: linear-gradient(135deg, rgba(0, 229, 255, 0.12) 0%, rgba(99, 102, 241, 0.18) 100%); border: 1px solid rgba(0, 229, 255, 0.4); border-radius: var(--radius-lg); padding: 3.5rem 2rem; text-align: center; box-shadow: 0 0 50px rgba(0, 229, 255, 0.15);">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🏥 🔐</div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; color: #ffffff; margin-bottom: 1rem;">
+                Ready to Access the HealthChain Consortium Portal?
+            </h2>
+            <p style="font-size: 1.05rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 2rem;">
+                Sign in with your role-based credentials or use the one-click demo access bar to explore Doctor clinical reviews, Lab Staff duplicate prevention uploads, and Patient decrypted downloads.
+            </p>
+            <a href="/portal" class="btn-portal-login" style="font-size: 1.05rem; padding: 14px 38px;">
+                <span>🚀 Launch Consortium Role Portal Now →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         ACADEMIC FOOTER
+         ========================================================================== -->
+    <footer class="home-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                    <span style="font-size: 1.6rem;">🏥</span>
+                    <span style="font-size: 1.2rem; font-weight: 800; color: #ffffff;">HealthChain Consortium</span>
+                </div>
+                <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.25rem;">
+                    A decentralized medical report management and distribution platform leveraging permissioned blockchain consensus, SHA-256 data integrity, and AES-256 zero-trust privacy across multi-hospital networks.
+                </p>
+                <div style="font-size: 0.78rem; color: var(--accent-cyan); font-family: var(--font-mono);">
+                    Consensus Engine: SHA-256 Proof-of-Authority • 4 Active Consortium Nodes
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Consortium Facilities</h4>
+                <ul>
+                    <li><a href="#facilities">Metro Apex Hospital</a></li>
+                    <li><a href="#facilities">Apex Neuro Institute</a></li>
+                    <li><a href="#facilities">City Care Clinic</a></li>
+                    <li><a href="#facilities">BioTrust Molecular Lab</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>System Navigation</h4>
+                <ul>
+                    <li><a href="/portal">Consortium Portal Login</a></li>
+                    <li><a href="#verifier">Report Integrity Verifier</a></li>
+                    <li><a href="#specialties">Clinical Specialties</a></li>
+                    <li><a href="#specialists">Attending Doctors</a></li>
+                    <li><a href="/verify.html?reportId=REP-7A91F2C4">QR Anti-Forgery Certificate</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Academic Evaluation</h4>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
+                    Department of Computer Science & Engineering<br>
+                    <strong>VTU Final Year / Mini Project</strong>
+                </p>
+                <div style="padding: 10px; background: rgba(14, 23, 42, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-size: 0.78rem; color: #94a3b8;">
+                    👨‍💻 Project Developer: <code>1si24cs003</code><br>
+                    ⚡ Stack: Node.js • Express • SHA-256 • Gemini AI
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                © 2026 HealthChain Healthcare Consortium. All rights reserved. Built for Academic Demonstration.
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <a href="/portal" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">Consortium Portal →</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         HOMEPAGE TELEMETRY & VERIFICATION SCRIPT
+         ========================================================================== -->
+    <script>
+        // Fetch Live Stats from Backend Ledger
+        async function fetchConsortiumStats() {
+            try {
+                const res = await fetch('/api/blockchain/stats');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.success && data.stats) {
+                        const s = data.stats;
+                        if (s.totalBlocks !== undefined) {
+                            document.getElementById('statLedgerBlocks').textContent = s.totalBlocks;
+                        }
+                        if (s.totalReports !== undefined) {
+                            document.getElementById('statReportsCount').textContent = s.totalReports;
+                        }
+                        if (s.isValid !== undefined) {
+                            document.getElementById('statIntegrityRate').textContent = s.isValid ? '100%' : 'ALERT';
+                        }
+                    }
+                }
+            } catch (err) {
+                console.log('Telemetry live fetch note:', err.message);
+            }
+        }
+
+        // Run Public Report Verification from Homepage
+        async function runPublicVerification() {
+            const reportId = document.getElementById('verifyInputReportId').value.trim();
+            const resultBox = document.getElementById('verifyResultDisplay');
+            if (!reportId) {
+                alert('Please enter a valid Report ID (e.g. REP-7A91F2C4)');
+                return;
+            }
+
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `
+                <div style="text-align: center; color: var(--accent-cyan); padding: 1.5rem;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚡</div>
+                    <div>Querying immutable consortium ledger for <strong>${reportId}</strong>...</div>
+                </div>
+            `;
+
+            try {
+                const res = await fetch(`/api/verify/${encodeURIComponent(reportId)}`);
+                const data = await res.json();
+
+                if (data.success && (data.isAuthentic || data.status === 'MATCH')) {
+                    const isAuthentic = data.isAuthentic;
+                    const bDetails = data.blockchainDetails || {};
+                    
+                    resultBox.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-size: 2rem;">✅</span>
+                                <div>
+                                    <div style="font-size: 1.15rem; font-weight: 800; color: #34d399;">
+                                        CRYPTOGRAPHIC PROOF VERIFIED • IMMUTABLE RECORD
+                                    </div>
+                                    <div style="font-size: 0.78rem; color: var(--text-secondary); font-family: var(--font-mono);">
+                                        Report ID: ${data.reportId} • Anchored at Block #${bDetails.blockIndex !== undefined ? bDetails.blockIndex : '1'}
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="status-pill status-completed" style="font-size: 0.82rem; padding: 6px 14px;">
+                                🛡️ Hash Match 100% Authentic
+                            </span>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.25rem; font-size: 0.85rem;">
+                            <div style="background: rgba(8,13,26,0.6); padding: 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                                <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">PATIENT IDENTITY</span>
+                                <strong style="color: #ffffff;">${data.patientName || 'Confidential'}</strong> (${data.patientPseudonym || 'PT-9901'})
+                            </div>
+                            <div style="background: rgba(8,13,26,0.6); padding: 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                                <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">ANCHORING CONSORTIUM NODE</span>
+                                <strong style="color: var(--accent-cyan);">${bDetails.institutionNode || 'Metro Apex Hospital'}</strong>
+                            </div>
+                            <div style="background: rgba(8,13,26,0.6); padding: 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                                <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">DIAGNOSTIC TEST TYPE</span>
+                                <strong style="color: #ffffff;">${data.reportType || 'Clinical Pathology'}</strong>
+                            </div>
+                            <div style="background: rgba(8,13,26,0.6); padding: 10px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                                <span style="color: var(--text-muted); font-size: 0.75rem; display: block;">BLOCKCHAIN LEDGER TIMESTAMP</span>
+                                <strong style="color: #ffffff;">${bDetails.timestamp ? new Date(bDetails.timestamp).toLocaleString() : 'Anchored on Ledger'}</strong>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(8,13,26,0.85); padding: 12px; border-radius: 6px; border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+                            <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 4px;">SHA-256 IMMUTABLE LEDGER HASH</div>
+                            <div style="font-size: 0.76rem; font-family: var(--font-mono); color: var(--accent-cyan); word-break: break-all;">
+                                ${data.anchoredBlockchainHash || data.liveComputedHash}
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+                            <div style="font-size: 0.78rem; color: #94a3b8;">
+                                🔒 AES-256 Storage: <code>${data.fileSource || 'Encrypted Storage'}</code>
+                            </div>
+                            <a href="/verify.html?reportId=${encodeURIComponent(data.reportId)}" target="_blank" class="btn" style="font-size: 0.82rem; padding: 7px 18px; background: rgba(0, 229, 255, 0.2); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); text-decoration: none; border-radius: 6px; font-weight: 600;">
+                                View Full Forensic Certificate & QR Proof ↗
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    resultBox.innerHTML = `
+                        <div style="text-align: center; color: #f87171; padding: 1.5rem;">
+                            <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">⚠️</div>
+                            <div style="font-weight: 700; margin-bottom: 0.5rem;">Report ID Not Found on Blockchain Ledger</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
+                                The report ID "${reportId}" has not been anchored to the consortium blockchain yet, or has been tampered with. Try clicking one of the sample buttons above.
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                resultBox.innerHTML = `
+                    <div style="text-align: center; color: #f87171; padding: 1.5rem;">
+                        <div>Failed to connect to verification node: ${err.message}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function quickVerify(repId) {
+            document.getElementById('verifyInputReportId').value = repId;
+            runPublicVerification();
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchConsortiumStats();
+        });
+    </script>
+</body>
+</html>
