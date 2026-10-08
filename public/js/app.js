@@ -13,7 +13,28 @@ const USERS_MAP = {
         id: 'usr_doc_01',
         name: 'Dr. Sarah Rao',
         role: 'Doctor',
-        desc: 'Department of Cardiology • Metro Apex Hospital',
+        desc: 'Cardiology & General Medicine • Metro Apex Hospital',
+        avatar: '👨‍⚕️'
+    },
+    'usr_doc_02': {
+        id: 'usr_doc_02',
+        name: 'Dr. Rajesh Nair',
+        role: 'Doctor',
+        desc: 'Orthopedics & Trauma • Metro Apex Hospital',
+        avatar: '👨‍⚕️'
+    },
+    'usr_doc_03': {
+        id: 'usr_doc_03',
+        name: 'Dr. Ananya Sen',
+        role: 'Doctor',
+        desc: 'Pulmonology & Respiratory Care • City Care Clinic',
+        avatar: '👩‍⚕️'
+    },
+    'usr_doc_04': {
+        id: 'usr_doc_04',
+        name: 'Dr. Vikram Mehta',
+        role: 'Doctor',
+        desc: 'Neurology & Spine Care • Apex Neuro Institute',
         avatar: '👨‍⚕️'
     },
     'usr_lab_01': {
@@ -28,8 +49,32 @@ const USERS_MAP = {
         name: 'John Doe',
         role: 'Patient',
         patientId: 'PT-9901',
-        desc: 'Patient ID: PT-9901 • Blood Group: O+',
+        desc: 'Patient ID: PT-9901 • Age: 48 • Blood Group: O+',
         avatar: '👤'
+    },
+    'usr_pat_02': {
+        id: 'usr_pat_02',
+        name: 'Meera Patel',
+        role: 'Patient',
+        patientId: 'PT-9902',
+        desc: 'Patient ID: PT-9902 • Age: 34 • Blood Group: B+',
+        avatar: '👩'
+    },
+    'usr_pat_03': {
+        id: 'usr_pat_03',
+        name: 'Robert Chen',
+        role: 'Patient',
+        patientId: 'PT-9903',
+        desc: 'Patient ID: PT-9903 • Age: 54 • Blood Group: A+',
+        avatar: '👨'
+    },
+    'usr_pat_04': {
+        id: 'usr_pat_04',
+        name: 'Ayesha Khan',
+        role: 'Patient',
+        patientId: 'PT-9904',
+        desc: 'Patient ID: PT-9904 • Age: 29 • Blood Group: AB+',
+        avatar: '👩'
     },
     'usr_adm_01': {
         id: 'usr_adm_01',
@@ -166,8 +211,23 @@ function applySession(token, user) {
     loadTimeline();
     loadBlockchain();
     loadAuditLogs();
+    refreshConsortiumUsers();
     if (user.role === 'Admin') {
         loadAdminUsers();
+    }
+}
+
+async function refreshConsortiumUsers() {
+    try {
+        const res = await fetch('/api/auth/users');
+        if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.users) {
+                populatePatientDropdowns(data.users);
+            }
+        }
+    } catch (e) {
+        console.warn('Failed to refresh consortium users:', e);
     }
 }
 

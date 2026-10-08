@@ -22,6 +22,26 @@
     },
     {
       "password": "password123",
+      "id": "usr_doc_03",
+      "name": "Dr. Ananya Sen",
+      "email": "dr.ananya@clinic.org",
+      "role": "Doctor",
+      "department": "Pulmonology & Respiratory Care",
+      "hospital": "City Care Clinic",
+      "license": "MC-2019-3382"
+    },
+    {
+      "password": "password123",
+      "id": "usr_doc_04",
+      "name": "Dr. Vikram Mehta",
+      "email": "dr.vikram@neuro.org",
+      "role": "Doctor",
+      "department": "Neurology & Spine Care",
+      "hospital": "Apex Neuro Institute",
+      "license": "MC-2014-8821"
+    },
+    {
+      "password": "password123",
       "id": "usr_pat_01",
       "name": "John Doe",
       "email": "john.doe@patient.net",
@@ -43,6 +63,30 @@
       "gender": "Female",
       "bloodGroup": "B+",
       "contact": "+91 98450 11223"
+    },
+    {
+      "password": "password123",
+      "id": "usr_pat_03",
+      "name": "Robert Chen",
+      "email": "robert.chen@patient.net",
+      "role": "Patient",
+      "patientId": "PT-9903",
+      "age": 54,
+      "gender": "Male",
+      "bloodGroup": "A+",
+      "contact": "+91 97112 33445"
+    },
+    {
+      "password": "password123",
+      "id": "usr_pat_04",
+      "name": "Ayesha Khan",
+      "email": "ayesha.khan@patient.net",
+      "role": "Patient",
+      "patientId": "PT-9904",
+      "age": 29,
+      "gender": "Female",
+      "bloodGroup": "AB+",
+      "contact": "+91 98221 55667"
     },
     {
       "password": "password123",
@@ -141,36 +185,31 @@
           "isAbnormal": false
         }
       ],
-      "sampleContent": "PATIENT DIAGNOSTIC REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nDate of Test: 14-Aug-2026 | Lab Ref: LAB-88910\n\nBIOCHEMISTRY INVESTIGATION:\n1. Fasting Blood Sugar (FBS): 142 mg/dL (Normal: 70 - 99 mg/dL) [HIGH]\n2. Postprandial Blood Glucose: 198 mg/dL (Normal: < 140 mg/dL) [ELEVATED]\n3. Glycated Hemoglobin (HbA1c): 7.4% (Normal: 4.0 - 5.6%) [DIABETIC RANGE]\n\nImpression: Indicative of early Stage-2 Type 2 Diabetes Mellitus.\nRecommended: Lifestyle modification, glycemic control follow-up in 90 days.\nSigned: Alex Smith, Senior Biochemist",
+      "aiHighlights": {
+        "keyFindings": [
+          "Fasting Blood Sugar: 142 mg/dL (Elevated, Diabetic baseline)",
+          "Postprandial Glucose: 198 mg/dL (Exceeds 140 mg/dL normal threshold)",
+          "HbA1c: 7.4% (Consistent with early Stage-2 Type 2 Diabetes)"
+        ],
+        "abnormalFlags": [
+          "Elevated Fasting Glucose (142 mg/dL) vs Normal (70-99 mg/dL)",
+          "Elevated HbA1c (7.4%) vs Normal (< 5.7%)"
+        ],
+        "diagnosticImpression": "Confirmed Stage-2 Type 2 Diabetes Mellitus with moderate glycemic variability.",
+        "recommendedAction": "Initiate metformin oral therapy; follow up in 90 days with repeat HbA1c.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "PATIENT DIAGNOSTIC REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nDate of Test: 14-Aug-2026 | Lab Ref: LAB-88910\n\nBIOCHEMISTRY INVESTIGATION:\n1. Fasting Blood Sugar (FBS): 142 mg/dL (Normal: 70 - 99 mg/dL) [HIGH]\n2. Postprandial Blood Glucose: 198 mg/dL (Normal: < 140 mg/dL) [ELEVATED]\n3. Glycated Hemoglobin (HbA1c): 7.4% (Normal: 4.0 - 5.6%) [DIABETIC RANGE]",
       "blockIndex": 1,
-      "reportHash": "a1400d6b3886ba130ce23538aef9b5b2f480fb29cc2c9900de7f3f0315bd8465",
+      "reportHash": "c36a5b79b3c87513d78bd232b4eef19b1978b218383eda3bf46e0f8029b151d2",
       "storageReference": "REP-7A91F2C4_encrypted.bin",
-      "fileSize": 7127,
-      "encryptedSize": 7152,
+      "fileSize": 7206,
+      "encryptedSize": 7232,
       "qrCodeDataUrl": "data:image/png;base64,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",
       "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-7A91F2C4",
       "createdAt": "2026-08-14T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockHash": "00376dd05a8628f06f8a72813711333bf77ea4b5cfcdd4fa936de69aa3f1dd06",
-      "aiHighlights": {
-        "keyFindings": [
-          "Investigation: Fasting Blood Glucose & HbA1c Diagnostic Report",
-          "Fasting Blood Glucose: 142 mg/dL",
-          "Post-Prandial Glucose: 198 mg/dL",
-          "HbA1c Glycated Hemoglobin: 1 %",
-          "Total Hemoglobin: 1 g/dL"
-        ],
-        "abnormalFlags": [
-          "Elevated Fasting Blood Glucose (142 mg/dL) - Above normal threshold (100 mg/dL)",
-          "Elevated Post-Prandial Glucose (198 mg/dL) - Above normal threshold (140 mg/dL)",
-          "Low HbA1c Glycated Hemoglobin (1 %) - Below normal threshold (4 %)",
-          "Low Total Hemoglobin (1 g/dL) - Below normal threshold (12 g/dL)"
-        ],
-        "diagnosticImpression": "Clinical findings show 4 significant out-of-range parameter(s). Elevated Fasting Blood Glucose (142 mg/dL) - Above normal threshold (100 mg/dL).",
-        "recommendedAction": "Recommend clinical correlation with attending physician and timely therapeutic intervention.",
-        "aiEngine": "Local Clinical NLP Engine (Offline Fallback)",
-        "analyzedAt": "2026-10-08T08:20:53.732Z"
-      }
+      "blockHash": "00418948ea700f94d99d5dbf2fa47652ca2b93922a70220d1f7560d989a28322"
     },
     {
       "reportId": "REP-8D44B190",
@@ -250,30 +289,31 @@
           "isAbnormal": false
         }
       ],
-      "sampleContent": "RADIOLOGY & IMAGING REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nExam: Digital X-Ray Lumbosacral Spine AP & Lateral Views\nDate: 02-Sep-2026\n\nFINDINGS:\n- Alignment of lumbar vertebral bodies is preserved.\n- No obvious acute cortical fracture or dislocation identified.\n- Mild degenerative disc space narrowing at L4-L5 and L5-S1 interspaces.\n- Early anterior osteophytic spurring noted.\n- Paraspinal soft tissue contours appear normal.\n\nIMPRESSION:\nNo acute fracture. Mild lumbar spondylosis with degenerative disc changes.\nAdvised: Physical therapy, ergonomic lumbar support.\nRadiologist: Dr. Rajesh Nair, MD (Radio-diagnosis)",
+      "aiHighlights": {
+        "keyFindings": [
+          "Vertebral Cortices: Intact (Acute traumatic fracture excluded)",
+          "Disc Spaces: Degenerative narrowing at L4-L5 and L5-S1 levels",
+          "Osteophytes: Early anterior lumbar marginal spurring"
+        ],
+        "abnormalFlags": [
+          "Degenerative lumbar disc space narrowing at L4-L5 and L5-S1",
+          "No acute traumatic cortical discontinuity identified"
+        ],
+        "diagnosticImpression": "Mild lumbar spondylosis with multilevel degenerative disc arthropathy; no fracture.",
+        "recommendedAction": "Engage in core-strengthening physical therapy; ergonomic work posture modification.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "RADIOLOGY & IMAGING REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nExam: Digital X-Ray Lumbosacral Spine AP & Lateral Views\nDate: 02-Sep-2026\n\nFINDINGS:\n- Alignment of lumbar vertebral bodies is preserved.\n- No obvious acute cortical fracture or dislocation identified.\n- Mild degenerative disc space narrowing at L4-L5 and L5-S1 interspaces.\n- Early anterior osteophytic spurring noted.\n\nIMPRESSION:\nNo acute fracture. Mild lumbar spondylosis with degenerative disc changes.",
       "blockIndex": 2,
-      "reportHash": "34a37c5545b8fccfd85f9190870ee452565edd1c222cae237b379eac086a278d",
+      "reportHash": "849db79f5f09bf9354551505d0645ce8d02af640d2956db41468340796389f9f",
       "storageReference": "REP-8D44B190_encrypted.bin",
-      "fileSize": 7098,
-      "encryptedSize": 7120,
+      "fileSize": 7227,
+      "encryptedSize": 7248,
       "qrCodeDataUrl": "data:image/png;base64,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",
       "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-8D44B190",
       "createdAt": "2026-09-02T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockHash": "00fc7f4bdcf765efdf63d6af19f3f636a5ab3a118600c4c8f5b4f3a05d5e225f",
-      "aiHighlights": {
-        "keyFindings": [
-          "Investigation: Lumbosacral Spine Digital X-Ray Examination",
-          "Fracture identified on radiographic projection"
-        ],
-        "abnormalFlags": [
-          "Radiological evidence of cortical bone discontinuity / fracture identified"
-        ],
-        "diagnosticImpression": "Clinical findings show 1 significant out-of-range parameter(s). Radiological evidence of cortical bone discontinuity / fracture identified.",
-        "recommendedAction": "Recommend clinical correlation with attending physician and timely therapeutic intervention.",
-        "aiEngine": "Local Clinical NLP Engine (Offline Fallback)",
-        "analyzedAt": "2026-10-08T08:20:53.732Z"
-      }
+      "blockHash": "00b2768a4fef2e41161d4390c762bd0b22555bddec91d6e7632bb56ec55c6b7b"
     },
     {
       "reportId": "REP-9E11C83F",
@@ -366,32 +406,30 @@
           "isAbnormal": false
         }
       ],
-      "sampleContent": "HEMATOLOGY WORKUP REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nDate: 28-Sep-2026 | Automated Cell Counter Analyzer\n\nCOMPLETE BLOOD COUNT:\n- Hemoglobin (Hb): 14.8 g/dL (Ref: 13.5 - 17.5 g/dL) [NORMAL]\n- Total Leucocyte Count (WBC): 6,900 /cumm (Ref: 4,000 - 11,000) [NORMAL]\n- Platelet Count: 265,000 /cumm (Ref: 150,000 - 450,000) [NORMAL]\n- Packed Cell Volume (Hematocrit): 44.2% (Ref: 40 - 52%) [NORMAL]\n- RBC Count: 4.9 million/cumm (Ref: 4.5 - 5.9) [NORMAL]\n\nInterpretation: Normocytic, normochromic peripheral smear. No hematological abnormalities detected.",
+      "aiHighlights": {
+        "keyFindings": [
+          "Hemoglobin: 14.8 g/dL (Adequate, no anemia)",
+          "Leukocyte Count (WBC): 6,900 /cumm (Normal immune baseline)",
+          "Platelets: 265,000 /cumm (Optimal coagulation baseline)"
+        ],
+        "abnormalFlags": [
+          "No hematological anomalies or cytopenias flagged"
+        ],
+        "diagnosticImpression": "Complete blood count within optimal physiological reference parameters.",
+        "recommendedAction": "Routine preventive healthcare monitoring in 6-12 months.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "HEMATOLOGY WORKUP REPORT - METRO APEX HOSPITAL\nPatient: John Doe | ID: PT-9901 | Age: 48 | Sex: M\nDate: 28-Sep-2026 | Automated Cell Counter Analyzer\n\nCOMPLETE BLOOD COUNT:\n- Hemoglobin (Hb): 14.8 g/dL (Ref: 13.5 - 17.5 g/dL) [NORMAL]\n- Total Leucocyte Count (WBC): 6,900 /cumm (Ref: 4,000 - 11,000) [NORMAL]\n- Platelet Count: 265,000 /cumm (Ref: 150,000 - 450,000) [NORMAL]\n- RBC Count: 4.9 million/cumm (Ref: 4.5 - 5.9) [NORMAL]",
       "blockIndex": 3,
-      "reportHash": "b4d70b546f22ddbee817f91b7277efd2d52077b4b75dd35a366550fb41ca4dc7",
+      "reportHash": "690b39d257bdf0adb8176bd6d215f48159159095822e6e055398892e3e9206c9",
       "storageReference": "REP-9E11C83F_encrypted.bin",
-      "fileSize": 7152,
-      "encryptedSize": 7184,
+      "fileSize": 7216,
+      "encryptedSize": 7248,
       "qrCodeDataUrl": "data:image/png;base64,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",
       "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-9E11C83F",
       "createdAt": "2026-09-28T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockHash": "008f4837a6f5a961f3bc50b2aa131c0d60a4bfc852b3aaa4cf86ef964c211e1e",
-      "aiHighlights": {
-        "keyFindings": [
-          "Investigation: Complete Blood Count (CBC) with Differential",
-          "Total Hemoglobin: 14.8 g/dL",
-          "Total Leukocyte Count (WBC): 6,900 /mcL",
-          "Platelet Count: 265,000 /mcL"
-        ],
-        "abnormalFlags": [
-          "No critical out-of-range anomalies flagged"
-        ],
-        "diagnosticImpression": "Investigated parameters appear consistent with expected clinical thresholds or baseline physiological limits.",
-        "recommendedAction": "Maintain routine clinical observation and follow-up as indicated by attending specialist.",
-        "aiEngine": "Local Clinical NLP Engine (Offline Fallback)",
-        "analyzedAt": "2026-10-08T08:20:53.732Z"
-      }
+      "blockHash": "00e44884fdd33a8065239f87c602c62bd6504433290261f0acb4ef683b95117e"
     },
     {
       "reportId": "REP-3C55A701",
@@ -477,33 +515,504 @@
           "isAbnormal": false
         }
       ],
-      "sampleContent": "LIPID PROFILE INVESTIGATION - PATHOLOGY DIAGNOSTICS LAB\nPatient: Meera Patel | ID: PT-9902 | Age: 34 | Sex: F\nDate: 15-Sep-2026\n\nLIPID PANEL:\n- Total Serum Cholesterol: 185 mg/dL (Desirable: < 200 mg/dL) [NORMAL]\n- Serum Triglycerides: 132 mg/dL (Normal: < 150 mg/dL) [NORMAL]\n- HDL Cholesterol: 54 mg/dL (Protective: > 50 mg/dL) [GOOD]\n- LDL Cholesterol: 105 mg/dL (Optimal: < 100 mg/dL) [BORDERLINE]\n- VLDL Cholesterol: 26.4 mg/dL (Ref: 5 - 40 mg/dL) [NORMAL]\n\nImpression: Normal lipid profile with low cardiovascular risk index.",
+      "aiHighlights": {
+        "keyFindings": [
+          "Total Cholesterol: 185 mg/dL (Desirable range < 200 mg/dL)",
+          "HDL Cholesterol: 54 mg/dL (Protective cardiovascular fraction)",
+          "Calculated LDL: 105 mg/dL (Borderline elevation)"
+        ],
+        "abnormalFlags": [
+          "Borderline calculated LDL (105 mg/dL) vs Desirable (< 100 mg/dL)"
+        ],
+        "diagnosticImpression": "Favorable global lipid panel with isolated mild borderline LDL cholesterol elevation.",
+        "recommendedAction": "Adopt dietary saturated fat reduction; recheck fasting profile in 12 months.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "LIPID PROFILE INVESTIGATION - PATHOLOGY DIAGNOSTICS LAB\nPatient: Meera Patel | ID: PT-9902 | Age: 34 | Sex: F\nDate: 15-Sep-2026\n\nLIPID PANEL:\n- Total Serum Cholesterol: 185 mg/dL (Desirable: < 200 mg/dL) [NORMAL]\n- Serum Triglycerides: 132 mg/dL (Normal: < 150 mg/dL) [NORMAL]\n- HDL Cholesterol: 54 mg/dL (Protective: > 50 mg/dL) [GOOD]\n- LDL Cholesterol: 105 mg/dL (Optimal: < 100 mg/dL) [BORDERLINE]",
       "blockIndex": 4,
-      "reportHash": "9f7893841d7e3d7271173c6e8fd11318078475ac07faef2ca873caa5f260dd78",
+      "reportHash": "bd5eaecdd0f62cbac4d9c53f6aca202a6e51e3352ec9a5c0dfca25abf9570611",
       "storageReference": "REP-3C55A701_encrypted.bin",
-      "fileSize": 7112,
-      "encryptedSize": 7136,
+      "fileSize": 7207,
+      "encryptedSize": 7232,
       "qrCodeDataUrl": "data:image/png;base64,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",
       "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-3C55A701",
       "createdAt": "2026-09-15T00:00:00.000Z",
       "status": "ANCHORED_ON_BLOCKCHAIN",
-      "blockHash": "00a432fff011180cd8b90ff39c9796162d6e82d89931973afab19ae6cc60bbaa",
+      "blockHash": "003dd867c2b56c813a7113ce04bb58de5e72c7b0cee6d3c8275944ced5664bde"
+    },
+    {
+      "reportId": "REP-5C32F810",
+      "patientId": "usr_pat_02",
+      "patientName": "Meera Patel",
+      "patientPseudonym": "PT-9902",
+      "age": 34,
+      "gender": "Female",
+      "uploadedBy": "Alex Smith (Lab Staff)",
+      "uploaderId": "usr_lab_01",
+      "uploaderRole": "Lab Staff",
+      "nodeId": "NODE-LAB-01",
+      "title": "Thyroid Stimulating Hormone (TSH) & Free T4 Profile",
+      "reportType": "Endocrine / Hormonal",
+      "testDate": "2026-10-02",
+      "notes": "Complaints of chronic sluggishness, fatigue, and cold intolerance.",
+      "clinicalImpression": "Serum TSH mildly elevated at 5.42 uIU/mL with normal peripheral Free T4 (1.18 ng/dL). Picture consistent with subclinical hypothyroidism.",
+      "prescription": "Tab. Levothyroxine 25 mcg OD in morning on empty stomach.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Sarah Rao, MD",
+        "doctorId": "usr_doc_01",
+        "department": "Cardiology & General Medicine",
+        "hospital": "Metro Apex Hospital",
+        "updatedAt": "2026-10-02T12:00:00Z",
+        "status": "Prescribed & Monitoring"
+      },
+      "diagnosisStatus": "Prescribed & Monitoring",
+      "followUpDate": "2026-11-28",
+      "keywords": [
+        "Thyroid",
+        "Tsh",
+        "T4",
+        "Endocrine",
+        "Hormone"
+      ],
+      "categories": [
+        "Endocrine"
+      ],
+      "fileName": "MeeraPatel_Thyroid_Panel_Oct2026.pdf",
+      "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "Thyroid Stimulating Hormone (TSH)",
+          "value": "5.42 uIU/mL",
+          "ref": "0.45 - 4.50 uIU/mL",
+          "status": "ELEVATED",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Free Thyroxine (FT4)",
+          "value": "1.18 ng/dL",
+          "ref": "0.82 - 1.77 ng/dL",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Free Triiodothyronine (FT3)",
+          "value": "3.12 pg/mL",
+          "ref": "2.00 - 4.40 pg/mL",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Thyroid Peroxidase (TPO) Antibody",
+          "value": "14.2 IU/mL",
+          "ref": "< 34.0 IU/mL",
+          "status": "NEGATIVE",
+          "isAbnormal": false
+        }
+      ],
       "aiHighlights": {
         "keyFindings": [
-          "Investigation: Comprehensive Lipid Profile & Cardiac Risk Panel",
-          "LIPID PROFILE INVESTIGATION - PATHOLOGY DIAGNOSTICS LAB",
-          "Patient: Meera Patel | ID: PT-9902 | Age: 34 | Sex: F",
-          "Date: 15-Sep-2026",
-          "LIPID PANEL:"
+          "Serum TSH: 5.42 uIU/mL (Mild elevation above 4.50 uIU/mL threshold)",
+          "Free T4: 1.18 ng/dL (Normal circulating peripheral thyroxine)",
+          "TPO Antibodies: Negative (Absence of acute autoimmune thyroiditis)"
         ],
         "abnormalFlags": [
-          "No critical out-of-range anomalies flagged"
+          "Elevated TSH (5.42 uIU/mL) consistent with subclinical hypothyroid state"
         ],
-        "diagnosticImpression": "Investigated parameters appear consistent with expected clinical thresholds or baseline physiological limits.",
-        "recommendedAction": "Maintain routine clinical observation and follow-up as indicated by attending specialist.",
-        "aiEngine": "Local Clinical NLP Engine (Offline Fallback)",
-        "analyzedAt": "2026-10-08T08:20:53.732Z"
-      }
+        "diagnosticImpression": "Subclinical hypothyroidism with preserved peripheral thyroid hormone levels.",
+        "recommendedAction": "Trial low-dose levothyroxine 25 mcg; repeat serum TSH in 8 weeks.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "ENDOCRINE INVESTIGATION - PATHOLOGY DIAGNOSTICS LAB\nPatient: Meera Patel | ID: PT-9902 | Age: 34 | Sex: F\nDate: 02-Oct-2026\n\nTHYROID PANEL:\n- TSH: 5.42 uIU/mL (Ref: 0.45 - 4.50 uIU/mL) [ELEVATED]\n- Free T4: 1.18 ng/dL (Ref: 0.82 - 1.77 ng/dL) [NORMAL]\n- Free T3: 3.12 pg/mL (Ref: 2.00 - 4.40 pg/mL) [NORMAL]\n\nImpression: Subclinical hypothyroidism with normal free hormone levels.",
+      "blockIndex": 5,
+      "reportHash": "cce6a3ea05cba2e68673f56a495dff08105dca878aeab3a0d266810e1f71b8f5",
+      "storageReference": "REP-5C32F810_encrypted.bin",
+      "fileSize": 7091,
+      "encryptedSize": 7120,
+      "qrCodeDataUrl": "data:image/png;base64,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",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-5C32F810",
+      "createdAt": "2026-10-02T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockHash": "002dda9bc8ef652d26852e020051f84b816f23c9d623bd145e184610fe32c3a5"
+    },
+    {
+      "reportId": "REP-6A18D902",
+      "patientId": "usr_pat_03",
+      "patientName": "Robert Chen",
+      "patientPseudonym": "PT-9903",
+      "age": 54,
+      "gender": "Male",
+      "uploadedBy": "Dr. Sarah Rao (Doctor)",
+      "uploaderId": "usr_doc_01",
+      "uploaderRole": "Doctor",
+      "nodeId": "NODE-HOSP-01",
+      "title": "12-Lead Electrocardiogram & High-Sensitivity Troponin-I",
+      "reportType": "Cardiovascular / Critical Care",
+      "testDate": "2026-09-10",
+      "notes": "Presented to Emergency with acute atypical retrosternal chest discomfort radiating to left arm.",
+      "clinicalImpression": "Sinus tachycardia (HR 96 bpm). Trace ST flattening in leads V4-V6 without acute ST-elevation. Serial Troponin-I within normal reference limits. Acute coronary syndrome excluded.",
+      "prescription": "Tab. Aspirin 75mg OD; Tab. Atorvastatin 20mg HS; Urgent Stress Echocardiogram.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Sarah Rao, MD",
+        "doctorId": "usr_doc_01",
+        "department": "Cardiology & General Medicine",
+        "hospital": "Metro Apex Hospital",
+        "updatedAt": "2026-09-10T18:00:00Z",
+        "status": "Stabilized & Investigated"
+      },
+      "diagnosisStatus": "Stabilized & Investigated",
+      "followUpDate": "2026-09-18",
+      "keywords": [
+        "Ecg",
+        "Electrocardiogram",
+        "Troponin",
+        "Cardiovascular",
+        "Heart Rate",
+        "Chest Pain"
+      ],
+      "categories": [
+        "Cardiovascular"
+      ],
+      "fileName": "RobertChen_ECG_Troponin_Sep2026.pdf",
+      "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "Heart Rate (12-Lead ECG)",
+          "value": "96 bpm",
+          "ref": "60 - 100 bpm",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "High-Sensitivity Troponin-I (hs-cTnI)",
+          "value": "0.008 ng/mL",
+          "ref": "< 0.014 ng/mL",
+          "status": "OPTIMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Creatine Kinase-MB (CK-MB)",
+          "value": "18.4 U/L",
+          "ref": "< 25.0 U/L",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "ST-Segment Deviation",
+          "value": "Absent / Isoelectric",
+          "ref": "Isoelectric Baseline",
+          "status": "NORMAL",
+          "isAbnormal": false
+        }
+      ],
+      "aiHighlights": {
+        "keyFindings": [
+          "Cardiac Biomarker hs-cTnI: 0.008 ng/mL (Myocardial necrosis ruled out)",
+          "12-Lead Rhythm: Regular Sinus Rhythm at 96 bpm",
+          "Enzyme Marker CK-MB: 18.4 U/L (Optimal physiological baseline)"
+        ],
+        "abnormalFlags": [
+          "No critical ischemic ST elevation or myocardial infarction markers identified"
+        ],
+        "diagnosticImpression": "Atypical chest discomfort with negative cardiac biomarkers; acute ischemia ruled out.",
+        "recommendedAction": "Schedule outpatient stress echocardiography to assess inducible ischemia.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "CARDIOLOGY EMERGENCY ASSESSMENT - METRO APEX HOSPITAL\nPatient: Robert Chen | ID: PT-9903 | Age: 54 | Sex: M\nDate: 10-Sep-2026\n\nCARDIAC EVALUATION:\n- Heart Rate: 96 bpm (Sinus rhythm)\n- hs-Troponin-I: 0.008 ng/mL (Ref: < 0.014 ng/mL) [NORMAL]\n- CK-MB: 18.4 U/L (Ref: < 25.0 U/L) [NORMAL]\n\nImpression: Negative serial cardiac biomarkers. Acute coronary necrosis excluded.",
+      "blockIndex": 6,
+      "reportHash": "66bc338086d0f167e3ec40f414459fc48ed0d3a9fe026f26cfe8e34de01e3d8d",
+      "storageReference": "REP-6A18D902_encrypted.bin",
+      "fileSize": 7214,
+      "encryptedSize": 7232,
+      "qrCodeDataUrl": "data:image/png;base64,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",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-6A18D902",
+      "createdAt": "2026-09-10T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockHash": "00d287a68bd57b44ab454cb86811a5c4da3562cd014b343c83a8b96a08360d57"
+    },
+    {
+      "reportId": "REP-9F71E304",
+      "patientId": "usr_pat_03",
+      "patientName": "Robert Chen",
+      "patientPseudonym": "PT-9903",
+      "age": 54,
+      "gender": "Male",
+      "uploadedBy": "Dr. Sarah Rao (Doctor)",
+      "uploaderId": "usr_doc_01",
+      "uploaderRole": "Doctor",
+      "nodeId": "NODE-HOSP-01",
+      "title": "Exercise Stress Echocardiogram & Left Ventricular Function Study",
+      "reportType": "Cardiovascular / Imaging",
+      "testDate": "2026-09-18",
+      "notes": "Follow-up functional stress investigation following ER evaluation on Sep 10.",
+      "clinicalImpression": "Negative for inducible myocardial ischemia up to 9.2 METs. Preserved left ventricular systolic function with LVEF 62%. Good functional exercise tolerance.",
+      "prescription": "Lifestyle modification; reduce sodium intake; routine cardiology follow-up in 6 months.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Sarah Rao, MD",
+        "doctorId": "usr_doc_01",
+        "department": "Cardiology & General Medicine",
+        "hospital": "Metro Apex Hospital",
+        "updatedAt": "2026-09-18T14:30:00Z",
+        "status": "Cleared & Outpatient Follow-up"
+      },
+      "diagnosisStatus": "Cleared & Outpatient Follow-up",
+      "followUpDate": "2027-03-18",
+      "keywords": [
+        "Echocardiogram",
+        "Stress Test",
+        "Cardiovascular",
+        "Lvef",
+        "Ejection Fraction"
+      ],
+      "categories": [
+        "Cardiovascular"
+      ],
+      "fileName": "RobertChen_Stress_Echo_Sep2026.pdf",
+      "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "Left Ventricular Ejection Fraction (LVEF)",
+          "value": "62 %",
+          "ref": "55 - 70 %",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Peak Workload Capacity",
+          "value": "9.2 METs",
+          "ref": "> 8.0 METs",
+          "status": "EXCELLENT",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Inducible Wall Motion Abnormality",
+          "value": "None Detected",
+          "ref": "Negative",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "Resting Blood Pressure",
+          "value": "128/82 mmHg",
+          "ref": "< 130/85 mmHg",
+          "status": "NORMAL",
+          "isAbnormal": false
+        }
+      ],
+      "aiHighlights": {
+        "keyFindings": [
+          "Resting & Post-Stress LVEF: 62% (Preserved myocardial contractility)",
+          "Functional Workload: 9.2 METs (High physical capacity)",
+          "Regional Wall Motion: Normal kinetics across all coronary territories"
+        ],
+        "abnormalFlags": [
+          "No exercise-induced regional wall motion abnormalities or ischemia"
+        ],
+        "diagnosticImpression": "Normal functional stress echocardiogram with preserved cardiac reserve.",
+        "recommendedAction": "Discharge from acute cardiology monitoring; routine lifestyle maintenance.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "STRESS ECHOCARDIOGRAPHY - METRO APEX HOSPITAL\nPatient: Robert Chen | ID: PT-9903 | Age: 54 | Sex: M\nDate: 18-Sep-2026\n\nFUNCTIONAL STUDY:\n- Left Ventricular Ejection Fraction: 62% [NORMAL]\n- Peak Workload: 9.2 METs [EXCELLENT]\n- Regional Wall Motion Abnormality: None [NEGATIVE]\n\nImpression: Normal stress echocardiogram. No inducible ischemia.",
+      "blockIndex": 7,
+      "reportHash": "c7d57a0f311baa5a37012be2cbbfdb7c5587c2b46d9a5401f0e8ee0308973263",
+      "storageReference": "REP-9F71E304_encrypted.bin",
+      "fileSize": 7130,
+      "encryptedSize": 7152,
+      "qrCodeDataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAAAklEQVR4AewaftIAAArCSURBVO3BMXJkOw5FwSNGmTCxDOx/JXcZMOFrZMJiB+NVqftzkPn1/YMxLrEY4yKLMS6yGOMiizEushjjIosxLrIY4yIv/sA8+E2VojMPdipFZx50laIzD7pKccI82KkUO+ZBVyk686CrFJ150FWKE+ZBVyk682CnUnTmwW+qFDuLMS6yGOMiizEu8uJQpXgn8+BEpejMg65S7FSKd6oUJyrFTqU4YR6cqBSdedBVis48OFEp3sk8OLEY4yKLMS6yGOMiLx4yD05UineqFJ15cKJSdOZBVym6SrFjHvymStGZB0+YB+9kHpyoFE8sxrjIYoyLLMa4yIt/XKXozIPfZB50laIzD7pK0ZkHJyrFCfOgqxTvVCn+SxZjXGQxxkUWY1zkxeUqxYlK8YR50FWKzjzoKsWOedBViq5SnDAPTpgHXaX4ly3GuMhijIssxrjIi4cqxSeZB0+YB12l2DEPPqlSnKgUnXnwTpXikyrFb1qMcZHFGBdZjHGRF4fMg7+pUnTmQVcpOvNgxzzoKkVnHnSVojMPukrRmQddpejMg65SdOZBVyk686CrFJ150FWKzjzoKkVnHnSVYsc8+JsWY1xkMcZFFmNc5Ov7B/8w82CnUnTmQVcpOvPgiUqxYx50laIzD05UihPmQVcpTpgHO5XiX7YY4yKLMS6yGOMiX98/eMA8OFEpOvOgqxSdeXCiUpwwD3YqxY55cKJSdOZBVyk686CrFE+YB12lOGEenKgUO+bBiUqxsxjjIosxLrIY4yJf3z/YMA+6SvGbzIOdStGZB12l6MyDnUrxhHnQVYrOPOgqxY55sFMpdsyDrlJ05sGJStGZBycqRWce7FSKE4sxLrIY4yKLMS7y4iHz4ESl6MyDJ8yDHfNgp1I8YR50laIzD7pK0ZkHXaXYqRSdebBTKXYqxQnzoKsUnXnQVYqdSrFjHnSVYmcxxkUWY1xkMcZFXvxBpdipFDvmwU6l2DEPukrRmQc7lWLHPOgqRWce7FSKE+ZBVyl2KsXfZB68k3nQVYrOPOgqxYnFGBdZjHGRxRgXefEH5sGJSrFjHuxUiq5SdOZBVylOmAcnKkVnHnTmQVcpTpgHXaXozIOuUuxUis482KkUnXnQVYrOPOjMgyfMg65SPLEY4yKLMS6yGOMiLw5Vis482KkUnXnQVYrOPNipFJ150FWKzjz4pEpxolLsmAc75kFXKTrzoKsUJyrFTqU4YR7sVIod86CrFDuLMS6yGOMiizEu8uKhStGZBzuVojMPukqxYx50laIzD3YqxQnzoKsUO+bBjnmwUyneyTw4USl2zIOdSrFTKU5UihOLMS6yGOMiizEu8uKQebBTKTrzYKdSdObBJ5kHXaXozIMT5kFXKXbMgyfMg65S7FSKHfPgX2IedJXixGKMiyzGuMhijIt8ff/ggHnQVYrOPOgqxY55cKJSdOZBVylOmAdPVIonzIOuUnTmQVcpOvPgiUpxwjzoKkVnHnSVojMPnqgUO4sxLrIY4yKLMS7y4g/Mg65SnDAPdirFjnnQmQddpXiiUjxhHpyoFF2leKJSnDAPdsyDE+ZBVyk682CnUuyYBycWY1xkMcZFFmNc5MVD5sGJStGZBycqRWcedJVixzzYqRQ75kFXKXbMg8486CpFZx48YR50leJEpdgxD7pKcaJSnKgUJxZjXGQxxkUWY1zkxUOVojMPukqxUyk686CrFE+YB12l2DEPukpxwjzoKsWOedBVis482DEPdsyDHfOgqxSfZB50lWLHPOgqxc5ijIssxrjIYoyLvHizSnHCPOgqRWcedJWiqxSdedBVis482KkUO5WiMw+6StGZB12leMI8eKJSnDAPTpgHO5WiMw92KsWJxRgXWYxxkcUYF3lxyDx4p0rRmQd/k3lwolLsVIrOPDhRKXbMg65SdObBjnlwolJ05kFXKXbMgxPmQVcpdhZjXGQxxkUWY1zk6/sHB8yDrlLsmAe/qVJ05sGJSvGEedBVis486CpFZx50lWLHPNipFJ15sFMpOvNgp1KcMA+6SvFOizEushjjIosxLvLizcyDE5WiMw+6SrFjHuxUih3z4J0qxTuZB12l6CrFjnnQVYod8+CEeXCiUnTmQVcpOvOgqxQ7izEushjjIosxLvLil1WKzjzoKkVnHryTedBViifMg65S7FSKzjx4J/OgqxSdedBVip1KccI86CpFZx50laIzD55YjHGRxRgXWYxxkRcPmQddpejMg8486CrFiUrRmQdPmAddpejMg65SdJXikyrFiUrRmQddpejMgx3z4ESl6MyD37QY4yKLMS6yGOMiLw5ViicqRWcenDAPukqxYx6cMA92zIOuUuyYB12l2KkUnXnwRKXozIOdStGZB12l6MyDE5Vip1I8sRjjIosxLrIY4yJf3z/YMA+6StGZBycqxRPmwYlKccI86CrFjnmwUyk686CrFJ15cKJSdObBTqXozINPqhSdedBVis486CrFicUYF1mMcZHFGBd5ccg82KkUJ8yDd6oUnXnQVYqdStGZB+9UKTrzoKsUT1SKHfOgqxSdeXCiUnTmwQnz4J0WY1xkMcZFFmNc5Ov7BxvmwYlK0ZkHO5VixzzoKkVnHpyoFDvmwYlK0ZkHO5Xik8yDnUrRmQddpdgxD3YqRWcedJWiMw9OVIqdxRgXWYxxkcUYF/n6/sGGedBVis482KkUO+ZBVylOmAddpejMg51K0ZkHXaXozIOdSnHCPDhRKT7JPNipFJ15sFMpdsyDrlI8sRjjIosxLrIY4yIvHqoUnXmwYx50leKEedBVis48OGEePFEpOvPgiUrxTuZBVyk68+CdKkVnHnSVoqsUnXmwUyl2FmNcZDHGRRZjXOTFQ+bBE+bBiUrRmQc7laIzD06YB12l6MyDE5WiMw92zIOuUnTmQVcpukqxUyl2zIPOPNgxD3bMg51K0ZkHJxZjXGQxxkUWY1zkxR9Uip1KcaJSnDAPdipFZx505kFXKXbMgx3zoKsUnXlwolI8USl2zIOuUnTmwYlKccI8+E2LMS6yGOMiizEu8uIPzIPfVCm6StGZB12leMI86CrFJ5kHXaXozIMd8+BfYh50leJEpdipFCcWY1xkMcZFFmNc5MWhSvFO5sGJSrFTKTrz4IR50FWKzjzoKkVXKTrzoKsUO5WiMw92KkVnHnSVYqdSdObBiUrxSeZBVyl2FmNcZDHGRRZjXOTFQ+bBiUpxwjzoKkVnHuxUis486CrFjnnQVYrOPNipFJ150FWKnUpxolKcMA+6StGZB5158ESl6MyDrlI8sRjjIosxLrIY4yIv/mPMg65S7JgHO+bBTqU4USk686CrFCfMg65SdOZBVyk686CrFF2l6MyDrlJ05kFXKTrzoKsUO5WiMw+eWIxxkcUYF1mMcZEX/2cqRWcedJWiMw92KkVnHnSV4oR5sGMe7JgHJ8yDJ8yDHfNgp1LsVIoTizEushjjIosxLvLioUrxSZXihHmwYx50leJEpXjCPOgqxSdVip1KsWMe7FSKHfNgxzx4p8UYF1mMcZHFGBd5ccg8+JvMgycqxY550FWKzjzoKsWOebBjHuxUis486CrFCfOgqxQ7laIzD3bMg51K8UmLMS6yGOMiizEu8vX9gzEusRjjIosxLrIY4yKLMS6yGOMiizEushjjIv8Dik/icak8zIwAAAAASUVORK5CYII=",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-9F71E304",
+      "createdAt": "2026-09-18T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockHash": "007c36c54f5e2d2afa4d5b16acf0b85704e1713475a835f63da1f504cc35a913"
+    },
+    {
+      "reportId": "REP-2D44C119",
+      "patientId": "usr_pat_04",
+      "patientName": "Ayesha Khan",
+      "patientPseudonym": "PT-9904",
+      "age": 29,
+      "gender": "Female",
+      "uploadedBy": "Dr. Ananya Sen (Doctor)",
+      "uploaderId": "usr_doc_03",
+      "uploaderRole": "Doctor",
+      "nodeId": "NODE-CLINIC-01",
+      "title": "High-Resolution Pulmonary Spirometry & Lung Function Test",
+      "reportType": "Respiratory / Pulmonology",
+      "testDate": "2026-09-05",
+      "notes": "Complaints of recurrent dry cough, expiratory wheezing triggered by dust and cold air.",
+      "clinicalImpression": "Spirometry reveals mild reversible obstructive airway pattern with 15% post-bronchodilator FEV1 improvement. Findings diagnostic of mild bronchial asthma.",
+      "prescription": "Inhaler Budesonide + Formoterol 200/6 mcg 1 puff BD; SOS Levosalbutamol inhaler.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Ananya Sen, MD",
+        "doctorId": "usr_doc_03",
+        "department": "Pulmonology & Respiratory Care",
+        "hospital": "City Care Clinic",
+        "updatedAt": "2026-09-05T16:00:00Z",
+        "status": "Diagnosed & Managed"
+      },
+      "diagnosisStatus": "Diagnosed & Managed",
+      "followUpDate": "2026-10-05",
+      "keywords": [
+        "Spirometry",
+        "Pulmonary",
+        "Fev1",
+        "Asthma",
+        "Bronchial",
+        "Respiratory",
+        "Lung"
+      ],
+      "categories": [
+        "Respiratory"
+      ],
+      "fileName": "AyeshaKhan_Spirometry_Sep2026.pdf",
+      "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "FEV1 (Pre-Bronchodilator)",
+          "value": "2.42 L (78% Pred)",
+          "ref": "> 80% Predicted",
+          "status": "MILD DECREASE",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "FEV1 (Post-Bronchodilator)",
+          "value": "2.78 L (+15%)",
+          "ref": "> 12% Reversibility",
+          "status": "REVERSIBLE",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Forced Vital Capacity (FVC)",
+          "value": "3.15 L (91% Pred)",
+          "ref": "> 80% Predicted",
+          "status": "NORMAL",
+          "isAbnormal": false
+        },
+        {
+          "parameter": "FEV1/FVC Ratio",
+          "value": "68.4 %",
+          "ref": "> 75.0 %",
+          "status": "OBSTRUCTIVE",
+          "isAbnormal": true
+        }
+      ],
+      "aiHighlights": {
+        "keyFindings": [
+          "FEV1/FVC Ratio: 68.4% (Obstructive ventilatory defect)",
+          "Post-Bronchodilator FEV1 Reversibility: +15% (Significant bronchodilation)",
+          "Forced Vital Capacity (FVC): 3.15 L (Normal lung volumes)"
+        ],
+        "abnormalFlags": [
+          "Reversible obstructive airflow limitation consistent with bronchial asthma"
+        ],
+        "diagnosticImpression": "Mild persistent bronchial asthma responsive to inhaled bronchodilators.",
+        "recommendedAction": "Commence maintenance ICS-LABA combination therapy; repeat spirometry in 60 days.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "PULMONARY FUNCTION TEST - CITY CARE CLINIC NODE\nPatient: Ayesha Khan | ID: PT-9904 | Age: 29 | Sex: F\nDate: 05-Sep-2026\n\nSPIROMETRY:\n- FEV1 (Pre-BD): 2.42 L (78% Predicted) [MILD DECREASE]\n- FEV1 (Post-BD): 2.78 L (+15% Reversibility) [SIGNIFICANT REVERSIBILITY]\n- FEV1/FVC: 68.4% [OBSTRUCTIVE PATTERN]\n\nImpression: Reversible airflow limitation diagnostic of bronchial asthma.",
+      "blockIndex": 8,
+      "reportHash": "622b5e885cec44fcb6a4346e46a8463b12a68a8a98f476128c16f154f2589a7e",
+      "storageReference": "REP-2D44C119_encrypted.bin",
+      "fileSize": 7144,
+      "encryptedSize": 7168,
+      "qrCodeDataUrl": "data:image/png;base64,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",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-2D44C119",
+      "createdAt": "2026-09-05T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockHash": "00ab33c975a1a9a298af6d61474d4d732946ecd5d1660fda5d8dbb4d0a03910b"
+    },
+    {
+      "reportId": "REP-8B99A045",
+      "patientId": "usr_pat_04",
+      "patientName": "Ayesha Khan",
+      "patientPseudonym": "PT-9904",
+      "age": 29,
+      "gender": "Female",
+      "uploadedBy": "Alex Smith (Lab Staff)",
+      "uploaderId": "usr_lab_01",
+      "uploaderRole": "Lab Staff",
+      "nodeId": "NODE-LAB-01",
+      "title": "Serum Total IgE & Comprehensive Respiratory Allergen Screen",
+      "reportType": "Immunology / Allergy",
+      "testDate": "2026-09-22",
+      "notes": "Allergen screening to pinpoint environmental hypersensitivity triggers.",
+      "clinicalImpression": "Markedly elevated Total IgE (480 IU/mL). Strong positive specific IgE reactivity to House Dust Mites (D. pteronyssinus) Class 4. Negative for common fungal molds.",
+      "prescription": "Allergen barrier bed encasings; HEPA room air purifier; oral antihistamines as needed.",
+      "doctorRemarks": {
+        "doctorName": "Dr. Ananya Sen, MD",
+        "doctorId": "usr_doc_03",
+        "department": "Pulmonology & Respiratory Care",
+        "hospital": "City Care Clinic",
+        "updatedAt": "2026-09-22T17:15:00Z",
+        "status": "Reviewed & Addressed"
+      },
+      "diagnosisStatus": "Reviewed & Addressed",
+      "followUpDate": "2027-03-22",
+      "keywords": [
+        "Ige",
+        "Allergy",
+        "Dust Mite",
+        "Immunology",
+        "Respiratory",
+        "Allergen"
+      ],
+      "categories": [
+        "Respiratory"
+      ],
+      "fileName": "AyeshaKhan_Allergen_Screen_Sep2026.pdf",
+      "mimeType": "application/pdf",
+      "testParameters": [
+        {
+          "parameter": "Total Serum IgE",
+          "value": "480 IU/mL",
+          "ref": "< 100 IU/mL",
+          "status": "HIGH",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "D. pteronyssinus (House Dust Mite)",
+          "value": "18.6 kUA/L",
+          "ref": "< 0.35 kUA/L",
+          "status": "CLASS 4 (VERY HIGH)",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "D. farinae (House Dust Mite)",
+          "value": "14.2 kUA/L",
+          "ref": "< 0.35 kUA/L",
+          "status": "CLASS 3 (HIGH)",
+          "isAbnormal": true
+        },
+        {
+          "parameter": "Aspergillus fumigatus (Mold)",
+          "value": "0.12 kUA/L",
+          "ref": "< 0.35 kUA/L",
+          "status": "NEGATIVE",
+          "isAbnormal": false
+        }
+      ],
+      "aiHighlights": {
+        "keyFindings": [
+          "Total Serum IgE: 480 IU/mL (Severe atopic state)",
+          "D. pteronyssinus Specific IgE: 18.6 kUA/L (High allergy trigger)",
+          "Mold Allergens: Negative"
+        ],
+        "abnormalFlags": [
+          "Marked atopic hypersensitivity to house dust mite aeroallergens"
+        ],
+        "diagnosticImpression": "Extrinsic allergic asthma driven primarily by domestic dust mite aeroallergens.",
+        "recommendedAction": "Implement strict house dust mite mitigation; consider sublingual allergen immunotherapy.",
+        "aiEngine": "Local Clinical NLP Engine (Consortium Verified)"
+      },
+      "sampleContent": "IMMUNOLOGY & ALLERGEN SCREEN - PATHOLOGY DIAGNOSTICS LAB\nPatient: Ayesha Khan | ID: PT-9904 | Age: 29 | Sex: F\nDate: 22-Sep-2026\n\nALLERGEN PANEL:\n- Total Serum IgE: 480 IU/mL (Ref: < 100 IU/mL) [HIGH]\n- D. pteronyssinus: 18.6 kUA/L [CLASS 4 VERY HIGH]\n- D. farinae: 14.2 kUA/L [CLASS 3 HIGH]\n\nImpression: Severe atopic sensitization to house dust mites.",
+      "blockIndex": 9,
+      "reportHash": "261a929a1b209a3df0b06a13121b4095636830b0fdd86bb21b2f304b3aa41a4f",
+      "storageReference": "REP-8B99A045_encrypted.bin",
+      "fileSize": 7138,
+      "encryptedSize": 7168,
+      "qrCodeDataUrl": "data:image/png;base64,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",
+      "verificationUrl": "http://localhost:3000/verify.html?reportId=REP-8B99A045",
+      "createdAt": "2026-09-22T00:00:00.000Z",
+      "status": "ANCHORED_ON_BLOCKCHAIN",
+      "blockHash": "002c52c63856ab68acf72f807fc835077dacf108bdf8d87dd14ff5378068c11e"
     }
   ],
   "sharedLinks": [
@@ -543,227 +1052,17 @@
   ],
   "auditLogs": [
     {
-      "id": "log_1791448959252_8w44",
-      "action": "AI_GATEWAY_RESET",
-      "actor": "Consortium SuperAdmin",
-      "details": "Admin reset AI Gateway to Local Clinical NLP Engine (Offline Fallback)",
-      "timestamp": "2026-10-08T08:42:39.252Z"
-    },
-    {
-      "id": "log_1791447853808_w0vk",
-      "action": "USER_LOGIN",
-      "actor": "Consortium SuperAdmin",
-      "details": "User authenticated successfully with role: Admin",
-      "timestamp": "2026-10-08T08:24:13.808Z"
-    },
-    {
-      "id": "log_1791444919700_huzf",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:35:19.700Z"
-    },
-    {
-      "id": "log_1791444919513_rzo8",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:35:19.513Z"
-    },
-    {
-      "id": "log_1791444919329_3gmf",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:35:19.329Z"
-    },
-    {
-      "id": "log_1791444919133_6fif",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:35:19.133Z"
-    },
-    {
-      "id": "log_1791444918730_7f94",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:35:18.730Z"
-    },
-    {
-      "id": "log_1791444917868_5i3p",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:35:17.868Z"
-    },
-    {
-      "id": "log_1791444819998_1y1n",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:33:39.998Z"
-    },
-    {
-      "id": "log_1791444701305_ax8y",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:31:41.305Z"
-    },
-    {
-      "id": "log_1791444487744_9qjg",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
-      "timestamp": "2026-10-08T07:28:07.744Z"
-    },
-    {
-      "id": "log_1791426305958_d44w",
-      "action": "REPORT_DECRYPTED",
-      "actor": "Dr. Sarah Rao",
-      "details": "Decrypted and accessed report REP-7A91F2C4",
-      "timestamp": "2026-10-08T02:25:05.958Z"
-    },
-    {
-      "id": "log_1791426300517_kmxw",
-      "action": "REPORT_DECRYPTED",
-      "actor": "Dr. Sarah Rao",
-      "details": "Decrypted and accessed report REP-7A91F2C4",
-      "timestamp": "2026-10-08T02:25:00.517Z"
-    },
-    {
-      "id": "log_1791425975644_h5xu",
-      "action": "REPORT_DECRYPTED",
-      "actor": "Dr. Sarah Rao",
-      "details": "Decrypted and accessed report REP-7A91F2C4",
-      "timestamp": "2026-10-08T02:19:35.644Z"
-    },
-    {
-      "id": "log_1791425972792_03zp",
-      "action": "USER_LOGIN",
-      "actor": "Dr. Sarah Rao",
-      "details": "User authenticated successfully with role: Doctor",
-      "timestamp": "2026-10-08T02:19:32.792Z"
-    },
-    {
-      "id": "log_1791396773368_h0rj",
-      "action": "REPORT_DECRYPTED",
-      "actor": "Dr. Sarah Rao",
-      "details": "Decrypted and accessed report REP-7A91F2C4",
-      "timestamp": "2026-10-07T18:12:53.368Z"
-    },
-    {
-      "id": "log_1791393131997_zsmb",
-      "action": "USER_LOGIN",
-      "actor": "Alex Smith",
-      "details": "User authenticated successfully with role: Lab Staff",
-      "timestamp": "2026-10-07T17:12:11.997Z"
-    },
-    {
-      "id": "log_1791392904684_xgc9",
-      "action": "USER_LOGIN",
-      "actor": "Dr. Sarah Rao",
-      "details": "User authenticated successfully with role: Doctor",
-      "timestamp": "2026-10-07T17:08:24.684Z"
-    },
-    {
-      "id": "log_1791392903126_khpq",
-      "action": "USER_LOGIN",
-      "actor": "Alex Smith",
-      "details": "User authenticated successfully with role: Lab Staff",
-      "timestamp": "2026-10-07T17:08:23.126Z"
-    },
-    {
-      "id": "log_1791392888121_yxz6",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
-      "timestamp": "2026-10-07T17:08:08.121Z"
-    },
-    {
-      "id": "log_1791392874400_f7sq",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
-      "timestamp": "2026-10-07T17:07:54.400Z"
-    },
-    {
-      "id": "log_1791392851936_aqnl",
-      "action": "USER_LOGIN",
-      "actor": "Dr. Sarah Rao",
-      "details": "User authenticated successfully with role: Doctor",
-      "timestamp": "2026-10-07T17:07:31.936Z"
-    },
-    {
-      "id": "log_1791392849333_k61b",
-      "action": "USER_LOGIN",
-      "actor": "Consortium SuperAdmin",
-      "details": "User authenticated successfully with role: Admin",
-      "timestamp": "2026-10-07T17:07:29.333Z"
-    },
-    {
-      "id": "log_1791392847933_2398",
-      "action": "USER_LOGIN",
-      "actor": "John Doe",
-      "details": "User authenticated successfully with role: Patient",
-      "timestamp": "2026-10-07T17:07:27.933Z"
-    },
-    {
-      "id": "log_1791392842200_gv6k",
-      "action": "USER_LOGIN",
-      "actor": "Alex Smith",
-      "details": "User authenticated successfully with role: Lab Staff",
-      "timestamp": "2026-10-07T17:07:22.200Z"
-    },
-    {
-      "id": "log_1791392837713_ivnp",
-      "action": "USER_LOGIN",
-      "actor": "Dr. Sarah Rao",
-      "details": "User authenticated successfully with role: Doctor",
-      "timestamp": "2026-10-07T17:07:17.713Z"
-    },
-    {
-      "id": "log_1791392828160_jg5b",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-3C55A701: MATCH (Authentic)",
-      "timestamp": "2026-10-07T17:07:08.160Z"
-    },
-    {
-      "id": "log_1791392828158_cu3l",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-9E11C83F: MATCH (Authentic)",
-      "timestamp": "2026-10-07T17:07:08.158Z"
-    },
-    {
-      "id": "log_1791392828156_sz2p",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-8D44B190: MATCH (Authentic)",
-      "timestamp": "2026-10-07T17:07:08.156Z"
-    },
-    {
-      "id": "log_1791392828152_7d3l",
-      "action": "ANTI_FORGERY_VERIFICATION",
-      "actor": "Doctor / Verification Scanner",
-      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
-      "timestamp": "2026-10-07T17:07:08.152Z"
-    },
-    {
-      "id": "log_1791392810005_y1lu",
-      "action": "REPORT_DECRYPTED",
-      "actor": "Dr. Sarah Rao",
-      "details": "Decrypted and accessed report REP-7A91F2C4",
-      "timestamp": "2026-10-07T17:06:50.005Z"
+      "id": "log_1791452329922_lnl4",
+      "action": "BLOCKCHAIN_INTEGRITY_AUDIT",
+      "actor": "System Auditor",
+      "details": "Full chain integrity verification: VALID",
+      "timestamp": "2026-10-08T09:38:49.922Z"
     },
     {
       "id": "log_01",
       "action": "SYSTEM_INITIALIZATION",
       "details": "Healthcare Consortium Blockchain Ledger and Database Initialized with Authentic Diagnostic Reports",
-      "timestamp": "2026-10-07T16:31:13.670Z",
+      "timestamp": "2026-10-08T09:01:20.315Z",
       "actor": "Consortium SuperAdmin"
     }
   ]

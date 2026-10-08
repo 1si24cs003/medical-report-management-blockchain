@@ -243,6 +243,25 @@ The server will start at:
 
 ---
 
+## 👥 Pre-Configured Consortium Network Demo Accounts
+
+All demo accounts use the standard consortium password: `password123` (or 1-click login on the portal gate):
+
+| Role | Name | Email / ID | Specialty / Details | Consortium Node |
+| :--- | :--- | :--- | :--- | :--- |
+| **👨‍⚕️ Doctor** | Dr. Sarah Rao | `dr.sarah@hospital.org` | Cardiology & General Medicine (Metro Apex Hospital) | `NODE-HOSP-01` |
+| **👨‍⚕️ Doctor** | Dr. Rajesh Nair | `dr.rajesh@hospital.org` | Orthopedics & Trauma (Metro Apex Hospital) | `NODE-HOSP-01` |
+| **👩‍⚕️ Doctor** | Dr. Ananya Sen | `dr.ananya@clinic.org` | Pulmonology & Respiratory Care (City Care Clinic) | `NODE-CLINIC-01` |
+| **👨‍⚕️ Doctor** | Dr. Vikram Mehta | `dr.vikram@neuro.org` | Neurology & Spine Care (Apex Neuro Institute) | `NODE-HOSP-01` |
+| **🔬 Lab Staff** | Alex Smith | `alex.lab@pathology.org` | Senior Diagnostic Technologist (Pathology Lab) | `NODE-LAB-01` |
+| **👤 Patient** | John Doe | `john.doe@patient.net` | ID: `PT-9901` • Age: 48, Male (Blood: O+) | Regional Patient |
+| **👩 Patient** | Meera Patel | `meera.patel@patient.net` | ID: `PT-9902` • Age: 34, Female (Blood: B+) | Regional Patient |
+| **👨 Patient** | Robert Chen | `robert.chen@patient.net` | ID: `PT-9903` • Age: 54, Male (Blood: A+) | Regional Patient |
+| **👩 Patient** | Ayesha Khan | `ayesha.khan@patient.net` | ID: `PT-9904` • Age: 29, Female (Blood: AB+) | Regional Patient |
+| **🛡️ Admin** | Consortium SuperAdmin | `admin@consortium.gov` | Blockchain Authority & Consortium Identity Registrar | SuperAdmin Node |
+
+---
+
 ## 🧪 Live Evaluation Demonstration Flow
 
 Follow this structured workflow during evaluation demonstrations:

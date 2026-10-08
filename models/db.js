@@ -64,7 +64,7 @@ class Database {
                 testDate: rep.testDate,
                 patientPseudonym: rep.patientPseudonym,
                 patientId: rep.patientId
-            }, rep.uploaderRole === 'Doctor' ? 'NODE-HOSP-01' : 'NODE-LAB-01');
+            }, rep.nodeId || (rep.uploaderRole === 'Doctor' ? 'NODE-HOSP-01' : 'NODE-LAB-01'));
 
             rep.blockIndex = block.index;
             rep.blockHash = block.hash;
@@ -81,7 +81,7 @@ class Database {
             }
         ];
         this.persist();
-        console.log('[Database] Seeded 4 authentic PDF reports anchored on blockchain!');
+        console.log(`[Database] Seeded ${this.reports.length} authentic PDF reports anchored on blockchain!`);
         return this.reports;
     }
 
