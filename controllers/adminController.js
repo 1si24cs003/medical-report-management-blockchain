@@ -203,7 +203,7 @@ async function updateAiConfig(req, res) {
 
         const cleanKey = apiKey.trim();
         // Ping Google Gemini to verify key
-        await testGeminiApiKey(cleanKey);
+        const testResult = await testGeminiApiKey(cleanKey);
 
         process.env.GEMINI_API_KEY = cleanKey;
         syncEnvFile('GEMINI_API_KEY', cleanKey);
@@ -211,16 +211,17 @@ async function updateAiConfig(req, res) {
         db.logAudit(
             'AI_GATEWAY_CONFIGURED',
             req.user ? req.user.name : 'System Admin',
-            'Admin verified and activated Google Gemini 3.8 Flash cloud gateway'
+            `Admin verified and activated Google Gemini cloud gateway (Model: ${testResult.activeModel || 'gemini-2.0-flash'})`
         );
 
         const maskedKey = `${cleanKey.slice(0, 6)}...${cleanKey.slice(-4)}`;
         return res.json({
             success: true,
-            message: 'Google Gemini API key successfully verified and activated!',
-            activeEngine: 'Google Gemini 3.8 Flash (Live Cloud AI)',
+            message: testResult.message || `Google Gemini API key successfully verified and activated!`,
+            activeEngine: `Google Gemini (${testResult.activeModel || 'gemini-2.0-flash'})`,
             status: 'ONLINE_AI',
-            maskedKey
+            maskedKey,
+            warning: testResult.warning || null
         });
     } catch (err) {
         return res.status(400).json({

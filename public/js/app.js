@@ -955,10 +955,17 @@ async function saveAdminAiConfig() {
             showToast('✅ Google Gemini API key verified and activated!', 'success');
             if (alertBox) {
                 alertBox.style.display = 'block';
-                alertBox.style.background = 'rgba(16, 185, 129, 0.15)';
-                alertBox.style.border = '1px solid #10b981';
-                alertBox.style.color = '#d1fae5';
-                alertBox.innerHTML = `<strong>✅ Verification Succeeded:</strong> Cloud connection to Google Gemini 3.8 Flash confirmed! All future medical report uploads will utilize real-time clinical AI inference.`;
+                if (data.warning) {
+                    alertBox.style.background = 'rgba(245, 158, 11, 0.15)';
+                    alertBox.style.border = '1px solid #f59e0b';
+                    alertBox.style.color = '#fef3c7';
+                    alertBox.innerHTML = `<strong>⚠️ Verification Succeeded with Hybrid Fallback:</strong> ${escapeHtml(data.warning)}`;
+                } else {
+                    alertBox.style.background = 'rgba(16, 185, 129, 0.15)';
+                    alertBox.style.border = '1px solid #10b981';
+                    alertBox.style.color = '#d1fae5';
+                    alertBox.innerHTML = `<strong>✅ Verification Succeeded:</strong> ${escapeHtml(data.message || 'Cloud connection confirmed!')} All future medical report uploads will utilize real-time clinical AI inference with automatic offline fallback.`;
+                }
             }
             input.value = '';
             await loadAdminAiConfig();

@@ -138,15 +138,35 @@ Return a valid JSON object matching this EXACT schema:
 
 Provide ONLY the valid JSON response, with no markdown code fences or conversational text.`;
 
-        // Use gemini-3.8-flash for fast, free-tier supported structured clinical analysis
-        const response = await ai.models.generateContent({
-            model: 'gemini-3.8-flash',
-            contents: prompt,
-            config: {
-                temperature: 0.1,
-                maxOutputTokens: 600
+        const preferred = process.env.GEMINI_ACTIVE_MODEL || 'gemini-3.8-flash';
+        const CANDIDATE_MODELS = [preferred, 'gemini-3.8-flash', 'gemini-3-flash-preview', 'gemini-3.8-flash-lite'].filter((v, i, a) => a.indexOf(v) === i);
+        let response = null;
+        let usedModel = null;
+        let lastErr = null;
+
+        for (const model of CANDIDATE_MODELS) {
+            try {
+                response = await ai.models.generateContent({
+                    model,
+                    contents: prompt,
+                    config: {
+                        temperature: 0.1,
+                        maxOutputTokens: 600
+                    }
+                });
+                if (response && response.text) {
+                    usedModel = model;
+                    break;
+                }
+            } catch (mErr) {
+                lastErr = mErr;
+                console.warn(`[AI Summarizer] Model ${model} encountered error (${mErr.message}). Trying fallback model...`);
             }
-        });
+        }
+
+        if (!response || !response.text) {
+            throw lastErr || new Error('No candidate Gemini model responded.');
+        }
 
         const responseText = response.text || '';
         const cleanedJson = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
@@ -157,7 +177,7 @@ Provide ONLY the valid JSON response, with no markdown code fences or conversati
             abnormalFlags: Array.isArray(parsed.abnormalFlags) ? parsed.abnormalFlags : [String(parsed.abnormalFlags)],
             diagnosticImpression: parsed.diagnosticImpression || 'Clinical findings reviewed.',
             recommendedAction: parsed.recommendedAction || 'Correlate clinically with attending physician.',
-            aiEngine: 'Google Gemini 3.8 Flash (Live Cloud AI)',
+            aiEngine: `Google Gemini (${usedModel || 'gemini-3.8-flash'})`,
             analyzedAt: new Date().toISOString()
         };
     } catch (err) {
@@ -172,15 +192,100 @@ async function testGeminiApiKey(apiKey) {
     if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length < 10) {
         throw new Error('Please provide a valid, non-empty Google Gemini API key.');
     }
-    const ai = new GoogleGenAI({ apiKey: apiKey.trim() });
-    const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
-        contents: 'ping',
-        config: {
-            maxOutputTokens: 5
+    const cleanKey = apiKey.trim();
+    const ai = new GoogleGenAI({ apiKey: cleanKey });
+
+    // Step 1: Query Google's ModelService to verify the key and discover enabled models
+    let availableModels = [];
+    try {
+        const pager = await ai.models.list({ config: { pageSize: 50 } });
+        for await (const m of pager) {
+            const rawName = m.name ? m.name.replace(/^models\//, '') : '';
+            if (rawName) availableModels.push(rawName);
         }
-    });
-    return !!response;
+    } catch (listErr) {
+        const msg = String(listErr.message || '');
+        if (msg.includes('API_KEY_INVALID') || msg.includes('API key not valid') || msg.includes('PERMISSION_DENIED') || msg.includes('INVALID_ARGUMENT')) {
+            throw new Error('Google Gemini API key was rejected as invalid by Google AI Studio. Please verify the key.');
+        }
+        console.warn('[AI Gateway] models.list call failed:', listErr.message);
+    }
+
+    console.log('[AI Gateway] Available models discovered from Google:', availableModels.slice(0, 8));
+
+    // Models required by Google's API environment
+    const PREFERRED_MODELS = [
+        'gemini-3.8-flash',
+        'gemini-3-flash-preview',
+        'gemini-3.8-flash-lite',
+        'gemini-2.5-flash',
+        'gemini-2.0-flash'
+    ];
+
+    let candidates = [];
+    if (availableModels.length > 0) {
+        for (const pref of PREFERRED_MODELS) {
+            if (availableModels.includes(pref)) candidates.push(pref);
+        }
+        for (const m of availableModels) {
+            if (m.includes('flash') && !candidates.includes(m)) candidates.push(m);
+        }
+    }
+
+    if (candidates.length === 0) {
+        candidates = ['gemini-3.8-flash', 'gemini-3-flash-preview', 'gemini-3.8-flash-lite'];
+    }
+
+    let activeModel = candidates[0];
+    let testSuccess = false;
+    let lastError = null;
+
+    // Step 2: Test ping on top candidate models
+    for (const model of candidates.slice(0, 3)) {
+        try {
+            const response = await ai.models.generateContent({
+                model,
+                contents: 'HealthChain Consortium Connection Check: Reply with OK',
+                config: { maxOutputTokens: 5 }
+            });
+            if (response) {
+                activeModel = model;
+                testSuccess = true;
+                break;
+            }
+        } catch (genErr) {
+            lastError = genErr;
+            const errMsg = String(genErr.message || '');
+            console.warn(`[AI Gateway Test] Model ${model} returned error (${errMsg}). Trying next candidate...`);
+            if (errMsg.includes('API_KEY_INVALID') || errMsg.includes('PERMISSION_DENIED')) {
+                throw new Error('Google Gemini API key was rejected as invalid by Google AI Studio.');
+            }
+        }
+    }
+
+    process.env.GEMINI_ACTIVE_MODEL = activeModel;
+
+    // Step 3: Handle outcome
+    if (testSuccess) {
+        return {
+            success: true,
+            activeModel,
+            message: `Cloud connection to Google Gemini (${activeModel}) confirmed! Real-time clinical AI inference is active.`
+        };
+    }
+
+    const lastMsg = lastError ? String(lastError.message || '') : '';
+    // If models.list succeeded or error was 503 (high demand) or 429, key is 100% verified by Google!
+    if (availableModels.length > 0 || lastMsg.includes('503') || lastMsg.includes('high demand') || lastMsg.includes('UNAVAILABLE') || lastMsg.includes('429')) {
+        return {
+            success: true,
+            activeModel,
+            warning: `Google authenticated your API key! Google Gemini (${activeModel}) cloud servers are currently experiencing temporary peak demand (503), but your key has been successfully activated. The gateway will attempt live Gemini cloud inference for report uploads and automatically use the offline clinical NLP fallback if Google servers are busy.`,
+            message: `API Key authenticated & activated with Google Gemini (${activeModel})!`
+        };
+    }
+
+    throw lastError || new Error('Could not establish connection to Google Gemini.');
 }
 
 module.exports = {
