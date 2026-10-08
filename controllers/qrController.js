@@ -7,6 +7,22 @@ const { computeSHA256, decryptBuffer } = require('../utils/cryptoUtils');
 
 const UPLOADS_DIR = path.join(__dirname, '..', 'uploads');
 
+const os = require('os');
+
+function getLocalNetworkIp() {
+    try {
+        const interfaces = os.networkInterfaces();
+        for (const name of Object.keys(interfaces)) {
+            for (const iface of interfaces[name]) {
+                if (iface.family === 'IPv4' && !iface.internal) {
+                    return iface.address;
+                }
+            }
+        }
+    } catch (e) {}
+    return 'localhost';
+}
+
 /**
  * Feature 7.1: Get QR Code Data for a Report
  */
@@ -18,16 +34,23 @@ async function getReportQRCode(req, res) {
             return res.status(404).json({ success: false, message: 'Report not found.' });
         }
 
+        // Use accessible network IP if requested or accessible on LAN for phone camera scanning
+        const port = process.env.PORT || 3000;
+        const lanIp = getLocalNetworkIp();
+        const lanBaseUrl = `http://${lanIp}:${port}`;
         const hostUrl = req.protocol + '://' + req.get('host');
+        
+        // Target URL for scanning: if accessed on localhost, prefer LAN IP so phones on the same Wi-Fi can scan directly
+        const scanUrl = (lanIp && lanIp !== 'localhost') ? `${lanBaseUrl}/verify.html?reportId=${reportId}` : `${hostUrl}/verify.html?reportId=${reportId}`;
         const verificationUrl = `${hostUrl}/verify.html?reportId=${reportId}`;
 
-        const qrDataUrl = await QRCode.toDataURL(verificationUrl, {
+        const qrDataUrl = await QRCode.toDataURL(scanUrl, {
             errorCorrectionLevel: 'H',
             margin: 2,
             width: 320,
             color: {
-                dark: '#002B49',
-                light: '#FFFFFF'
+                dark: '#080d1a',
+                light: '#ffffff'
             }
         });
 
@@ -35,9 +58,18 @@ async function getReportQRCode(req, res) {
             success: true,
             reportId,
             verificationUrl,
-            qrDataUrl,
+            scanUrl,
+            qrCodeDataUrl: qrDataUrl,
+            qrDataUrl: qrDataUrl,
             anchoredHash: report.reportHash,
-            blockIndex: report.blockIndex
+            reportHash: report.reportHash,
+            blockIndex: report.blockIndex,
+            patientName: report.patientName,
+            patientPseudonym: report.patientPseudonym,
+            title: report.title,
+            testDate: report.testDate,
+            reportType: report.reportType,
+            status: 'ANCHORED_ON_BLOCKCHAIN'
         });
     } catch (err) {
         return res.status(500).json({ success: false, message: 'Error generating QR code.', error: err.message });

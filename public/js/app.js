@@ -1343,25 +1343,112 @@ async function downloadReportFile(reportId, preferredFileName) {
     }
 }
 
+let currentActiveQrReportId = null;
+
 async function openQrModal(reportId) {
+    currentActiveQrReportId = reportId;
     const modal = document.getElementById('qrModal');
     const img = document.getElementById('qrModalImg');
     const badge = document.getElementById('qrReportId');
+    const titleDisplay = document.getElementById('qrReportTitleDisplay');
     const directLink = document.getElementById('qrDirectVerifyLink');
+    const hashDisplay = document.getElementById('qrHashDisplay');
+    const blockDisplay = document.getElementById('qrBlockDisplay');
+    const liveResultBox = document.getElementById('qrLiveResultBox');
+    const verifyNowBtn = document.getElementById('qrVerifyNowBtn');
 
-    badge.textContent = reportId;
+    if (badge) badge.textContent = reportId;
+    if (img) img.src = '';
+    if (hashDisplay) hashDisplay.textContent = 'Loading cryptographic fingerprint from blockchain...';
+    if (liveResultBox) {
+        liveResultBox.style.display = 'none';
+        liveResultBox.innerHTML = '';
+    }
+    if (verifyNowBtn) {
+        verifyNowBtn.disabled = false;
+        verifyNowBtn.innerHTML = '⚡ Verify Hash Against Ledger';
+    }
+
     modal.classList.add('active');
 
     try {
         const res = await fetch(`/api/qr/${encodeURIComponent(reportId)}`);
         const data = await res.json();
         if (data.success) {
-            img.src = data.qrCodeDataUrl;
-            currentVerificationUrl = data.verificationUrl;
-            directLink.href = data.verificationUrl;
+            const qrUrl = data.qrCodeDataUrl || data.qrDataUrl;
+            if (img) {
+                img.src = qrUrl;
+            }
+            if (titleDisplay && data.title) {
+                titleDisplay.textContent = data.title;
+            }
+            if (hashDisplay) {
+                hashDisplay.textContent = data.anchoredHash || data.reportHash || 'Fingerprint anchored on ledger';
+            }
+            if (blockDisplay) {
+                blockDisplay.textContent = `Anchored Block #${data.blockIndex || 1}`;
+            }
+
+            currentVerificationUrl = data.scanUrl || data.verificationUrl;
+            if (directLink) {
+                directLink.href = data.verificationUrl;
+            }
         }
     } catch (e) {
         alert('QR code load failed: ' + e.message);
+    }
+}
+
+async function runLiveModalVerification() {
+    if (!currentActiveQrReportId) return;
+    const btn = document.getElementById('qrVerifyNowBtn');
+    const liveResultBox = document.getElementById('qrLiveResultBox');
+    if (!btn || !liveResultBox) return;
+
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Computing Live SHA-256...';
+
+    try {
+        const res = await fetch(`/api/verify/${encodeURIComponent(currentActiveQrReportId)}`);
+        const data = await res.json();
+
+        liveResultBox.style.display = 'block';
+
+        if (data.isAuthentic || data.status === 'MATCH') {
+            liveResultBox.style.background = 'rgba(16, 185, 129, 0.15)';
+            liveResultBox.style.border = '1px solid #10b981';
+            liveResultBox.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="font-size: 1.3rem;">✅</span>
+                    <strong style="color: #34d399; font-size: 0.95rem;">VERIFICATION PASSED: AUTHENTIC ORIGINAL</strong>
+                </div>
+                <div style="font-size: 0.82rem; color: #e2e8f0; line-height: 1.5; font-family: var(--font-mono);">
+                    <div><strong>Live Computed File Hash:</strong> <span style="color: #38bdf8;">${data.liveComputedHash}</span></div>
+                    <div><strong>Anchored Blockchain Hash:</strong> <span style="color: #34d399;">${data.anchoredBlockchainHash}</span></div>
+                    <div style="margin-top: 6px; color: var(--text-muted); font-family: var(--font-sans);">
+                        ✓ Validated against Block #${data.blockchainDetails ? data.blockchainDetails.blockIndex : 1} (${data.blockchainDetails ? data.blockchainDetails.institutionNode : 'Consortium Node'}). Zero tampering detected.
+                    </div>
+                </div>
+            `;
+        } else {
+            liveResultBox.style.background = 'rgba(239, 68, 68, 0.15)';
+            liveResultBox.style.border = '1px solid #ef4444';
+            liveResultBox.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="font-size: 1.3rem;">❌</span>
+                    <strong style="color: #f87171; font-size: 0.95rem;">TAMPER ALERT: HASH MISMATCH</strong>
+                </div>
+                <div style="font-size: 0.82rem; color: #fca5a5; line-height: 1.5;">
+                    The live computed hash does not match the ledger block! Document may have been modified or corrupted.
+                </div>
+            `;
+        }
+    } catch (e) {
+        liveResultBox.style.display = 'block';
+        liveResultBox.innerHTML = `<span style="color: #f87171;">Verification check failed: ${e.message}</span>`;
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '⚡ Re-verify Hash Against Ledger';
     }
 }
 
@@ -1409,5 +1496,9 @@ window.switchModalView = switchModalView;
 window.showToast = showToast;
 window.openQrModal = openQrModal;
 window.openShareModal = openShareModal;
+window.runLiveModalVerification = runLiveModalVerification;
+window.copyVerificationUrl = copyVerificationUrl;
+window.copyShareUrl = copyShareUrl;
 window.closeModal = closeModal;
 window.escapeHtml = escapeHtml;
+

@@ -853,28 +853,48 @@
 
     <!-- 3. QR Code Anti-Forgery Modal (Feature 7.1) -->
     <div id="qrModal" class="modal-overlay">
-        <div class="modal-container" style="text-align: center;">
+        <div class="modal-container" style="text-align: center; max-width: 580px;">
             <button class="modal-close" onclick="closeModal('qrModal')">✕</button>
-            <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;">Anti-Forgery Verification QR Code</h3>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
-                Scan with any smartphone camera or click verify to compare fingerprint against blockchain (Feature 7.1)
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 0.5rem;">
+                <span id="qrReportId" class="report-id-badge" style="font-size: 0.95rem;"></span>
+                <span class="status-pill status-completed">✓ Blockchain Anchored</span>
+            </div>
+            <h3 id="qrReportTitleDisplay" style="font-size: 1.35rem; margin-bottom: 0.25rem;">Anti-Forgery Verification QR Code</h3>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                Scan with any smartphone camera to verify authentic document provenance against the immutable blockchain ledger (Feature 7.1).
             </p>
 
-            <div style="background: #ffffff; padding: 1.25rem; border-radius: 16px; display: inline-block; margin-bottom: 1.25rem; box-shadow: var(--glow-cyan);">
-                <img id="qrModalImg" src="" alt="Anti-Forgery QR Code" style="width: 240px; height: 240px; display: block;">
+            <div style="background: #ffffff; padding: 1.25rem; border-radius: 16px; display: inline-block; margin-bottom: 1.25rem; box-shadow: 0 0 35px rgba(0, 229, 255, 0.4); border: 2px solid rgba(0, 229, 255, 0.6);">
+                <img id="qrModalImg" src="" alt="Anti-Forgery QR Code" style="width: 250px; height: 250px; display: block; image-rendering: pixelated; margin: 0 auto;">
+                <div style="margin-top: 8px; font-size: 0.75rem; color: #080d1a; font-weight: 700; letter-spacing: 0.05em;">
+                    📱 POINT PHONE CAMERA HERE TO SCAN
+                </div>
             </div>
 
-            <div style="margin-bottom: 1.25rem;">
-                <span id="qrReportId" class="report-id-badge" style="font-size: 0.9rem;"></span>
+            <!-- SHA-256 Fingerprint Display Box -->
+            <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem; text-align: left;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--accent-cyan); font-weight: 700; margin-bottom: 6px;">
+                    <span>CRYPTOGRAPHIC SHA-256 FINGERPRINT:</span>
+                    <span id="qrBlockDisplay" style="color: #34d399;">Anchored Block #1</span>
+                </div>
+                <div id="qrHashDisplay" style="font-family: var(--font-mono); font-size: 0.78rem; color: #e2e8f0; word-break: break-all; background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08);"></div>
             </div>
 
+            <!-- Action buttons -->
             <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
-                <a id="qrDirectVerifyLink" href="#" target="_blank" class="btn btn-qr">
+                <button id="qrVerifyNowBtn" class="btn btn-primary" onclick="runLiveModalVerification()" style="display: inline-flex; align-items: center; gap: 6px;">
+                    ⚡ Verify Hash Against Ledger
+                </button>
+                <a id="qrDirectVerifyLink" href="#" target="_blank" class="btn btn-qr" style="display: inline-flex; align-items: center; gap: 6px;">
                     🔍 Open Verification Endpoint
                 </a>
                 <button class="btn btn-secondary" onclick="copyVerificationUrl()">
-                    📋 Copy Verification URL
+                    📋 Copy Scan Link
                 </button>
+            </div>
+
+            <!-- Instant Live Verification Output -->
+            <div id="qrLiveResultBox" style="display: none; margin-top: 1.25rem; text-align: left; background: rgba(16, 185, 129, 0.12); border: 1px solid #10b981; border-radius: 8px; padding: 1rem; animation: fadeIn 0.3s ease;">
             </div>
         </div>
     </div>

@@ -480,6 +480,41 @@
   ],
   "auditLogs": [
     {
+      "id": "log_1791444487744_9qjg",
+      "action": "ANTI_FORGERY_VERIFICATION",
+      "actor": "Doctor / Verification Scanner",
+      "details": "Verification check on REP-7A91F2C4: MATCH (Authentic)",
+      "timestamp": "2026-10-08T07:28:07.744Z"
+    },
+    {
+      "id": "log_1791426305958_d44w",
+      "action": "REPORT_DECRYPTED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Decrypted and accessed report REP-7A91F2C4",
+      "timestamp": "2026-10-08T02:25:05.958Z"
+    },
+    {
+      "id": "log_1791426300517_kmxw",
+      "action": "REPORT_DECRYPTED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Decrypted and accessed report REP-7A91F2C4",
+      "timestamp": "2026-10-08T02:25:00.517Z"
+    },
+    {
+      "id": "log_1791425975644_h5xu",
+      "action": "REPORT_DECRYPTED",
+      "actor": "Dr. Sarah Rao",
+      "details": "Decrypted and accessed report REP-7A91F2C4",
+      "timestamp": "2026-10-08T02:19:35.644Z"
+    },
+    {
+      "id": "log_1791425972792_03zp",
+      "action": "USER_LOGIN",
+      "actor": "Dr. Sarah Rao",
+      "details": "User authenticated successfully with role: Doctor",
+      "timestamp": "2026-10-08T02:19:32.792Z"
+    },
+    {
       "id": "log_1791396773368_h0rj",
       "action": "REPORT_DECRYPTED",
       "actor": "Dr. Sarah Rao",
