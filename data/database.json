@@ -543,6 +543,13 @@
   ],
   "auditLogs": [
     {
+      "id": "log_1791448959252_8w44",
+      "action": "AI_GATEWAY_RESET",
+      "actor": "Consortium SuperAdmin",
+      "details": "Admin reset AI Gateway to Local Clinical NLP Engine (Offline Fallback)",
+      "timestamp": "2026-10-08T08:42:39.252Z"
+    },
+    {
       "id": "log_1791447853808_w0vk",
       "action": "USER_LOGIN",
       "actor": "Consortium SuperAdmin",

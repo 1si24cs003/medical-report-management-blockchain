@@ -39,6 +39,10 @@ app.get('/api/auth/me', authenticate, authController.getCurrentUser);
 app.get('/api/admin/users', authenticate, authorizeRoles('Admin'), adminController.getConsortiumUsers);
 app.post('/api/admin/users', authenticate, authorizeRoles('Admin'), adminController.registerUser);
 app.delete('/api/admin/users/:userId', authenticate, authorizeRoles('Admin'), adminController.deleteUser);
+app.get('/api/admin/ai-config', authenticate, authorizeRoles('Admin'), adminController.getAiConfig);
+app.post('/api/admin/ai-config', authenticate, authorizeRoles('Admin'), adminController.updateAiConfig);
+app.delete('/api/admin/ai-config', authenticate, authorizeRoles('Admin'), adminController.resetAiConfig);
+
 
 // ==========================================
 // 2. MEDICAL REPORT MANAGEMENT ROUTES

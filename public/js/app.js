@@ -798,10 +798,157 @@ async function loadAdminUsers() {
             renderAdminUsersTable(data.users);
             populatePatientDropdowns(data.users);
         }
+        await loadAdminAiConfig();
     } catch (err) {
         console.warn('Failed to load admin users:', err);
     }
 }
+
+async function loadAdminAiConfig() {
+    try {
+        const res = await fetch('/api/admin/ai-config', { headers: getAuthHeaders() });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data.success) return;
+
+        const badge = document.getElementById('adminAiStatusBadge');
+        const engineName = document.getElementById('adminAiEngineName');
+        const keyStatus = document.getElementById('adminAiKeyStatus');
+        const keyInput = document.getElementById('adminGeminiApiKeyInput');
+
+        if (data.status === 'ONLINE_AI') {
+            if (badge) {
+                badge.className = 'status-pill status-completed';
+                badge.textContent = '⚡ Google Gemini AI Active';
+                badge.style.background = 'rgba(16, 185, 129, 0.2)';
+                badge.style.color = '#34d399';
+                badge.style.border = '1px solid #10b981';
+            }
+            if (engineName) {
+                engineName.textContent = data.activeEngine;
+                engineName.style.color = '#38bdf8';
+            }
+            if (keyStatus) {
+                keyStatus.textContent = `Key: ${data.maskedKey || 'Configured & Active'}`;
+                keyStatus.style.color = '#34d399';
+            }
+            if (keyInput && !keyInput.value) {
+                keyInput.placeholder = `Active Key: ${data.maskedKey || 'Configured'} (Enter new key to replace)`;
+            }
+        } else {
+            if (badge) {
+                badge.className = 'status-pill status-completed';
+                badge.textContent = '🟢 Offline Local NLP Active';
+                badge.style.background = 'rgba(2, 132, 199, 0.2)';
+                badge.style.color = '#38bdf8';
+                badge.style.border = '1px solid #0284c7';
+            }
+            if (engineName) {
+                engineName.textContent = data.activeEngine;
+                engineName.style.color = '#f8fafc';
+            }
+            if (keyStatus) {
+                keyStatus.textContent = 'Key: Not Configured (Offline Mode Active)';
+                keyStatus.style.color = 'var(--text-muted)';
+            }
+            if (keyInput) {
+                keyInput.placeholder = 'Paste Google Gemini API Key (e.g. AIzaSy...)';
+            }
+        }
+    } catch (e) {
+        console.warn('Failed to load AI config:', e);
+    }
+}
+
+function toggleApiKeyVisibility() {
+    const input = document.getElementById('adminGeminiApiKeyInput');
+    if (!input) return;
+    input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+async function saveAdminAiConfig() {
+    const input = document.getElementById('adminGeminiApiKeyInput');
+    const alertBox = document.getElementById('adminAiFeedbackAlert');
+    const saveBtn = document.getElementById('btnSaveAiKey');
+    if (!input || !input.value.trim()) {
+        showToast('Please enter a Google Gemini API key to test and activate.', 'warning');
+        return;
+    }
+
+    const key = input.value.trim();
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '⏳ Testing Gemini Connection...';
+    if (alertBox) alertBox.style.display = 'none';
+
+    try {
+        const res = await fetch('/api/admin/ai-config', {
+            method: 'POST',
+            headers: {
+                ...getAuthHeaders(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ apiKey: key })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            showToast('✅ Google Gemini API key verified and activated!', 'success');
+            if (alertBox) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = 'rgba(16, 185, 129, 0.15)';
+                alertBox.style.border = '1px solid #10b981';
+                alertBox.style.color = '#d1fae5';
+                alertBox.innerHTML = `<strong>✅ Verification Succeeded:</strong> Cloud connection to Google Gemini 3.8 Flash confirmed! All future medical report uploads will utilize real-time clinical AI inference.`;
+            }
+            input.value = '';
+            await loadAdminAiConfig();
+        } else {
+            showToast(`❌ ${data.message || 'Verification failed'}`, 'error');
+            if (alertBox) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
+                alertBox.style.border = '1px solid #ef4444';
+                alertBox.style.color = '#fee2e2';
+                alertBox.innerHTML = `<strong>❌ Verification Failed:</strong> ${escapeHtml(data.message || 'Invalid key or API connectivity error.')}`;
+            }
+        }
+    } catch (e) {
+        showToast(`❌ Connection error: ${e.message}`, 'error');
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '⚡ Test & Activate Gemini AI';
+    }
+}
+
+async function resetAdminAiConfig() {
+    if (!confirm('Revert Consortium AI Gateway to Local Clinical NLP Engine (Offline Fallback)?')) return;
+
+    const alertBox = document.getElementById('adminAiFeedbackAlert');
+    const input = document.getElementById('adminGeminiApiKeyInput');
+
+    try {
+        const res = await fetch('/api/admin/ai-config', {
+            method: 'DELETE',
+            headers: getAuthHeaders()
+        });
+        const data = await res.json();
+        if (data.success) {
+            showToast('🔄 AI Gateway reverted to Offline Clinical NLP Engine', 'info');
+            if (input) input.value = '';
+            if (alertBox) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = 'rgba(2, 132, 199, 0.15)';
+                alertBox.style.border = '1px solid #0284c7';
+                alertBox.style.color = '#e0f2fe';
+                alertBox.innerHTML = `<strong>🔄 Reverted to Offline Mode:</strong> System is operating via the built-in Local Clinical NLP Engine with zero external dependencies.`;
+            }
+            await loadAdminAiConfig();
+        }
+    } catch (e) {
+        showToast(`Reset failed: ${e.message}`, 'error');
+    }
+}
+
 
 function renderAdminUsersTable(users) {
     const tbody = document.getElementById('adminUsersTableBody');
@@ -1546,4 +1693,9 @@ window.copyVerificationUrl = copyVerificationUrl;
 window.copyShareUrl = copyShareUrl;
 window.closeModal = closeModal;
 window.escapeHtml = escapeHtml;
+window.loadAdminAiConfig = loadAdminAiConfig;
+window.toggleApiKeyVisibility = toggleApiKeyVisibility;
+window.saveAdminAiConfig = saveAdminAiConfig;
+window.resetAdminAiConfig = resetAdminAiConfig;
+
 

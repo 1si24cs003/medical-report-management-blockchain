@@ -1,4 +1,33 @@
+const fs = require('fs');
+const path = require('path');
 const db = require('../models/db');
+const { testGeminiApiKey } = require('../utils/aiSummarizer');
+
+const ENV_FILE_PATH = path.join(__dirname, '..', '.env');
+
+function syncEnvFile(key, value) {
+    try {
+        let content = '';
+        if (fs.existsSync(ENV_FILE_PATH)) {
+            content = fs.readFileSync(ENV_FILE_PATH, 'utf8');
+        }
+        const regex = new RegExp(`^${key}=.*$`, 'm');
+        if (value) {
+            if (regex.test(content)) {
+                content = content.replace(regex, `${key}=${value}`);
+            } else {
+                content = content ? `${content}\n${key}=${value}\n` : `${key}=${value}\n`;
+            }
+        } else {
+            if (regex.test(content)) {
+                content = content.replace(regex, `${key}=`);
+            }
+        }
+        fs.writeFileSync(ENV_FILE_PATH, content, 'utf8');
+    } catch (e) {
+        console.warn('[Admin Controller] Could not sync .env file:', e.message);
+    }
+}
 
 /**
  * Controller for Admin operations (User Management, Consortium Node Enrollment)
@@ -145,8 +174,95 @@ function deleteUser(req, res) {
     }
 }
 
+/**
+ * Feature: Get AI Gateway Status & Active Engine
+ */
+function getAiConfig(req, res) {
+    const key = process.env.GEMINI_API_KEY;
+    const hasKey = Boolean(key && key.trim());
+    const maskedKey = hasKey ? `${key.trim().slice(0, 6)}...${key.trim().slice(-4)}` : null;
+
+    return res.json({
+        success: true,
+        hasKey,
+        maskedKey,
+        activeEngine: hasKey ? 'Google Gemini 3.8 Flash (Live Cloud AI)' : 'Local Clinical NLP Engine (Offline Fallback)',
+        status: hasKey ? 'ONLINE_AI' : 'OFFLINE_FALLBACK'
+    });
+}
+
+/**
+ * Feature: Validate and Activate Google Gemini API Key
+ */
+async function updateAiConfig(req, res) {
+    try {
+        const { apiKey } = req.body;
+        if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length < 8) {
+            return res.status(400).json({ success: false, message: 'Please provide a valid Google Gemini API key.' });
+        }
+
+        const cleanKey = apiKey.trim();
+        // Ping Google Gemini to verify key
+        await testGeminiApiKey(cleanKey);
+
+        process.env.GEMINI_API_KEY = cleanKey;
+        syncEnvFile('GEMINI_API_KEY', cleanKey);
+
+        db.logAudit(
+            'AI_GATEWAY_CONFIGURED',
+            req.user ? req.user.name : 'System Admin',
+            'Admin verified and activated Google Gemini 3.8 Flash cloud gateway'
+        );
+
+        const maskedKey = `${cleanKey.slice(0, 6)}...${cleanKey.slice(-4)}`;
+        return res.json({
+            success: true,
+            message: 'Google Gemini API key successfully verified and activated!',
+            activeEngine: 'Google Gemini 3.8 Flash (Live Cloud AI)',
+            status: 'ONLINE_AI',
+            maskedKey
+        });
+    } catch (err) {
+        return res.status(400).json({
+            success: false,
+            message: `Verification failed: ${err.message}`,
+            error: err.message
+        });
+    }
+}
+
+/**
+ * Feature: Revert AI Gateway to Offline Fallback Mode
+ */
+function resetAiConfig(req, res) {
+    try {
+        delete process.env.GEMINI_API_KEY;
+        syncEnvFile('GEMINI_API_KEY', '');
+
+        db.logAudit(
+            'AI_GATEWAY_RESET',
+            req.user ? req.user.name : 'System Admin',
+            'Admin reset AI Gateway to Local Clinical NLP Engine (Offline Fallback)'
+        );
+
+        return res.json({
+            success: true,
+            message: 'AI Gateway successfully reverted to Local Clinical NLP Engine (Offline Fallback).',
+            activeEngine: 'Local Clinical NLP Engine (Offline Fallback)',
+            status: 'OFFLINE_FALLBACK',
+            maskedKey: null
+        });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: 'Failed to reset AI config.', error: err.message });
+    }
+}
+
 module.exports = {
     getConsortiumUsers,
     registerUser,
-    deleteUser
+    deleteUser,
+    getAiConfig,
+    updateAiConfig,
+    resetAiConfig
 };
+

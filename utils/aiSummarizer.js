@@ -168,7 +168,24 @@ Provide ONLY the valid JSON response, with no markdown code fences or conversati
     }
 }
 
+async function testGeminiApiKey(apiKey) {
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length < 10) {
+        throw new Error('Please provide a valid, non-empty Google Gemini API key.');
+    }
+    const ai = new GoogleGenAI({ apiKey: apiKey.trim() });
+    const response = await ai.models.generateContent({
+        model: 'gemini-3.8-flash',
+        contents: 'ping',
+        config: {
+            maxOutputTokens: 5
+        }
+    });
+    return !!response;
+}
+
 module.exports = {
     generateClinicalHighlights,
-    extractOfflineClinicalHighlights
+    extractOfflineClinicalHighlights,
+    testGeminiApiKey
 };
+

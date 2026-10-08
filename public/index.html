@@ -521,6 +521,57 @@
                         </div>
                     </div>
 
+                    <!-- Consortium AI Gateway & Gemini API Configuration Card -->
+                    <div class="card" style="margin-bottom: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: var(--radius-md); padding: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span style="font-size: 1.35rem;">🤖</span>
+                                    <h4 style="font-size: 1.1rem; color: #34d399; margin: 0;">Consortium AI Gateway & Cloud Intelligence Configuration</h4>
+                                    <span id="adminAiStatusBadge" class="status-pill status-completed" style="font-size: 0.72rem; padding: 2px 8px;">🟢 Offline Local NLP Active</span>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">
+                                    Configure Google Gemini API key to activate live cloud clinical summarization, or run seamlessly with the built-in <strong>Local Clinical NLP Engine (Offline Fallback)</strong>.
+                                </p>
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="loadAdminAiConfig()" style="font-size: 0.78rem; padding: 6px 12px;">
+                                🔄 Refresh AI Status
+                            </button>
+                        </div>
+
+                        <!-- Active Engine details bar -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+                            <div>
+                                <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Active Clinical Intelligence Engine</div>
+                                <div id="adminAiEngineName" style="font-size: 0.92rem; font-weight: 700; color: #f8fafc; margin-top: 2px;">
+                                    Local Clinical NLP Engine (Offline Fallback)
+                                </div>
+                            </div>
+                            <div id="adminAiKeyStatus" style="font-size: 0.8rem; color: var(--accent-cyan); font-family: var(--font-mono);">
+                                Key: Not Configured (Offline Mode Active)
+                            </div>
+                        </div>
+
+                        <!-- API Key Input and Action Buttons -->
+                        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                            <div style="position: relative; flex: 1; min-width: 280px;">
+                                <input type="password" id="adminGeminiApiKeyInput" class="form-control" placeholder="Paste Google Gemini API Key (e.g. AIzaSy...)" style="padding-right: 42px; font-family: var(--font-mono); font-size: 0.85rem;">
+                                <button type="button" onclick="toggleApiKeyVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.1rem; padding: 4px;" title="Show/Hide API Key">
+                                    👁️
+                                </button>
+                            </div>
+                            <button type="button" id="btnSaveAiKey" class="btn btn-primary" onclick="saveAdminAiConfig()" style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                                ⚡ Test & Activate Gemini AI
+                            </button>
+                            <button type="button" id="btnResetAiKey" class="btn btn-secondary" onclick="resetAdminAiConfig()" style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; border-color: rgba(239, 68, 68, 0.4); color: #f87171;">
+                                🔄 Revert to Offline Mode
+                            </button>
+                        </div>
+
+                        <!-- Status / Verification Feedback Alert -->
+                        <div id="adminAiFeedbackAlert" style="display: none; margin-top: 1rem; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 0.82rem; line-height: 1.4;"></div>
+                    </div>
+
                     <!-- Register New User Section -->
                     <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem;">
                         <h4 style="font-size: 1.05rem; color: var(--accent-cyan); margin-bottom: 0.35rem;">
